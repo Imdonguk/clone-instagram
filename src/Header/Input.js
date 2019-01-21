@@ -17,18 +17,6 @@ class Input extends Component {
     }
 }
 
-
-const SearchIconWrap = styled.div`
-    position : absolute;
-    left : 0;
-    top : 0;
-    width : 3rem;
-    height :100%;
-    display : flex;
-    justify-content : center;
-    align-items : center;
-`
-
 const InputWrap = styled.div`
     position : relative;
 `
@@ -38,6 +26,17 @@ const Search = styled.input`
     padding-left : 2.5rem;
     width: 18rem;
     height: 2rem;
+    outline : none;
+`
+const SearchIconWrap = styled.div`
+    position : absolute;
+    left : 0;
+    top : 0;
+    width : 3rem;
+    height :100%;
+    display : flex;
+    justify-content : center;
+    align-items : center;
 `
 
 export default Input;
