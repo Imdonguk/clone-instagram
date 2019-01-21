@@ -6,10 +6,16 @@ class PostForm extends Component {
         e.preventDefault();
     }
 
+    cancleForm = (e) => {
+        const target = e.currentTarget;
+        if (target !== e.target) return;
+        this.props.isPostForm(false);
+    }
+
     render() {
         const imgUrl = "https://scontent-icn1-1.cdninstagram.com/vp/e8cc284e2219d439ebe608575ffdbf23/5CDE3E18/t51.2885-15/e35/28765460_1593052077469102_4297008689660821504_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com"
         return (
-            <Wrap>
+            <Wrap onClick={this.cancleForm}>
                 <Form>
                     <ContentWrap header>
                         <h2>새로운 게시물</h2>
@@ -19,7 +25,7 @@ class PostForm extends Component {
                         <A placeholder="설명입력...."></A>
                     </ContentWrap>
                     <ContentWrap bottom>
-                        <Button>닫기</Button>
+                        <Button onClick={this.cancleForm}>닫기</Button>
                         <Button type='submit'>업로드</Button>
                     </ContentWrap>
                 </Form>
