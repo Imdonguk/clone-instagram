@@ -4,10 +4,14 @@ import { UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from '../Icons.js'
 
 class Accounts extends Component {
 
+    createPost = () => {
+        this.props.isPostForm(true)
+    }
+
     render() {
         return (
             <AccountsWrap>
-                <IconWrap first>
+                <IconWrap first onClick={this.createPost}>
                     <UploadIcon />
                 </IconWrap>
                 <IconWrap>

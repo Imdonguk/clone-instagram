@@ -11,7 +11,7 @@ class Header extends Component {
                 <Content>
                     <Logo></Logo>
                     <Input></Input>
-                    <Accounts></Accounts>
+                    <Accounts isPostForm={this.props.isPostForm}></Accounts>
                 </Content>
             </HeaderWrap>
         );
@@ -24,6 +24,7 @@ const HeaderWrap = styled.div`
     display : flex;
     justify-content: center;
     border-bottom : 0.05rem solid #ddd;
+    background-color : #fff;
 `
 
 const Content = styled.div`
