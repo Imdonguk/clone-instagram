@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 class PostForm extends Component {
 
-    handleSubmit = (e) => {
-        e.preventDefault();
+    state = {
+        img: '',
+        comment: '',
     }
 
     cancleForm = (e) => {
@@ -11,8 +12,11 @@ class PostForm extends Component {
         this.props.isPostForm(false);
     }
 
+    handleChange = (e) => {
+        const updateState = Object.assign({},this.state,{comment : e.target.value});
+        this.setState(updateState);
+    }
     render() {
-        const imgUrl = "https://scontent-icn1-1.cdninstagram.com/vp/e8cc284e2219d439ebe608575ffdbf23/5CDE3E18/t51.2885-15/e35/28765460_1593052077469102_4297008689660821504_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com"
         return (
             <Wrap onClick={this.cancleForm}>
                 <Form>
@@ -21,7 +25,7 @@ class PostForm extends Component {
                     </ContentWrap>
                     <ContentWrap container>
                         <SelectedImg src={imgUrl} />
-                        <A placeholder="설명입력...."></A>
+                        <RichText placeholder="설명입력...." onChange={this.handleChange} />
                     </ContentWrap>
                     <ContentWrap bottom>
                         <Button onClick={this.cancleForm}>닫기</Button>
