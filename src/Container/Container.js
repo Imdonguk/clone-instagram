@@ -5,6 +5,19 @@ import PostForm from './PostForm'
 
 class Container extends Component {
 
+    state = {
+        'information': [
+
+        ]
+    }
+
+    addPost = (info) => {
+        const { information } = this.state
+        this.setState({
+            'information': information.concat(info)
+        })
+    }
+
     render() {
         const { bePostForm } = this.props;
         return (
@@ -12,7 +25,11 @@ class Container extends Component {
                 <Main>
                     <Posts />
                     {
-                        bePostForm ? <PostForm isPostForm={this.props.isPostForm} /> : ''
+                        bePostForm ?
+                            <PostForm
+                                isPostForm={this.props.isPostForm}
+                                addPost={this.addPost}
+                            /> : ''
                     }
                 </Main>
             </MainWrap>
