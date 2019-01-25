@@ -7,8 +7,7 @@ class PostForm extends Component {
     }
 
     cancleForm = (e) => {
-        const target = e.currentTarget;
-        if (target !== e.target) return;
+        if (e && e.currentTarget !== e.target) return;
         this.props.isPostForm(false);
     }
 
