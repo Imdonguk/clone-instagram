@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import ImgUpload from './ImgUpload'
 class PostForm extends Component {
 
     state = {
