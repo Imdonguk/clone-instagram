@@ -14,9 +14,16 @@ class PostForm extends Component {
     }
 
     handleChange = (e) => {
-        const updateState = Object.assign({},this.state,{comment : e.target.value});
+        const updateState = Object.assign({}, this.state, { comment: e.target.value });
         this.setState(updateState);
     }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.addPost(this.state);
+        this.cancleForm(e)
+    }
+
     handleUpload = (imageUrl) => {
         const updateState = Object.assign({}, this.state, { img: imageUrl })
         this.setState(updateState);
@@ -25,7 +32,7 @@ class PostForm extends Component {
     render() {
         return (
             <Wrap onClick={this.cancleForm}>
-                <Form>
+                <Form onSubmit={this.handleSubmit}>
                     <ContentWrap header>
                         <h2>새로운 게시물</h2>
                     </ContentWrap>
