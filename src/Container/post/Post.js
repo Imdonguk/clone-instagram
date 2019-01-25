@@ -6,11 +6,12 @@ import Comment from './comment/Comment'
 
 class Post extends Component {
     render() {
+        const { info } = this.props;
         return (
             <Wrap>
                 <Header></Header>
-                <Content></Content>
-                <Comment></Comment>
+                <Content img={info.img}></Content>
+                <Comment comment={info.comment}></Comment>
             </Wrap>
         );
     }

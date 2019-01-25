@@ -11,7 +11,7 @@ class Comment extends Component {
             <Wrap>
                 <Buttons />
                 <Likes />
-                <ViewComment />
+                <ViewComment comment={this.props.comment} />
                 <InputComment />
             </Wrap>
         );

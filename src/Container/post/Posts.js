@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Post from './Post.js'
 class Posts extends Component {
-
+    index = 0
     render() {
         return (
             <PostWrap>
-                <Post />
-                <Post />
-                <Post />
-                <Post />
+                {
+                    this.props.info.map(v => <Post info={v} key={this.index++} />)
+                }
             </PostWrap>
         );
     }

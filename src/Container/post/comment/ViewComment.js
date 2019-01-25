@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components'
-class ViewComment extends Component {
-    render() {
-        return (
-            <Wrap>
-                <User>dungwookisgood</User>
-                <span>하이 코드스쿼드~</span>
-            </Wrap>
-        );
-    }
-}
+
+const ViewComment = (props) => {
+    return (
+        <Wrap>
+            <User>dungwookisgood</User>
+            <span>{props.comment}</span>
+        </Wrap>
+    );
+};
 
 const Wrap = styled.div`
     width : 100%;
@@ -20,4 +19,5 @@ const User = styled.span`
     margin-right : 0.5rem;
     font-weight : 800;
 `
+
 export default ViewComment;

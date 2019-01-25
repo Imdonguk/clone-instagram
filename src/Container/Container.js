@@ -23,7 +23,7 @@ class Container extends Component {
         return (
             <MainWrap>
                 <Main>
-                    <Posts />
+                    <Posts info={this.state.information} />
                     {
                         bePostForm ?
                             <PostForm
