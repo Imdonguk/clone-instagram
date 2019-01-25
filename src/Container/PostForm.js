@@ -17,6 +17,11 @@ class PostForm extends Component {
         const updateState = Object.assign({},this.state,{comment : e.target.value});
         this.setState(updateState);
     }
+    handleUpload = (imageUrl) => {
+        const updateState = Object.assign({}, this.state, { img: imageUrl })
+        this.setState(updateState);
+    }
+
     render() {
         return (
             <Wrap onClick={this.cancleForm}>
