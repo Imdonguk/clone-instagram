@@ -69,18 +69,18 @@ const ContentWrap = styled.div`
     align-items : center;
     justify-content : ${props => props.bottom ? 'space-between' : 'center'}
     font-size : ${props => props.header ? '2rem' : 0}
-    border - top - left - radius : ${ props => props.header ? '3rem' : 0}
-    border - top - right - radius : ${ props => props.header ? '3rem' : 0}
-    border - bottom - left - radius : ${ props => props.bottom ? '3rem' : 0}
-    border - bottom - right - radius : ${ props => props.bottom ? '3rem' : 0}
+    border - top - left - radius : ${props => props.header ? '3rem' : 0}
+    border - top - right - radius : ${props => props.header ? '3rem' : 0}
+    border - bottom - left - radius : ${props => props.bottom ? '3rem' : 0}
+    border - bottom - right - radius : ${props => props.bottom ? '3rem' : 0}
 `
 
-const SelectedImg = styled.img`
+const PreviewImg = styled.img`
     flex : 1;
     height : 100%;
 `
 
-const A = styled.textarea`
+const RichText = styled.textarea`
     flex : 2;
     height : 100%;
     border : 0;
