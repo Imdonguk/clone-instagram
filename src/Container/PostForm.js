@@ -30,7 +30,11 @@ class PostForm extends Component {
                         <h2>새로운 게시물</h2>
                     </ContentWrap>
                     <ContentWrap container>
-                        <SelectedImg src={imgUrl} />
+                        {
+                            this.state.img ?
+                                <PreviewImg src={this.state.img} /> :
+                                <ImgUpload onUpload={this.handleUpload} />
+                        }
                         <RichText placeholder="설명입력...." onChange={this.handleChange} />
                     </ContentWrap>
                     <ContentWrap bottom>
