@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Posts from './post/Posts'
-import PostForm from './PostForm'
+import PostForm from './postForm/PostForm'
 
 class Container extends Component {
 

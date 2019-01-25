@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import imageIcon from '../images/gallery-icon.png'
+import imageIcon from '../../images/gallery-icon.png'
 
 class ImgUpload extends Component {
 

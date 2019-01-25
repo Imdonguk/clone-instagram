@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Post from './Post.js'
+import Post from '../post/Post'
 class Posts extends Component {
     index = 0
     render() {
