@@ -4,6 +4,15 @@ import imageIcon from '../images/gallery-icon.png'
 
 class ImgUpload extends Component {
 
+    handleUpload = (e) => {
+        const reader = new FileReader();
+        const file = e.target.files[0];
+        reader.onloadend = () => {
+            this.props.onUpload(reader.result)
+        }
+        reader.readAsDataURL(file)
+    }
+
     render() {
         return (
             <Wrap>
@@ -11,6 +20,7 @@ class ImgUpload extends Component {
                 <UploadText>이미지업로드</UploadText>
                 <Upload
                     type="file"
+                    onChange={this.handleUpload}
                 />
             </Wrap>
         );
