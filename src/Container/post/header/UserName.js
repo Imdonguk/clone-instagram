@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-class UserName extends Component {
-    render() {
-        return (
-            <Wrap>
-                <Name href="dungwoogkisgood">dungwookisgood</Name>
-            </Wrap>
-        );
-    }
-}
+const UserName = () => {
+    return (
+        <Wrap>
+            <Name href="dungwoogkisgood">dungwookisgood</Name>
+        </Wrap>
+    );
+};
 
 const Wrap = styled.div`
     display : flex;

@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-class InputComment extends Component {
-    render() {
-        return (
-            <Wrap>
-                <Input placeholder='댓글달기...' />
-            </Wrap>
-        );
-    }
-}
+
+const InputComment = () => {
+    return (
+        <Wrap>
+            <Input placeholder='댓글달기...' />
+        </Wrap>
+    );
+};
 
 const Wrap = styled.div`
     height : 5.6rem;

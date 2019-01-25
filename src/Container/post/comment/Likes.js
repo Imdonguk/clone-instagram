@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components'
-class Likes extends Component {
-    render() {
-        return (
-            <Wrap>
-                <LikesCount>좋아요 26개</LikesCount>
-            </Wrap>
-        );
-    }
-}
+
+const Likes = (props) => {
+    return (
+        <Wrap>
+            <LikesCount>좋아요 26개</LikesCount>
+        </Wrap>
+    );
+};
 
 const Wrap = styled.div`
     width : 100%;

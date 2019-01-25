@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import UserName from './UserName';
 import UserPicture from './UserPicture'
 
-class Header extends Component {
-    render() {
-        return (
-            <Wrap>
-                <UserPicture />
-                <UserName />
-            </Wrap>
-        );
-    }
-}
+const Header = () => {
+    return (
+        <Wrap>
+            <UserPicture />
+            <UserName />
+        </Wrap>
+    );
+};
 
 const Wrap = styled.div`
     display : flex;
