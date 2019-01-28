@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LikeIcon } from '../../../../Icons.js';
+import { LikeIcon } from '../../../../../Icons';
 
 class LikeBtn extends Component {
     render() {

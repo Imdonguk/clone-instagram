@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SaveIcon } from '../../../../Icons.js';
+import { SaveIcon } from '../../../../../Icons';
 
 class SaveBtn extends Component {
     render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CommentIcon } from '../../../../Icons.js';
+import { CommentIcon } from '../../../../../Icons';
 
 class CommentBtn extends Component {
     render() {
