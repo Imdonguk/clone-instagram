@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import Post from './post/Post'
 import PostForm from './postForm/PostForm'
 
-class Posts extends Component {
+class PostList extends Component {
 
     state = {
         information: []
     }
 
-    index = this.state.information.length;
+    index = 0;
 
     addPost = (info) => {
         const { information } = this.state
@@ -19,13 +19,21 @@ class Posts extends Component {
         })
     }
 
+    addComment = (id, comment) => {
+        const newState = JSON.parse(JSON.stringify(this.state));
+        const { information } = newState;
+        information[id].comments.push(comment);
+        this.setState(newState);
+    }
+
     render() {
         const { bePostForm } = this.props;
         const { information } = this.state;
         const postList = information.map(info => (
             <Post
                 info={info}
-                key={info.id++}
+                key={info.id}
+                addComment={this.addComment}
             />
         ))
         return (
@@ -48,4 +56,4 @@ const PostWrap = styled.div`
     box-sizing : border-box;
 `
 
-export default Posts;
+export default PostList;
