@@ -3,30 +3,27 @@ import styled from 'styled-components'
 import ImgUpload from './ImgUpload'
 class PostForm extends Component {
 
-    state = {
-        img: '',
-        comment: '',
-    }
+    state = { img: '' }
+    firstComment = ''
 
     cancleForm = (e) => {
         if (e && e.currentTarget !== e.target) return;
         this.props.isPostForm(false);
     }
 
-    handleChange = (e) => {
-        const updateState = Object.assign({}, this.state, { comment: e.target.value });
-        this.setState(updateState);
+    handleChange = ({ target }) => {
+        this.firstComment = target.value;
+    }
+
+    handleUpload = (imageUrl) => {
+        this.setState({ img: imageUrl })
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addPost(this.state);
+        const { img } = this.state;
+        this.props.addPost({ img, comments: new Array(this.firstComment) });
         this.cancleForm(e)
-    }
-
-    handleUpload = (imageUrl) => {
-        const updateState = Object.assign({}, this.state, { img: imageUrl })
-        this.setState(updateState);
     }
 
     render() {
