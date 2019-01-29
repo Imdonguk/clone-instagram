@@ -1,21 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Buttons from './buttons/Buttons';
 import Likes from './Likes';
 import ViewComment from './ViewComment';
 import InputComment from './InputComment';
 
-class Comment extends Component {
-    render() {
-        return (
-            <Wrap>
-                <Buttons />
-                <Likes />
-                <ViewComment comment={this.props.comment} />
-                <InputComment />
-            </Wrap>
-        );
-    }
+const Comment = ({ info, addComment }) => {
+    return (
+        <Wrap>
+            <Buttons />
+            <Likes />
+            <ViewComment
+                comments={info.comments}
+            />
+            <InputComment
+                id={info.id}
+                addComment={addComment}
+            />
+        </Wrap>
+    );
 }
 
 const Wrap = styled.div`
