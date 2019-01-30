@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import Header from './header/Header'
 import Content from './content/Content'
 import Comment from './comment/Comment'
+import _ from 'lodash'
 
-const Post = ({ info, addComment }) => {
-    return (
-        <Wrap>
-            <Header />
-            <Content
-                img={info.img}
-            />
-            <Comment
-                info={info}
-                addComment={addComment}
-            />
-        </Wrap>
-    );
+class Post extends Component {
+
+    shouldComponentUpdate(nextProps) {
+        return !_.isEqual(nextProps.info, this.props.info);
+    }
+
+    render() {
+        const { info, addComment } = this.props
+        return (
+            <Wrap>
+                <Header />
+                <Content
+                    img={info.img}
+                />
+                <Comment
+                    info={info}
+                    addComment={addComment}
+                />
+            </Wrap>
+        );
+    }
 }
 
 const Wrap = styled.div`
