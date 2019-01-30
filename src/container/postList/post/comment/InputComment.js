@@ -7,6 +7,13 @@ class InputComment extends Component {
         value: ''
     }
 
+    handleSubmit = (e) => {
+        const { id, addComment } = this.props;
+        const { value } = this.state;
+        e.preventDefault();
+        addComment(id, value);
+        this.resetState();
+    }
 
     handleChange = ({ target }) => {
         this.setState({
@@ -14,19 +21,30 @@ class InputComment extends Component {
         })
     }
 
+    resetState = () => {
+        this.setState({
+            value: ''
+        })
+    }
+
     render() {
         return (
             <Wrap>
+                <Form onSubmit={this.handleSubmit}>
                     <Input
                         placeholder='댓글달기...'
                         onChange={this.handleChange}
                         value={this.state.value}
                     />
+                </Form>
             </Wrap>
         );
     }
 }
 
+const Form = styled.form`
+    width : 100%;
+`
 
 const Wrap = styled.div`
     height : 5.6rem;
