@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const InputComment = () => {
-    return (
-        <Wrap>
-            <Input placeholder='댓글달기...' />
-        </Wrap>
-    );
-};
+class InputComment extends Component {
+
+    state = {
+        value: ''
+    }
+
+
+    handleChange = ({ target }) => {
+        this.setState({
+            value: target.value
+        })
+    }
+
+    render() {
+        return (
+            <Wrap>
+                    <Input
+                        placeholder='댓글달기...'
+                        onChange={this.handleChange}
+                        value={this.state.value}
+                    />
+            </Wrap>
+        );
+    }
+}
+
 
 const Wrap = styled.div`
     height : 5.6rem;
