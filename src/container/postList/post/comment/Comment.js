@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Buttons from './buttons/Buttons';
 import Likes from './Likes';
-import ViewComment from './ViewComment';
+import ViewCommentList from './ViewCommentList';
 import InputComment from './InputComment';
 
 const Comment = ({ info, addComment }) => {
@@ -10,7 +10,7 @@ const Comment = ({ info, addComment }) => {
         <Wrap>
             <Buttons />
             <Likes />
-            <ViewComment
+            <ViewCommentList
                 comments={info.comments}
             />
             <InputComment
