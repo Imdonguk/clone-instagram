@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Post from './post/Post'
 import PostForm from './postForm/PostForm'
+import _ from 'lodash'
 
 class PostList extends Component {
 
@@ -20,9 +21,8 @@ class PostList extends Component {
     }
 
     addComment = (id, comment) => {
-        const newState = JSON.parse(JSON.stringify(this.state));
-        const { information } = newState;
-        information[id].comments.push(comment);
+        const newState = _.cloneDeep(this.state);
+        newState.information[id].comments.push(comment);
         this.setState(newState);
     }
 
