@@ -12,7 +12,7 @@ class Post extends Component {
     }
 
     render() {
-        const { info, addComment } = this.props
+        const { info, addComment, index } = this.props
         return (
             <Wrap>
                 <Header />
@@ -22,6 +22,7 @@ class Post extends Component {
                 <Comment
                     info={info}
                     addComment={addComment}
+                    index={index}
                 />
             </Wrap>
         );

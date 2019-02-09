@@ -10,11 +10,9 @@ class PostList extends Component {
         information: []
     }
 
-    index = 0;
-
     addPost = (info) => {
         const { information } = this.state
-        info = Object.assign({}, info, { id: this.index++ })
+        info = Object.assign({}, info)
         this.setState({
             'information': information.concat(info)
         })
@@ -29,10 +27,11 @@ class PostList extends Component {
     render() {
         const { bePostForm } = this.props;
         const { information } = this.state;
-        const postList = information.map(info => (
+        const postList = information.map((info, idx) => (
             <Post
                 info={info}
-                key={info.id}
+                key={idx}
+                index={idx}
                 addComment={this.addComment}
             />
         ))

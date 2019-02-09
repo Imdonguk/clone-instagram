@@ -8,10 +8,10 @@ class InputComment extends Component {
     }
 
     handleSubmit = (e) => {
-        const { id, addComment } = this.props;
+        const { index, addComment } = this.props;
         const { value } = this.state;
         e.preventDefault();
-        addComment(id, value);
+        addComment(index, value);
         this.resetState();
     }
 

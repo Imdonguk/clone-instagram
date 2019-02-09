@@ -5,7 +5,7 @@ import Likes from './Likes';
 import ViewCommentList from './ViewCommentList';
 import InputComment from './InputComment';
 
-const Comment = ({ info, addComment }) => {
+const Comment = ({ info, addComment, index }) => {
     return (
         <Wrap>
             <Buttons />
@@ -14,7 +14,7 @@ const Comment = ({ info, addComment }) => {
                 comments={info.comments}
             />
             <InputComment
-                id={info.id}
+                index={index}
                 addComment={addComment}
             />
         </Wrap>
