@@ -20,6 +20,16 @@ class PostList extends Component {
         })
     }
 
+    editPost = (editInfo) => {
+        const { information, postNo } = this.state;
+        editInfo = Object.assign({}, editInfo)
+        this.setState({
+            ...this.state,
+            information: information.map((v, i) => postNo === i ? editInfo : v),
+            postNo: null
+        })
+    }
+
     addPost = (newInfo) => {
         const { information } = this.state
         newInfo = Object.assign({}, newInfo)
