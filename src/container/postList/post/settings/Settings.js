@@ -1,13 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import { SettingIcon } from '../../../../Icons'
 
-class Settings extends Component {
-    render() {
-        return (
-            <div>
+const Settings = () => {
+    return (
+        <Wrap>
+            <SettingIcon />
+        </Wrap>
+    );
+};
 
-            </div>
-        );
-    }
-}
+const Wrap = styled.div`
+    width : 4rem;
+    height : 5.2rem;
+    position : absolute;
+    right : 0.4rem;
+    bottom : -1rem;
+`
 
 export default Settings;

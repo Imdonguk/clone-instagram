@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import coreImg from './images/sprite_core.png'
 import glyphsImg from './images/sprite_glyphs.png'
+import glyphsImg2x from './images/sprite_glyphs_2x.png'
 
 export const BasicIcon = styled.span`
     background-image : url(${glyphsImg});
@@ -9,6 +10,7 @@ export const BasicIcon = styled.span`
     background-size: 26.0rem 21.1rem;
     background-repeat : no-repeat;
     display : inline-block;
+    cursor : pointer;
 `
 
 export const IconLogo = styled(BasicIcon)`
@@ -56,4 +58,9 @@ export const SaveIcon = styled(BasicIcon)`
 
 export const UploadIcon = styled(BasicIcon)`
     background-position: -5rem -16.2rem;
+`
+
+export const SettingIcon = styled(BasicIcon)`
+    background-image : url(${glyphsImg2x});
+    background-position: -4.5rem -16.55rem
 `
