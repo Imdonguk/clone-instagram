@@ -28,7 +28,7 @@ class PostForm extends Component {
 
     render() {
         return (
-            <Wrap onClick={this.cancleForm}>
+            <FormWrap onClick={this.cancleForm}>
                 <Form onSubmit={this.handleSubmit}>
                     <ContentWrap header>
                         <h2>새로운 게시물</h2>
@@ -46,23 +46,10 @@ class PostForm extends Component {
                         <Button type='submit'>업로드</Button>
                     </ContentWrap>
                 </Form>
-            </Wrap>
+            </FormWrap>
         );
     }
 }
-
-const Wrap = styled.div`
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    background-color: #00000050;
-    top: 0;
-    left: 0;
-    display : flex;
-    align-items : center;
-    justify-content : center;
-`
 
 const Form = styled.form`
     width : 50rem;
