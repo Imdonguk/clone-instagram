@@ -30,6 +30,16 @@ class PostList extends Component {
         })
     }
 
+    removePost = () => {
+        const { information, postNo } = this.state;
+        this.setState({
+            ...this.state,
+            information: information.filter((v, i) => postNo !== i),
+            postNo: null,
+            beSettingForm: false
+        })
+    }
+
     addPost = (newInfo) => {
         const { information } = this.state
         newInfo = Object.assign({}, newInfo)
