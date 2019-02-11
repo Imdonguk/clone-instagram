@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import FormWrap from '../FormWrap'
 import ImgUpload from './ImgUpload'
 class PostForm extends Component {
 
@@ -22,7 +23,9 @@ class PostForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { img } = this.state;
-        this.props.addPost({ img, comments: new Array(this.firstComment) });
+        const { addPost, editPost, mode } = this.props;
+        const info = { img, comments: new Array(this.firstComment) };
+        mode === 'edit' ? editPost(info) : addPost(info);
         this.cancleForm(e)
     }
 
