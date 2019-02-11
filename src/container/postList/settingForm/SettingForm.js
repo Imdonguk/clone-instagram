@@ -2,12 +2,18 @@ import React from 'react';
 import FormWrap from '../FormWrap'
 import styled from 'styled-components'
 
-const SettingForm = () => {
+const SettingForm = ({ isSettingForm, isPostForm, removePost, index }) => {
     return (
-        <FormWrap>
+        <FormWrap onClick={(e) => {
+            if (e && e.currentTarget !== e.target) return;
+            isSettingForm(false, index)
+        }}>
             <Wrap>
-                <EditButton>수정하기</EditButton>
-                <RemoveButton>제거하기</RemoveButton>
+                <EditButton onClick={() => {
+                    isSettingForm(false);
+                    isPostForm(true)
+                }}>수정하기</EditButton>
+                <RemoveButton onClick={removePost}>제거하기</RemoveButton>
             </Wrap>
         </FormWrap>
     );
