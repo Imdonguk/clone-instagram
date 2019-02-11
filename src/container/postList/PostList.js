@@ -12,7 +12,6 @@ class PostList extends Component {
         postNo: null
     }
 
-    addPost = (info) => {
     isSettingForm = (data, index = this.state.postNo) => {
         this.setState({
             ...this.state,
@@ -21,10 +20,12 @@ class PostList extends Component {
         })
     }
 
+    addPost = (newInfo) => {
         const { information } = this.state
-        info = Object.assign({}, info)
+        newInfo = Object.assign({}, newInfo)
         this.setState({
-            'information': information.concat(info)
+            ...this.state,
+            'information': information.concat(newInfo)
         })
     }
 
