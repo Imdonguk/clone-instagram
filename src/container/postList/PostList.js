@@ -7,10 +7,20 @@ import _ from 'lodash'
 class PostList extends Component {
 
     state = {
-        information: []
+        information: [],
+        beSettingForm: false,
+        postNo: null
     }
 
     addPost = (info) => {
+    isSettingForm = (data, index = this.state.postNo) => {
+        this.setState({
+            ...this.state,
+            beSettingForm: data,
+            postNo: index
+        })
+    }
+
         const { information } = this.state
         info = Object.assign({}, info)
         this.setState({

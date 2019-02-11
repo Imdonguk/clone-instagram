@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { SettingIcon } from '../../../../Icons'
 
-const Settings = () => {
+const Settings = ({ index, isSettingForm }) => {
     return (
         <Wrap>
-            <SettingIcon />
+            <SettingIcon onClick={() => {
+                isSettingForm(true, index)
+            }} />
         </Wrap>
     );
 };
