@@ -1,7 +1,7 @@
 import React from 'react'
 
-const User = () => {
+const Profile = () => {
   return <>유저페이지</>
 }
 
-export default User
+export default Profile
