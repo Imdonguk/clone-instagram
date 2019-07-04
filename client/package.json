@@ -3,27 +3,34 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "dependencies": {
-    "@zeit/next-css": "^1.0.1",
-    "antd": "^3.20.0",
-    "next": "^8.1.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "styled-components": "^4.3.2"
-  },
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "antd": "^3.20.0",
+    "imagemin-optipng": "^7.0.0",
+    "next": "^8.1.0",
+    "next-compose-plugins": "^2.2.0",
+    "next-images": "^1.1.2",
+    "next-optimized-images": "^2.5.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "styled-components": "^4.3.2"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
+    "babel-plugin-styled-components": "^1.10.5",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.2",
     "eslint-plugin-react": "^7.14.2",
-    "eslint-plugin-react-hooks": "^1.6.1"
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "webpack": "^4.35.2"
   }
 }
