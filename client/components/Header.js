@@ -45,6 +45,7 @@ const Wrapper = styled.div`
   height: 7.7rem;
   grid-template-columns: auto 101rem auto;
   border-bottom: 1px solid #eee;
+  background-color: #fff;
 `
 
 const Content = styled.div`
