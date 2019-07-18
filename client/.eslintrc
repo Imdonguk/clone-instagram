@@ -17,6 +17,8 @@
     "react/jsx-filename-extension": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "no-nested-ternary": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "import/no-cycle": "off",
+    "react/prop-types": "off"
   }
 }
