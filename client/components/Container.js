@@ -1,13 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Post } from './post/index'
+import { useSelector } from 'react-redux'
+import { Post } from './post'
 
 const Container = () => {
+  const { posts } = useSelector(state => state.post)
   return (
     <Wrapper>
       <div className="container">
         <div className="left">
-          <Post />
+          {posts.map(v => (
+            <Post key={v.id.toString()} info={v} />
+          ))}
         </div>
         <div className="right">
           <div className="woogie">ㅎㅎ</div>
@@ -25,7 +29,7 @@ const Wrapper = styled.div`
     grid-template-columns: 61.4rem 1fr;
     margin: 13.7rem auto 0 auto;
     max-width: 93.5rem;
-    height: 100vh;
+    min-height: 100%;
     grid-gap: 2.8rem;
   }
 `
