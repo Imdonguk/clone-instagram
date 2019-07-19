@@ -12,6 +12,7 @@ const Container = () => {
           {posts.map(v => (
             <Post key={v.id.toString()} info={v} />
           ))}
+          {isPostForm && <PostForm />}
         </div>
         <div className="right">
           <div className="woogie">ㅎㅎ</div>

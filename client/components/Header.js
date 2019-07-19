@@ -1,8 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import { OPEN_POST_FORM, CLOSE_POST_FORM } from '../reducers/user'
 import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
 
 const Header = () => {
+  const isPostForm = useSelector(state => state.user.isPostForm)
+  const dispatch = useDispatch()
+  const openPostForm = () => {
+    isPostForm ? dispatch({ type: OPEN_POST_FORM }) : dispatch({ type: CLOSE_POST_FORM })
+  }
   return (
     <Wrapper>
       <br />
@@ -20,7 +27,7 @@ const Header = () => {
         </NavInput>
         <Accounts>
           <IconWrap first>
-            <UploadIcon />
+            <UploadIcon onClick={openPostForm} />
           </IconWrap>
           <IconWrap>
             <ExploreIcon />

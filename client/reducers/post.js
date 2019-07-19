@@ -1,5 +1,6 @@
 let postId = 0
 const initialState = {
+  isPostSetting: false,
   posts: [
     {
       id: postId++,
@@ -30,8 +31,27 @@ const initialState = {
   ],
 }
 
+export const OPEN_POST_SETTING = 'OPEN_POST_SETTING'
+export const CLOSE_POST_SETTING = 'CLOSE_POST_SETTING'
+
 export default (state = initialState, action) => {
-  return {
-    ...state,
+  switch (action.type) {
+    case OPEN_POST_SETTING: {
+      return {
+        ...state,
+        isPostSetting: true,
+      }
+    }
+    case CLOSE_POST_SETTING: {
+      return {
+        ...state,
+        isPostSetting: false,
+      }
+    }
+    default: {
+      return {
+        ...state,
+      }
+    }
   }
 }
