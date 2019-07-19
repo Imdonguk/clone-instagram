@@ -1,9 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostFooter } from './index'
 import { SettingIcon } from '../Icons'
+import { OPEN_POST_SETTING } from '../../reducers/post'
 
 const Post = ({ info }) => {
+  const dispatch = useDispatch()
+  const openPostSetting = () => {
+    dispatch({
+      type: OPEN_POST_SETTING,
+    })
+  }
   return (
     <Wrap>
       <PostHeader user={info.user} />

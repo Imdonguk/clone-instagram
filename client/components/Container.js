@@ -1,10 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { Post } from './post'
+import { Post, PostForm, PostSetting } from './post'
 
 const Container = () => {
-  const { posts } = useSelector(state => state.post)
+  const { posts, isPostSetting } = useSelector(state => state.post)
+  const isPostForm = useSelector(state => state.user.isPostForm)
   return (
     <Wrapper>
       <div className="container">
@@ -13,6 +14,7 @@ const Container = () => {
             <Post key={v.id.toString()} info={v} />
           ))}
           {isPostForm && <PostForm />}
+          {isPostSetting && <PostSetting />}
         </div>
         <div className="right">
           <div className="woogie">ㅎㅎ</div>
