@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { PostHeader, PostContent, PostFooter } from './index'
+import { SettingIcon } from '../Icons'
 
 const Post = ({ info }) => {
   return (
@@ -8,7 +9,9 @@ const Post = ({ info }) => {
       <PostHeader user={info.user} />
       <PostContent img={info.image} />
       <PostFooter />
-      <Setting />
+      <Setting>
+        <SettingIcon onClick={openPostSetting} />
+      </Setting>
     </Wrap>
   )
 }
@@ -21,6 +24,16 @@ const Wrap = styled.div`
   background-color: #fff;
 `
 
-const Setting = styled.div``
+const Setting = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 6rem;
+  right: 0.4rem;
+  bottom: -1rem;
+  top: 0;
+`
 
 export default Post
