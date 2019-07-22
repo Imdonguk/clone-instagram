@@ -5,14 +5,34 @@ const dummyUser = {
   nickName: '덩욱',
   followers: [],
   followings: [],
+  isPostForm: false,
 }
 
 const initialState = {
   user: dummyUser,
 }
 
+export const OPEN_POST_FORM = 'OPEN_POST_FORM'
+export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
+
 export default (state = initialState, action) => {
-  return {
-    ...state,
+  switch (action.type) {
+    case OPEN_POST_FORM: {
+      return {
+        ...state,
+        isPostForm: true,
+      }
+    }
+    case CLOSE_POST_FORM: {
+      return {
+        ...state,
+        isPostForm: false,
+      }
+    }
+    default: {
+      return {
+        ...state,
+      }
+    }
   }
 }
