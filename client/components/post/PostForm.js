@@ -1,11 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import imageUploadIcon from '../../images/gallery-icon.png'
+import { CLOSE_POST_FORM } from '../../reducers/user'
+import { ADD_POST } from '../../reducers/post'
 
 const PostForm = () => {
+  const dispatch = useDispatch()
+  const cancleForm = e => {
+    if (e && e.currentTarget !== e.target) return
+    dispatch({ type: CLOSE_POST_FORM })
+  }
+  const handleSubmit = e => {
+    e.preventDefault()
+    dispatch({
+      type: ADD_POST,
+    })
+    cancleForm()
+  }
+
   return (
-    <Wrap>
-      <Form>
+    <Wrap onClick={cancleForm}>
+      <Form onSubmit={handleSubmit}>
         <ContentWrap header>
           <h2>새로운 게시물</h2>
         </ContentWrap>
@@ -18,7 +34,7 @@ const PostForm = () => {
           <RichText placeholder="설명입력...." />
         </ContentWrap>
         <ContentWrap bottom>
-          <Button>닫기</Button>
+          <Button onClick={cancleForm}>닫기</Button>
           <Button type="submit">업로드</Button>
         </ContentWrap>
       </Form>
@@ -61,10 +77,10 @@ const ContentWrap = styled.div`
   align-items: center;
   justify-content: ${props => (props.bottom ? 'space-between' : 'center')};
   font-size: ${props => (props.header ? '2rem' : 0)};
-  border-top - left - radius : ${props => (props.header ? '3rem' : 0)};
-  border-top - right - radius : ${props => (props.header ? '3rem' : 0)};
-  border-bottom - left - radius : ${props => (props.bottom ? '3rem' : 0)};
-  border-bottom - right - radius : ${props => (props.bottom ? '3rem' : 0)};
+  border-top-left-radius: ${props => (props.header ? '3rem' : 0)};
+  border-top-right-radius: ${props => (props.header ? '3rem' : 0)};
+  border-bottom-left-radius: ${props => (props.bottom ? '3rem' : 0)};
+  border-bottom-right-radius: ${props => (props.bottom ? '3rem' : 0)};
 `
 
 const RichText = styled.textarea`
