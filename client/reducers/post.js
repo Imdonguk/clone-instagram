@@ -1,3 +1,5 @@
+import produce from 'immer'
+
 let postId = 0
 const dummyPost = {
   user: {
@@ -12,6 +14,15 @@ const dummyPost = {
   comments: [],
 }
 
+const dummyLikeUser = {
+  id: 1,
+  user: {
+    name: 'woogie___boogie',
+    nickName: '덩욱',
+    profileImage:
+      'https://scontent-gmp1-1.cdninstagram.com/vp/ea9c40f09035f1cee4f38ba78b3eb53b/5DB404A0/t51.2885-19/s150x150/66176870_271319490398976_1560280448049872896_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com',
+  },
+}
 const initialState = {
   isPostSetting: false,
   posts: [],
@@ -21,6 +32,13 @@ export const OPEN_POST_SETTING = 'OPEN_POST_SETTING'
 export const CLOSE_POST_SETTING = 'CLOSE_POST_SETTING'
 
 export const ADD_POST = 'ADD_POST'
+export const REMOVE_POST = 'REMOVE_POST'
+
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const REMOVE_COMMENT = 'REMOVE_COMMENT'
+
+export const LIKE_POST = 'LIKE_POST'
+export const UNLIKE_POST = 'UNLIKE_POST'
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -39,7 +57,23 @@ export default (state = initialState, action) => {
     case ADD_POST: {
       return {
         ...state,
-        posts: state.posts.concat({ ...dummyPost, id: postId++ }),
+        posts: [{ ...dummyPost, id: postId++ }, ...state.posts],
+      }
+    }
+    case ADD_COMMENT: {
+      const { id, comment, user } = action.data
+      const postIndex = state.posts.findIndex(v => v.id === id)
+      const newPosts = produce(state.posts, draftState => {
+        draftState[postIndex].comments.push({ user, comment })
+      })
+      return {
+        ...state,
+        posts: newPosts,
+      }
+    }
+    case LIKE_POST: {
+      return {
+        ...state,
       }
     }
     default: {

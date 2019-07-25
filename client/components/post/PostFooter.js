@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 import { LikeIcon, CommentIcon, SaveIcon, ShareIcon } from '../Icons'
+import { ADD_COMMENT } from '../../reducers/post'
+import { PostComment } from './index'
 
-const PostFooter = () => {
+const PostFooter = ({ id, des, comments, likeList, user }) => {
+  const commentRef = useRef('')
+  const dispatch = useDispatch()
+  const addComment = e => {
+    e.preventDefault()
+    dispatch({
+      type: ADD_COMMENT,
+      data: { id, user, comment: commentRef.current.value },
+    })
+    commentRef.current.value = ''
+  }
+
+  const handleClickCommentBtn = () => {
+    commentRef.current.focus()
+  }
+
   return (
     <Wrap>
       <div className="icons">
@@ -10,7 +28,7 @@ const PostFooter = () => {
           <LikeIcon />
         </IconWrap>
         <IconWrap>
-          <CommentIcon />
+          <CommentIcon onClick={handleClickCommentBtn} />
         </IconWrap>
         <IconWrap>
           <ShareIcon />
@@ -19,24 +37,16 @@ const PostFooter = () => {
           <SaveIcon />
         </IconWrap>
       </div>
-      <div className="like-user-count">좋아요 0개</div>
+      <div className="like-user-count">좋아요 {likeList.length}개</div>
       <div className="comment">
-        <div className="comment-item">
-          <span className="comment-item-user-name">woogie___boogie</span>
-          <span className="comment-item-inner">하이하이</span>
-        </div>
-        <div className="comment-item">
-          <span className="comment-item-user-name">woogie___boogie</span>
-          <span className="comment-item-inner">하이하이</span>
-        </div>
-        <div className="comment-item">
-          <span className="comment-item-user-name">woogie___boogie</span>
-          <span className="comment-item-inner">하이하이</span>
-        </div>
+        <PostComment name={user.name} comment={des} />
+        {comments.map(v => (
+          <PostComment name={v.user.name} comment={v.comment} id={v.id} key={v.id.toString()} />
+        ))}
       </div>
       <div className="input-comment">
-        <form>
-          <input placeholder="댓글달기..." />
+        <form onSubmit={addComment}>
+          <input placeholder="댓글달기..." ref={commentRef} />
         </form>
       </div>
     </Wrap>
@@ -58,16 +68,6 @@ const Wrap = styled.div`
     color: #262626;
     margin-bottom: 0.8rem;
     font-weight: 600;
-  }
-  .comment-item {
-    width: 100%;
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-
-    &-user-name {
-      margin-right: 0.5rem;
-      font-weight: 800;
-    }
   }
   .input-comment {
     height: 5.6rem;

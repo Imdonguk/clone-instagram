@@ -16,9 +16,8 @@ const PostForm = () => {
     dispatch({
       type: ADD_POST,
     })
-    cancleForm()
+    cancleForm(e)
   }
-
   return (
     <Wrap onClick={cancleForm}>
       <Form onSubmit={handleSubmit}>

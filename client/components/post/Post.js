@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostFooter } from './index'
@@ -7,6 +7,7 @@ import { OPEN_POST_SETTING } from '../../reducers/post'
 
 const Post = ({ info }) => {
   const dispatch = useDispatch()
+  const { user, image, description, comments, likeList, id } = info
   const openPostSetting = () => {
     dispatch({
       type: OPEN_POST_SETTING,
@@ -14,9 +15,9 @@ const Post = ({ info }) => {
   }
   return (
     <Wrap>
-      <PostHeader user={info.user} />
-      <PostContent img={info.image} />
-      <PostFooter />
+      <PostHeader user={user} />
+      <PostContent img={image} />
+      <PostFooter user={user} id={id} des={description} comments={comments} likeList={likeList} />
       <Setting>
         <SettingIcon onClick={openPostSetting} />
       </Setting>
