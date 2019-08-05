@@ -21,6 +21,7 @@
     "import/no-cycle": "off",
     "react/prop-types": "off",
     "no-plusplus": "off",
-    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }]
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    "no-underscore-dangle": "off"
   }
 }
