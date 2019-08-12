@@ -1,12 +1,14 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-
-// const cookieParser = require('cookie-parser')
-// const expressSession = require('express-session')
+const cookieParser = require('cookie-parser')
+const expressSession = require('express-session')
+const passport = require('passport')
 const app = express()
 const db = require('./models')
+const dotenv = require('dotenv')
 
+dotenv.config()
 db.sequelize.sync()
 
 app.use(morgan('dev'))
@@ -18,6 +20,20 @@ app.use(
     credentials: true,
   }),
 )
+app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(
+  expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false, // https를 쓸 때 true
+    },
+  }),
+)
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/api/user', require('./routes/api/user'))
 app.use('/api/post', require('./routes/api/post'))
