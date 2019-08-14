@@ -15,6 +15,10 @@ const initialState = {
 export const OPEN_POST_FORM = 'OPEN_POST_FORM'
 export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
 
+export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
+export const SIGN_UP_FAILIRE = 'SIGN_UP_FAILIRE'
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case OPEN_POST_FORM: {
@@ -27,6 +31,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isPostForm: false,
+      }
+    }
+    case SIGN_UP_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case SIGN_UP_SUCCESS: {
+      return {
+        ...state,
+      }
+    }
+    case SIGN_UP_FAILIRE: {
+      return {
+        ...state,
       }
     }
     default: {
