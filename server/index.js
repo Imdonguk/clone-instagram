@@ -7,9 +7,11 @@ const passport = require('passport')
 const app = express()
 const db = require('./models')
 const dotenv = require('dotenv')
+const passportConfig = require('./passport')
 
 dotenv.config()
 db.sequelize.sync()
+passportConfig()
 
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }))
@@ -27,11 +29,12 @@ app.use(
     saveUninitialized: false,
     secret: process.env.COOKIE_SECRET,
     cookie: {
-      httpOnly: true,
+      httpOnly: true, //javascript로 쿠키나 세션 동작을 할 수 없게 하는 동작
       secure: false, // https를 쓸 때 true
     },
   }),
 )
+
 app.use(passport.initialize())
 app.use(passport.session())
 
