@@ -28,11 +28,34 @@ router.post('/signin', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err)
     if (info) return res.status(401).send(info.reason)
-    req.login(user, loginErr => {
-      if (loginErr) return next(loginErr)
-      const jsonUser = user.toJSON()
-      delete jsonUser.password
-      res.json(jsonUser)
+    req.login(user, async loginErr => {
+      try {
+        if (loginErr) return next(loginErr)
+        const fullUser = await db.User.findOne({
+          where: { userName: user.userName },
+          include: [
+            {
+              model: db.Post,
+              as: 'Post',
+              attributes: ['id'],
+            },
+            {
+              model: db.User,
+              as: 'Followers',
+              attributes: ['id'],
+            },
+            {
+              model: db.User,
+              as: 'Followings',
+              attributes: ['id'],
+            },
+          ],
+          attributes: ['id', 'name', 'userName'],
+        })
+        res.json(fullUser.toJSON())
+      } catch (e) {
+        console.error(e)
+      }
     })
   })(req, res, next)
 })
