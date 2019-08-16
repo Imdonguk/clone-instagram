@@ -23,6 +23,14 @@ export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
 export const SIGN_IN_FAILIRE = 'SIGN_IN_FAILIRE'
 
+export const SIGN_OUT_REQUEST = 'SIGN_OUT_REQUEST'
+export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'
+export const SIGN_OUT_FAILIRE = 'SIGN_OUT_FAILIRE'
+
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST'
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+export const LOAD_USER_FAILIRE = 'LOAD_USER_FAILIRE'
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case OPEN_POST_FORM: {
@@ -63,6 +71,36 @@ export default (state = initialState, action) => {
       }
     }
     case SIGN_IN_FAILIRE: {
+      return {
+        ...state,
+      }
+    }
+    case SIGN_OUT_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case SIGN_OUT_SUCCESS: {
+      return {
+        ...state,
+      }
+    }
+    case SIGN_OUT_FAILIRE: {
+      return {
+        ...state,
+      }
+    }
+    case LOAD_USER_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case LOAD_USER_SUCCESS: {
+      return {
+        ...state,
+      }
+    }
+    case LOAD_USER_FAILIRE: {
       return {
         ...state,
       }
