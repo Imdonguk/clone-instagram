@@ -10,17 +10,16 @@ router.post('/signup', async (req, res, next) => {
     const user = await db.User.findOne({
       where: { userName },
     })
-    if (user) return res.status(403).send('이미 사용중인 유저입니다.')
+    if (user) throw new Error('기존에 있는 사용자입니다.')
     const hashPassword = await bcrypt.hash(password, 12)
-    const newUser = await db.User.create({
+    await db.User.create({
       name,
       userName,
       password: hashPassword,
     })
-    console.log(newUser)
-    res.status(200).json(newUser)
+    res.json({ success: true })
   } catch (e) {
-    console.log('error는 ' + e)
+    res.json({ success: false, msg: e.message })
   }
 })
 

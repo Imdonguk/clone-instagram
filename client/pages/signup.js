@@ -1,15 +1,15 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
+import Router from 'next/router'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import axios from 'axios'
 import { AccountWrap, Content, LetterIcon, HiperLink, AppDown } from '../components/account'
-import { SIGN_UP_REQUEST } from '../reducers/user'
 
 const Signup = () => {
   const nameRef = useRef('')
   const userNameRef = useRef('')
   const passwordRef = useRef('')
+  const [errorMsg, setErrorMsg] = useState('')
 
-  const dispatch = useDispatch()
   const handleSubmit = e => {
     e.preventDefault()
     const data = {
@@ -17,7 +17,12 @@ const Signup = () => {
       userName: userNameRef.current.value,
       password: passwordRef.current.value,
     }
-    dispatch({ type: SIGN_UP_REQUEST, data })
+
+    axios
+      .post('/user/signup', data)
+      .then(r => Promise.resolve(r.data))
+      .then(r => (r.success ? Router.push('/signin') : setErrorMsg(r.msg)))
+      .catch(err => console.error(err))
   }
 
   return (
@@ -32,7 +37,11 @@ const Signup = () => {
             <input name="password" type="password" placeholder="비밀번호" ref={passwordRef} required />
             <button type="submit">가입</button>
           </form>
-          <Policy>가입하면 Instagram의 약관, 데이터 정책 및 쿠키 정책에 동의하게 됩니다.</Policy>
+          {errorMsg ? (
+            <ErrorMsg>{errorMsg}</ErrorMsg>
+          ) : (
+            <Policy>가입하면 Instagram의 약관, 데이터 정책 및 쿠키 정책에 동의하게 됩니다.</Policy>
+          )}
         </div>
         <div className="box">
           <HiperLink adress="/signin" isAccount />
@@ -59,4 +68,13 @@ const Policy = styled.p`
   font-size: 1.4rem;
   line-height: 1.4rem;
 `
+
+const ErrorMsg = styled.p`
+  color: #eb4022;
+  text-align: center;
+  margin: 1rem 5rem;
+  font-size: 1.4rem;
+  line-height: 1.4rem;
+`
+
 export default Signup
