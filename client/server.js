@@ -30,6 +30,14 @@ app.prepare().then(() => {
     }),
   )
 
+  server.get('/user/:userName', (req, res) => {
+    return app.render(req, res, '/user', { userName: req.params.userName })
+  })
+
+  server.get('/hashtag/:tag', (req, res) => {
+    return app.render(req, res, '/hashtag', { tag: req.params.tag })
+  })
+
   server.get('*', (req, res) => {
     handle(req, res)
   })
