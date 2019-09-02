@@ -1,18 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './default.css'
 import withRedux from 'next-redux-wrapper'
 import withReduxSaga from 'next-redux-saga'
 import { createStore, compose, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import Helmet from 'react-helmet'
+import { Container } from 'next/app'
 import axios from 'axios'
 import rootSaga from '../sagas'
 import reducer from '../reducers'
 
 const WoogieBoogie = ({ Component, store, pageProps }) => {
   return (
+    <Container>
       <Provider store={store}>
         <Helmet
           title="clone-instagram"
@@ -51,6 +52,7 @@ const WoogieBoogie = ({ Component, store, pageProps }) => {
         />
         <Component {...pageProps} />
       </Provider>
+    </Container>
   )
 }
 
