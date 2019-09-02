@@ -23,6 +23,7 @@
     "next-compose-plugins": "^2.2.0",
     "next-images": "^1.1.2",
     "next-optimized-images": "^2.5.3",
+    "next-redux-saga": "^4.0.2",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -34,7 +35,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
-    "babel-plugin-styled-components": "^1.10.5",
+    "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^6.0.0",

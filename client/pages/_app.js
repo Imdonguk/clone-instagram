@@ -2,13 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './default.css'
 import withRedux from 'next-redux-wrapper'
+import withReduxSaga from 'next-redux-saga'
 import { createStore, compose, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
+import axios from 'axios'
 import rootSaga from '../sagas'
 import reducer from '../reducers'
 
-const App = ({ Component, store, pageProps }) => {
+const WoogieBoogie = ({ Component, store, pageProps }) => {
   return (
     <Provider store={store}>
       <Component {...pageProps} />
@@ -16,14 +18,21 @@ const App = ({ Component, store, pageProps }) => {
   )
 }
 
-App.propTypes = {
+WoogieBoogie.propTypes = {
   Component: PropTypes.elementType.isRequired,
 }
 
-App.getInitialProps = async context => {
+WoogieBoogie.getInitialProps = async context => {
   const { ctx, Component } = context
   let pageProps = {}
-  if (Component.getInitialProps) pageProps = await Component.getInitialProps(ctx)
+  // const state = ctx.store.getState()
+  const cookie = ctx.isServer ? ctx.req.headers.cookie : ''
+  if (ctx.isServer && cookie) {
+    axios.defaults.headers.Cookie = cookie
+  }
+  if (Component.getInitialProps) {
+    pageProps = (await Component.getInitialProps(ctx)) || {}
+  }
   return { pageProps }
 }
 
@@ -40,8 +49,8 @@ const configureStore = (initialState, options) => {
             : f => f,
         )
   const store = createStore(reducer, initialState, enhancer)
-  sagaMiddleware.run(rootSaga)
+  store.sagaTask = sagaMiddleware.run(rootSaga)
   return store
 }
 
-export default withRedux(configureStore)(App)
+export default withRedux(configureStore)(withReduxSaga(WoogieBoogie))
