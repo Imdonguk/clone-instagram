@@ -6,9 +6,7 @@ import { Post, PostForm, PostSetting } from './post'
 
 const Container = () => {
   const { posts, isPostSetting } = useSelector(state => state.post)
-  const isPostForm = useSelector(state => state.user.isPostForm)
-  const { userName, nickName, profileImage } = useSelector(state => state.user.user)
-
+  const { userName, nickName, profileImage, isPostForm } = useSelector(state => state.user)
   return (
     <Wrapper>
       <div className="container">
@@ -47,10 +45,11 @@ const Wrapper = styled.div`
     position: relative;
     display: grid;
     grid-template-columns: 61.4rem 1fr;
-    margin: 13.7rem auto 0 auto;
+    margin: 0 auto;
     max-width: 93.5rem;
     min-height: 100%;
     grid-gap: 2.8rem;
+    padding-top: 6rem;
   }
 
   .profile {

@@ -11,47 +11,55 @@ const Header = () => {
   }
   return (
     <Wrapper>
-      <br />
-      <Content>
-        <LogoWrap>
-          <LogoIcon />
-          <Boundary />
-          <LetterIcon />
-        </LogoWrap>
-        <NavInput>
-          <input className="search" />
-          <div className="search-icon">
-            <SearchIcon />
-          </div>
-        </NavInput>
-        <Accounts>
-          <IconWrap first>
-            <UploadIcon onClick={openPostForm} />
-          </IconWrap>
-          <IconWrap>
-            <ExploreIcon />
-          </IconWrap>
-          <IconWrap>
-            <LikeIcon />
-          </IconWrap>
-          <IconWrap>
-            <ProfileIcon />
-          </IconWrap>
-        </Accounts>
-      </Content>
+      <NaviBar>
+        <br />
+        <Content>
+          <LogoWrap>
+            <LogoIcon />
+            <Boundary />
+            <LetterIcon />
+          </LogoWrap>
+          <NavInput>
+            <input className="search" />
+            <div className="search-icon">
+              <SearchIcon />
+            </div>
+          </NavInput>
+          <Accounts>
+            <IconWrap first>
+              <UploadIcon onClick={openPostForm} />
+            </IconWrap>
+            <IconWrap>
+              <ExploreIcon />
+            </IconWrap>
+            <IconWrap>
+              <LikeIcon />
+            </IconWrap>
+            <IconWrap>
+              <ProfileIcon />
+            </IconWrap>
+          </Accounts>
+        </Content>
+      </NaviBar>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  position: fixed;
-  display: grid;
-  z-index: 1;
+  position: relative;
   width: 100%;
   height: 7.7rem;
+`
+
+const NaviBar = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 7.7rem;
+  display: grid;
   grid-template-columns: auto 101rem auto;
   border-bottom: 1px solid #eee;
   background-color: #fff;
+  z-index: 1;
 `
 
 const Content = styled.div`
