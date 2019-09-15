@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import Helmet from 'react-helmet'
 import { Container } from 'next/app'
+import Router from 'next/router'
 import axios from 'axios'
 import rootSaga from '../sagas'
 import reducer from '../reducers'
@@ -37,7 +38,7 @@ const WoogieBoogie = ({ Component, store, pageProps }) => {
             },
             {
               name: 'og:title',
-              content: 'NodeBird',
+              content: 'clone-instagram',
             },
             {
               name: 'og:description',
@@ -63,21 +64,29 @@ const redirectOnError = (ctx, path) => {
   }
   Router.push(path)
 }
+
+const auth = ctx => {
+  const { isServer, pathname } = ctx
+  const state = ctx.store.getState()
+  const isLogged = isServer ? ctx.req.headers.cookie : state.user.isLogged
+  if (pathname === '/') return !isLogged && redirectOnError(ctx, '/signin')
+  if (pathname === '/signin' || pathname === '/signup') return isLogged && redirectOnError(ctx, '/')
+}
+
 WoogieBoogie.propTypes = {
   Component: PropTypes.elementType.isRequired,
 }
 
 WoogieBoogie.getInitialProps = async context => {
   const { ctx, Component } = context
+  const { isServer, req } = ctx
   let pageProps = {}
-  // const state = ctx.store.getState()
-  const cookie = ctx.isServer ? ctx.req.headers.cookie : ''
-  if (ctx.isServer && cookie) {
-    axios.defaults.headers.Cookie = cookie
-  }
-  if (Component.getInitialProps) {
-    pageProps = (await Component.getInitialProps(ctx)) || {}
-  }
+  const cookie = isServer ? req.headers.cookie : ''
+
+  auth(ctx)
+  if (ctx.isServer && cookie) axios.defaults.headers.Cookie = cookie
+  if (Component.getInitialProps) pageProps = (await Component.getInitialProps(ctx)) || {}
+
   return { pageProps }
 }
 
