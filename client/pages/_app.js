@@ -56,6 +56,13 @@ const WoogieBoogie = ({ Component, store, pageProps }) => {
   )
 }
 
+const redirectOnError = (ctx, path) => {
+  if (ctx.isServer) {
+    ctx.res.writeHead(301, { Location: path })
+    ctx.res.end()
+  }
+  Router.push(path)
+}
 WoogieBoogie.propTypes = {
   Component: PropTypes.elementType.isRequired,
 }
