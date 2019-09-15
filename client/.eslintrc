@@ -22,6 +22,8 @@
     "react/prop-types": "off",
     "no-plusplus": "off",
     "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "jsx-a11y/html-has-lang": "off",
+    "consistent-return": "off"
   }
 }
