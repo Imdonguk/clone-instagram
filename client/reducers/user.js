@@ -8,16 +8,16 @@ const dummyUser = {
 }
 
 const initialState = {
-  user: dummyUser,
+  ...dummyUser,
+  me: null,
   isPostForm: false,
+  isLogged: false,
 }
 
 export const OPEN_POST_FORM = 'OPEN_POST_FORM'
 export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
 
-export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
-export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
-export const SIGN_IN_FAILIRE = 'SIGN_IN_FAILIRE'
+export const SIGN_IN = 'SIGN_IN'
 
 export const SIGN_OUT_REQUEST = 'SIGN_OUT_REQUEST'
 export const SIGN_OUT_SUCCESS = 'SIGN_OUT_SUCCESS'
@@ -41,19 +41,10 @@ export default (state = initialState, action) => {
         isPostForm: false,
       }
     }
-    case SIGN_IN_REQUEST: {
+    case SIGN_IN: {
       return {
         ...state,
-      }
-    }
-    case SIGN_IN_SUCCESS: {
-      return {
-        ...state,
-      }
-    }
-    case SIGN_IN_FAILIRE: {
-      return {
-        ...state,
+        isLogged: true,
       }
     }
     case SIGN_OUT_REQUEST: {
@@ -79,6 +70,7 @@ export default (state = initialState, action) => {
     case LOAD_USER_SUCCESS: {
       return {
         ...state,
+        me: action.data,
       }
     }
     case LOAD_USER_FAILIRE: {

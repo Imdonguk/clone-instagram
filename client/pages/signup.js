@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import Router from 'next/router'
 import styled from 'styled-components'
 import axios from 'axios'
-import { AccountWrap, Content, LetterIcon, HiperLink, AppDown } from '../components/account'
+import { AccountWrap, Content, LetterIcon, HiperLink, AppDown, ErrorMsg } from '../components/account'
 
 const Signup = () => {
   const nameRef = useRef('')
@@ -19,7 +19,7 @@ const Signup = () => {
     }
 
     axios
-      .post('/user/signup', data)
+      .post('/api/user/signup', data)
       .then(r => Promise.resolve(r.data))
       .then(r => (r.success ? Router.push('/signin') : setErrorMsg(r.msg)))
       .catch(err => console.error(err))
@@ -64,14 +64,6 @@ const Title = styled.h2`
 const Policy = styled.p`
   text-align: center;
   color: #999;
-  margin: 1rem 5rem;
-  font-size: 1.4rem;
-  line-height: 1.4rem;
-`
-
-const ErrorMsg = styled.p`
-  color: #eb4022;
-  text-align: center;
   margin: 1rem 5rem;
   font-size: 1.4rem;
   line-height: 1.4rem;
