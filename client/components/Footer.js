@@ -1,87 +1,124 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const Footer = () => {
+const Footer = ({ page }) => {
   return (
-    <Wrapper>
-      <Content>
-        <nav>
-          <ul>
-            <li>
-              <span className="link">instagram 정보</span>
-            </li>
-            <li>
-              <span className="link">지원</span>
-            </li>
-            <li>
-              <span className="link">홍보 센터</span>
-            </li>
-            <li>
-              <span className="link">API</span>
-            </li>
-            <li>
-              <span className="link">채용 정보</span>
-            </li>
-            <li>
-              <span className="link">개인정보처리방침</span>
-            </li>
-            <li>
-              <span className="link">약관</span>
-            </li>
-            <li>
-              <span className="link">디렉터리</span>
-            </li>
-            <li>
-              <span className="link">프로필</span>
-            </li>
-            <li>
-              <span className="link">해시태그</span>
-            </li>
-            <li>
-              <span className="link">언어</span>
-            </li>
-          </ul>
-        </nav>
-        <span>© 2019 Instagram</span>
-      </Content>
-    </Wrapper>
+    <Content page={page}>
+      <nav>
+        <ul>
+          <li>
+            <span className="link">instagram 정보</span>
+          </li>
+          <li>
+            <span className="link">지원</span>
+          </li>
+          <li>
+            <span className="link">홍보 센터</span>
+          </li>
+          <li>
+            <span className="link">API</span>
+          </li>
+          <li>
+            <span className="link">채용 정보</span>
+          </li>
+          <li>
+            <span className="link">개인정보처리방침</span>
+          </li>
+          <li>
+            <span className="link">약관</span>
+          </li>
+          <li>
+            <span className="link">디렉터리</span>
+          </li>
+          <li>
+            <span className="link">프로필</span>
+          </li>
+          <li>
+            <span className="link">해시태그</span>
+          </li>
+          <li>
+            <span className="link">언어</span>
+          </li>
+        </ul>
+      </nav>
+      <span>© 2019 Instagram</span>
+    </Content>
   )
 }
 
-const Wrapper = styled.div`
-  height: 10.4rem;
-  padding: 0 2rem;
-  box-sizing: border-box;
-  font-size: 1.2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-`
 const Content = styled.div`
+  
   display: flex;
-  max-width: 93.5rem;
-  height: 100%;
-  padding: 3.8rem 0;
   margin: 0 auto;
   box-sizing: border-box;
   flex-direction: row;
   justify-content: space-between;
-  color: #999;
+  ${props =>
+    props.page === 'common'
+      ? css`
+          display: flex;
+          max-width: 93.5rem;
+          height: 100%;
+          padding: 3.8rem 0;
+          color: #999;
+          text-transform: uppercase;
+        `
+      : css`
+          display: flex;
+          width: 100%;
+          padding: 0;
+          text-transform: none;
+          flex-wrap: wrap;
+        `}
 
-  & > nav {
-    width: 64.1rem;
-    text-align: center;
+
+  nav {
+    ${props =>
+      props.page === 'common'
+        ? css`
+            width: 64.1rem;
+            text-align: center;
+          `
+        : css`
+            display: flex;
+            margin-bottom: 1.6rem;
+          `}
+    
 
     ul {
       margin: 0 1.6rem 0.3rem 0;
       padding: 0;
       list-style: none;
-      display: flex;
-      justify-content: space-around;
 
+      ${props =>
+        props.page === 'common'
+          ? css`
+              display: flex;
+              justify-content: space-around;
+            `
+          : css`
+              display: block;
+            `}
+      
+      li{
+        ${props =>
+          props.page === 'main' &&
+          css`
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.3rem;
+
+            ::after {
+              content: ' ';
+              margin: 0 0.3rem;
+            }
+          `}
+      }
       .link {
           cursor: pointer;
-          color: #003569;
+          color:${props => (props.page === 'common' ? '#003569' : '#c7c7c7')} ;
       }
   }
 `
+
 export default Footer
