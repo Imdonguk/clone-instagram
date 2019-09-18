@@ -1,13 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import Link from 'next/link'
+import Profile from './profile'
+import Story from './story'
+import Recommend from './recommend'
 import { Post, PostForm, PostSetting } from './post'
 import Footer from './Footer'
 
 const Container = () => {
   const { posts, isPostSetting } = useSelector(state => state.post)
-  const { userName, nickName, profileImage, isPostForm } = useSelector(state => state.user)
+  const { isPostForm } = useSelector(state => state.user)
+
   return (
     <Wrapper>
       <div className="container">
@@ -20,21 +23,15 @@ const Container = () => {
         </div>
         <div className="right">
           <div className="right-column">
-            <div className="profile">
-              <div className="profile-image">
-                <img src={profileImage} alt="프로필사진" />
-              </div>
-              <div className="profile-text">
-                <div className="user-name">
-                  <Link href="/">
-                    <a>{userName}</a>
-                  </Link>
-                </div>
-                <div className="nick-name">{nickName}</div>
-              </div>
-            </div>
-            <div className="story" />
-            <div className="recommend" />
+            <ProfileWrap>
+              <Profile />
+            </ProfileWrap>
+            <StoryWrap>
+              <Story />
+            </StoryWrap>
+            <RecommendWrap>
+              <Recommend />
+            </RecommendWrap>
             <FooterWrap>
               <Footer page="main" />
             </FooterWrap>
@@ -61,60 +58,30 @@ const Wrapper = styled.div`
   .right-column {
     position: relative;
     width: 29.3rem;
-
-    .profile {
-      padding-left: 0.5rem;
-      margin-bottom: 1.2rem;
-      height: 5rem;
-      display: flex;
-      align-items: center;
-
-      &-image {
-        width: 5rem;
-        height: 5rem;
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
-      }
-
-      &-text {
-        margin-left: 1.4rem;
-        .user-name {
-          line-height: 1.8rem;
-          margin-bottom: 0.2rem;
-          font-weight: 600;
-          font-size: 1.6rem;
-
-          a {
-            text-decoration: none;
-            color: #262626;
-          }
-        }
-        .nick-name {
-          color: #999;
-          font-size: 1.2rem;
-        }
-      }
-    }
-    .story {
-      background-color: #fff;
-      width: 100%;
-      height: 223px;
-      margin-top: 4px;
-      border: 1px solid #e6e6e6;
-      border-radius: 4px;
-    }
-    .recommend {
-      background-color: #fff;
-      width: 100%;
-      height: 197px;
-      margin: 12px 0;
-      border: 1px solid #e6e6e6;
-      border-radius: 4px;
-    }
   }
+`
+
+const ProfileWrap = styled.div`
+  height: 6.2rem;
+`
+
+const StoryWrap = styled.div`
+  background-color: #fff;
+  width: 29.3rem;
+  height: 22.3rem;
+  margin-top: 0.4rem;
+  border: 0.1rem solid #e6e6e6;
+  border-radius: 0.4rem;
+  overflow: hidden auto;
+`
+
+const RecommendWrap = styled.div`
+  background-color: #fff;
+  width: 100%;
+  height: 19.7rem;
+  margin: 1.2rem 0;
+  border: 0.1rem solid #e6e6e6;
+  border-radius: 0.4rem;
 `
 
 const FooterWrap = styled.div`

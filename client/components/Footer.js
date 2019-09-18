@@ -41,7 +41,7 @@ const Footer = ({ page }) => {
           </li>
         </ul>
       </nav>
-      <span>© 2019 Instagram</span>
+      <span className="yaer">© 2019 Instagram</span>
     </Content>
   )
 }
@@ -71,6 +71,9 @@ const Content = styled.div`
           flex-wrap: wrap;
         `}
 
+  .yaer{
+    text-transform : uppercase;
+  }
 
   nav {
     ${props =>
@@ -98,6 +101,7 @@ const Content = styled.div`
             `
           : css`
               display: block;
+              line-height: 1.8rem;
             `}
       
       li{

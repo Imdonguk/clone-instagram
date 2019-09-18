@@ -17,7 +17,7 @@ const Item = styled.div`
 `
 const Name = styled.span`
   margin-right: 0.5rem;
-  font-weight: 800;
+  font-weight: 600;
 `
 
 export default PostComment
