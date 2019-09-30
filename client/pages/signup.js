@@ -21,8 +21,8 @@ const Signup = () => {
     axios
       .post('/api/user/signup', data)
       .then(r => Promise.resolve(r.data))
-      .then(r => (r.success ? Router.push('/signin') : setErrorMsg(r.msg)))
-      .catch(err => console.error(err))
+      .then(() => Router.push('/signin'))
+      .catch(err => setErrorMsg(err.response.data.msg))
   }
 
   return (
@@ -50,6 +50,14 @@ const Signup = () => {
       </Content>
     </AccountWrap>
   )
+}
+
+Signup.getInitialProps = async context => {
+  const { isServer, req, res } = context
+  if (isServer && req.headers.cookie) {
+    res.writeHead(301, { Location: '/' })
+    res.end()
+  }
 }
 
 const Title = styled.h2`

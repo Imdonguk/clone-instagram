@@ -23,12 +23,11 @@ const Signin = () => {
         withCredentials: true,
       })
       .then(r => Promise.resolve(r.data))
-      .then(r => {
-        if (!r.success) return setErrorMsg(r.msg)
-        dispatch({ type: SIGN_IN })
-      })
+      .then(() => dispatch({ type: SIGN_IN }))
       .then(() => Router.push('/'))
-      .catch(() => {})
+      .catch(error => {
+        setErrorMsg(error.message)
+      })
   }
 
   return (
@@ -65,6 +64,14 @@ const Signin = () => {
       </Content>
     </AccountWrap>
   )
+}
+
+Signin.getInitialProps = context => {
+  const { isServer, req, res } = context
+  if (isServer && req.headers.cookie) {
+    res.writeHead(301, { Location: '/' })
+    res.end()
+  }
 }
 
 export default Signin
