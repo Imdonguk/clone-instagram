@@ -89,10 +89,11 @@ app.post('/user', isLoggedIn, (req, res, next) => {
 app.post('/signin', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err)
-    if (!user) return res.json({ success: false, msg: info.message })
+    if (!user) return res.status(403).json({ msg: info.message })
 
     return req.login(user, signinErr => {
-      return signinErr ? next(signinErr) : res.json({ success: true })
+      const { name, userName } = user
+      return signinErr ? next(signinErr) : res.json({ name, userName })
     })
   })(req, res, next)
 })
