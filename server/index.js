@@ -7,6 +7,7 @@ const expressSession = require('express-session')
 const db = require('./models')
 const dotenv = require('dotenv')
 // const passportConfig = require('./passport')
+const config = require('./config')
 
 const FileStore = require('session-file-store')(expressSession)
 
@@ -24,17 +25,18 @@ app.use(
     credentials: true,
   }),
 )
-app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(cookieParser(config.cookieSecret))
 app.use(
   expressSession({
     resave: false,
-    saveUninitialized: true,
-    secret: process.env.COOKIE_SECRET,
+    saveUninitialized: false,
+    secret: config.cookieSecret,
     store: new FileStore(),
     cookie: {
       httpOnly: true, //javascript로 쿠키나 세션 동작을 할 수 없게 하는 동작
       secure: false, // https를 쓸 때 true
     },
+    name: config.cookiename,
   }),
 )
 
