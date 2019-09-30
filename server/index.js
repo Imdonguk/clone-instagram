@@ -97,7 +97,17 @@ app.post('/signin', (req, res, next) => {
   })(req, res, next)
 })
 
-app.post('/signout', (req, res, next) => {})
+app.post('/signout', (req, res, next) => {
+  req.logout()
+  req.session.destroy(() => {
+    res
+      .status(200)
+      .clearCookie(config.cookiename, {
+        path: '/',
+      })
+      .send('GOOD!')
+  })
+})
 
 app.use('/api/user', require('./routes/api/user'))
 

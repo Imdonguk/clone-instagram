@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
-import { OPEN_POST_FORM } from '../reducers/user'
+import { useDispatch, useSelector } from 'react-redux'
+import { OPEN_POST_FORM, SIGN_OUT_REQUEST } from '../reducers/user'
 import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
 
 const Header = () => {
@@ -9,12 +9,17 @@ const Header = () => {
   const openPostForm = () => {
     dispatch({ type: OPEN_POST_FORM })
   }
+
+  const handleClickLogoutBtn = () => {
+    dispatch({ type: SIGN_OUT_REQUEST })
+  }
+
   return (
     <Wrapper>
       <NaviBar>
         <br />
         <Content>
-          <LogoWrap>
+          <LogoWrap onClick={handleClickLogoutBtn}>
             <LogoIcon />
             <Boundary />
             <LetterIcon />

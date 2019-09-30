@@ -55,9 +55,11 @@ export default (state = initialState, action) => {
     case SIGN_OUT_SUCCESS: {
       return {
         ...state,
+        isLogged: false,
+        me: {},
       }
     }
-    case SIGN_OUT_FAILIRE: {
+    case SIGN_OUT_FAILURE: {
       return {
         ...state,
       }
