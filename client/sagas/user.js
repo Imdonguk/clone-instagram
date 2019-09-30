@@ -1,4 +1,4 @@
-import { all, fork, put, call, takeLatest, takeEvery } from 'redux-saga/effects'
+import { all, fork, put, call, takeLatest, takeEvery, delay } from 'redux-saga/effects'
 import axios from 'axios'
 import Router from 'next/router'
 import {
@@ -7,55 +7,57 @@ import {
   SIGN_OUT_FAILURE,
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
-  LOAD_USER_FAILIRE,
+  LOAD_USER_FAILURE,
 } from '../reducers/user'
 
-}
-
-  try {
-    yield put({
-    })
-  } catch (e) {
-    yield put({
-    })
-  }
-}
-
-}
-
 function loadUserApi() {
-  return axios.get('/user', { withCredentials: true })
-function signoutApi() {
-  return axios.post('/signout', {}, { withCredentials: true })
+  return axios.post('/user', {}, { withCredentials: true })
 }
 
 function* loadUser() {
-function* signout() {
   try {
     const result = yield call(loadUserApi)
-    yield call(signoutApi)
     yield put({
       type: LOAD_USER_SUCCESS,
-      data: result.data,
-      type: SIGN_OUT_SUCCESS,
+      data: {
+        ...result.data,
+      },
     })
-    yield Router.push('/signin')
   } catch (e) {
     yield put({
-      type: LOAD_USER_FAILIRE,
-      type: SIGN_OUT_FAILURE,
+      type: SIGN_OUT_REQUEST,
     })
   }
 }
 
 function* watchLoadUser() {
-  yield takeEvery(LOAD_USER_REQUEST, loadUser)
+  yield takeLatest(LOAD_USER_REQUEST, loadUser)
+}
+
+function signoutApi() {
+  return axios.post('/signout', {}, { withCredentials: true })
+}
+
+function* signout() {
+  try {
+    yield call(signoutApi)
+    yield put({
+      type: SIGN_OUT_SUCCESS,
+    })
+    yield Router.push('/signin')
+  } catch (e) {
+    yield put({
+      type: SIGN_OUT_FAILURE,
+    })
+  }
+}
+
 function* watchSignout() {
   yield takeEvery(SIGN_OUT_REQUEST, signout)
 }
 
 function* userSaga() {
-  yield all([fork(watchSignout), fork(watchLoadUser)])
+  yield all([fork(watchLoadUser), fork(watchSignout)])
 }
 
 export default userSaga

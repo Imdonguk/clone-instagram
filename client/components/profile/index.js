@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useSelector } from 'react-redux'
 
 const Index = () => {
-  const { userName, nickName, profileImage } = useSelector(state => state.user)
+  const { userName, name, profileImage } = useSelector(state => state.user.me)
 
   return (
     <Wrap>
@@ -17,7 +17,7 @@ const Index = () => {
             <a>{userName}</a>
           </Link>
         </div>
-        <div className="nick-name">{nickName}</div>
+        <div className="nick-name">{name}</div>
       </div>
     </Wrap>
   )

@@ -55,6 +55,7 @@ passport.deserializeUser(async (userName, done) => {
   try {
     const user = await db.User.findOne({
       where: { userName },
+      attributes: ['userName', 'name'],
     })
     done(null, user)
   } catch (e) {}
@@ -79,11 +80,10 @@ passport.use(
   ),
 )
 
-app.get('/user', (req, res, next) => {
-  if (!req.user) return res.json({ success: false, msg: '유저가없어욤' })
-  const user = Object.assign({}, req.user.toJSON())
-  delete user.password
-  res.json(user)
+const { isLoggedIn } = require('./routes/middleware')
+
+app.post('/user', isLoggedIn, (req, res, next) => {
+  res.json(req.user.toJSON())
 })
 
 app.post('/signin', (req, res, next) => {
