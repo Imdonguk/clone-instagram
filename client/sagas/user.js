@@ -1,4 +1,4 @@
-import { all, fork, put, call, takeLatest, takeEvery, delay } from 'redux-saga/effects'
+import { all, fork, put, call, takeLatest, takeEvery } from 'redux-saga/effects'
 import axios from 'axios'
 import Router from 'next/router'
 import {
@@ -14,19 +14,16 @@ function loadUserApi() {
   return axios.post('/user', {}, { withCredentials: true })
 }
 
-function* loadUser() {
+function* loadUser(action) {
   try {
     const result = yield call(loadUserApi)
     yield put({
       type: LOAD_USER_SUCCESS,
-      data: {
-        ...result.data,
-      },
+      data: result.data,
     })
+    yield action.data.resolve('success')
   } catch (e) {
-    yield put({
-      type: SIGN_OUT_REQUEST,
-    })
+    yield action.data.reject(e)
   }
 }
 
