@@ -1,9 +1,17 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import Router from 'next/router'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Container from '../components/Container'
 
 const Index = () => {
+  const { me } = useSelector(state => state.user)
+  useEffect(() => {
+    me.userName || Router.push('/signin')
+  }, [me.userName])
+
+  if (!me.userName) return null
   return (
     <Wrapper>
       <Header />
@@ -12,13 +20,7 @@ const Index = () => {
   )
 }
 
-Index.getInitialProps = async context => {
-  const { isServer, res, req } = context
-  if (isServer && !req.headers.cookie) {
-    res.writeHead(301, { Location: '/signin' })
-    res.end()
-  }
-}
+Index.getInitialProps = async context => {}
 
 const Wrapper = styled.div`
   position: relative;

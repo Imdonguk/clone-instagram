@@ -69,9 +69,7 @@ WoogieBoogie.getInitialProps = async context => {
   if (cookie) axios.defaults.headers.Cookie = cookie
   const { me } = store.getState().user
   try {
-    pathname === '/signin' ||
-      pathname === '/signup' ||
-      me.userName ||
+    me.userName ||
       (await new Promise((resolve, reject) => store.dispatch({ type: LOAD_USER_REQUEST, data: { resolve, reject } })))
   } catch (e) {
     console.log(e.response.data)

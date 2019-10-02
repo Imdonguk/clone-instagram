@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Router from 'next/router'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import axios from 'axios'
 import { AccountWrap, Content, LetterIcon, HiperLink, AppDown, ErrorMsg } from '../components/account'
@@ -9,7 +10,7 @@ const Signup = () => {
   const userNameRef = useRef('')
   const passwordRef = useRef('')
   const [errorMsg, setErrorMsg] = useState('')
-
+  const { me } = useSelector(state => state.user)
   const handleSubmit = e => {
     e.preventDefault()
     const data = {
@@ -24,6 +25,12 @@ const Signup = () => {
       .then(() => Router.push('/signin'))
       .catch(err => setErrorMsg(err.response.data.msg))
   }
+
+  useEffect(() => {
+    me.userName && Router.push('/')
+  }, [me.userName])
+
+  if (me.userName) return null
 
   return (
     <AccountWrap>
@@ -52,13 +59,7 @@ const Signup = () => {
   )
 }
 
-Signup.getInitialProps = async context => {
-  const { isServer, req, res } = context
-  if (isServer && req.headers.cookie) {
-    res.writeHead(301, { Location: '/' })
-    res.end()
-  }
-}
+Signup.getInitialProps = async context => {}
 
 const Title = styled.h2`
   font-size: 1.7rem;

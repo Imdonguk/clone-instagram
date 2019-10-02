@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useRef, useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Router from 'next/router'
 import axios from 'axios'
 import Helmet from 'react-helmet'
@@ -10,6 +10,7 @@ const Signin = () => {
   const userNameRef = useRef('')
   const passwordRef = useRef('')
   const [errorMsg, setErrorMsg] = useState('')
+  const { me } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   const handleSubmit = async e => {
@@ -29,6 +30,13 @@ const Signin = () => {
         setErrorMsg(error.message)
       })
   }
+
+  useEffect(() => {
+    console.log(me.userName)
+    me.userName && Router.push('/')
+  }, [me.userName])
+
+  if (me.userName) return null
 
   return (
     <AccountWrap>
@@ -66,12 +74,6 @@ const Signin = () => {
   )
 }
 
-Signin.getInitialProps = context => {
-  const { isServer, req, res } = context
-  if (isServer && req.headers.cookie) {
-    res.writeHead(301, { Location: '/' })
-    res.end()
-  }
-}
+Signin.getInitialProps = context => {}
 
 export default Signin
