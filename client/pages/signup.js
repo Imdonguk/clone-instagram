@@ -20,7 +20,7 @@ const Signup = () => {
     }
 
     axios
-      .post('/api/user/signup', data)
+      .post('/api/signup', data)
       .then(r => Promise.resolve(r.data))
       .then(() => Router.push('/signin'))
       .catch(err => setErrorMsg(err.response.data.msg))

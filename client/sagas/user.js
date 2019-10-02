@@ -32,7 +32,7 @@ function* watchLoadUser() {
 }
 
 function signoutApi() {
-  return axios.post('/signout', {}, { withCredentials: true })
+  return axios.post('/user/signout', {}, { withCredentials: true })
 }
 
 function* signout() {

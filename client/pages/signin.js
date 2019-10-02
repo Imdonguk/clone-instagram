@@ -20,7 +20,7 @@ const Signin = () => {
       password: passwordRef.current.value,
     }
     axios
-      .post('/signin', data, {
+      .post('/user/signin', data, {
         withCredentials: true,
       })
       .then(r => Promise.resolve(r.data))
@@ -32,7 +32,6 @@ const Signin = () => {
   }
 
   useEffect(() => {
-    console.log(me.userName)
     me.userName && Router.push('/')
   }, [me.userName])
 

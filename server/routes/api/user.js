@@ -3,6 +3,36 @@ const passport = require('passport')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 const db = require('../../models')
+const { isLoggedIn } = require('../middleware')
+const config = require('../../config')
+
+router.post('/', isLoggedIn, (req, res, next) => {
+  res.json(req.user.toJSON())
+})
+
+router.post('/signin', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err)
+    if (!user) return res.status(403).json({ msg: info.message })
+
+    return req.login(user, signinErr => {
+      const { name, userName } = user
+      return signinErr ? next(signinErr) : res.json({ name, userName })
+    })
+  })(req, res, next)
+})
+
+router.post('/signout', (req, res, next) => {
+  req.logout()
+  req.session.destroy(() => {
+    res
+      .status(200)
+      .clearCookie(config.cookiename, {
+        path: '/',
+      })
+      .send('GOOD!')
+  })
+})
 
 router.post('/signup', async (req, res, next) => {
   try {
@@ -21,42 +51,6 @@ router.post('/signup', async (req, res, next) => {
   } catch (e) {
     res.status(403).json({ msg: e.message })
   }
-})
-
-router.post('/signin', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err)
-    if (info) return res.status(401).send(info.reason)
-    req.login(user, async loginErr => {
-      try {
-        if (loginErr) return next(loginErr)
-        const fullUser = await db.User.findOne({
-          where: { userName: user.userName },
-          include: [
-            {
-              model: db.Post,
-              as: 'Post',
-              attributes: ['id'],
-            },
-            {
-              model: db.User,
-              as: 'Followers',
-              attributes: ['id'],
-            },
-            {
-              model: db.User,
-              as: 'Followings',
-              attributes: ['id'],
-            },
-          ],
-          attributes: ['id', 'name', 'userName'],
-        })
-        res.json(fullUser.toJSON())
-      } catch (e) {
-        console.error(e)
-      }
-    })
-  })(req, res, next)
 })
 
 module.exports = router
