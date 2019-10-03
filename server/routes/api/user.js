@@ -13,7 +13,7 @@ router.post('/', isLoggedIn, (req, res, next) => {
 router.post('/signin', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err)
-    if (!user) return res.status(403).json({ msg: info.message })
+    if (!user) return res.status(403).send(info.message)
 
     return req.login(user, signinErr => {
       const { name, userName } = user
@@ -49,7 +49,7 @@ router.post('/signup', async (req, res, next) => {
     })
     res.json({ msg: 'ok' })
   } catch (e) {
-    res.status(403).json({ msg: e.message })
+    res.status(403).send(e.message)
   }
 })
 

@@ -26,9 +26,7 @@ const Signin = () => {
       .then(r => Promise.resolve(r.data))
       .then(() => dispatch({ type: SIGN_IN }))
       .then(() => Router.push('/'))
-      .catch(error => {
-        setErrorMsg(error.message)
-      })
+      .catch(error => setErrorMsg(error.response.data))
   }
 
   useEffect(() => {

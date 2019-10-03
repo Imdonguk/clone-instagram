@@ -20,10 +20,10 @@ const Signup = () => {
     }
 
     axios
-      .post('/api/signup', data)
+      .post('/user/signup', data)
       .then(r => Promise.resolve(r.data))
       .then(() => Router.push('/signin'))
-      .catch(err => setErrorMsg(err.response.data.msg))
+      .catch(err => setErrorMsg(err.response.data))
   }
 
   useEffect(() => {
