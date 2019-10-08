@@ -49,7 +49,18 @@ const WoogieBoogie = ({ Component, store, pageProps }) => {
               content: 'website',
             },
           ]}
-          link={[]}
+          link={[
+            {
+              rel: 'stylesheet',
+              type: 'text/css',
+              href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css',
+            },
+            {
+              rel: 'stylesheet',
+              type: 'text/css',
+              href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css',
+            },
+          ]}
         />
         <Component {...pageProps} />
       </Provider>
@@ -63,7 +74,7 @@ WoogieBoogie.propTypes = {
 
 WoogieBoogie.getInitialProps = async context => {
   const { ctx, Component } = context
-  const { isServer, store, req, pathname } = ctx
+  const { isServer, store, req } = ctx
   let pageProps = {}
   const cookie = isServer ? req.headers.cookie : ''
   if (cookie) axios.defaults.headers.Cookie = cookie
