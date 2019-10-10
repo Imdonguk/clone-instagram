@@ -15,6 +15,7 @@ dotenv.config()
 db.sequelize.sync()
 
 app.use(morgan('dev'))
+app.use('/', express.static('uploads'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(
@@ -43,7 +44,7 @@ app.use(passport.session())
 passportConfig()
 
 app.use('/api/user', require('./routes/api/user'))
-
+app.use('/api/post', require('./routes/api/post'))
 app.listen(3065, () => {
   console.log('start server')
 })
