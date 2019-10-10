@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
 import imageUploadIcon from '../../images/gallery-icon.png'
+import PreviewImg from './PreviewImg'
 import { CLOSE_POST_FORM } from '../../reducers/user'
 import { ADD_POST } from '../../reducers/post'
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
 
 const PostForm = () => {
   const dispatch = useDispatch()
@@ -18,9 +21,18 @@ const PostForm = () => {
     })
     cancleForm(e)
   }
+  const handleChangeImages = e => {
+    const imageFormData = new FormData()
+    Array.from(e.target.files).forEach(f => imageFormData.append('image', f))
+
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
+    })
+  }
   return (
     <Wrap onClick={cancleForm}>
-      <Form onSubmit={handleSubmit}>
+      <Form encType="multipart/form-data" onSubmit={handleSubmit}>
         <ContentWrap header>
           <h2>새로운 게시물</h2>
         </ContentWrap>
@@ -28,15 +40,16 @@ const PostForm = () => {
           <ImageUpload>
             <img src={imageUploadIcon} alt="이미지업로드아이콘" />
             <p>이미지업로드</p>
-            <input type="file" />
+            <input type="file" multiple onChange={handleChangeImages} />
           </ImageUpload>
-          <RichText placeholder="설명입력...." />
+          <InputDescription placeholder="설명입력...." ref={descriptionRef} />
         </ContentWrap>
         <ContentWrap bottom>
           <Button onClick={cancleForm}>닫기</Button>
           <Button type="submit">업로드</Button>
         </ContentWrap>
       </Form>
+      <PreviewImg />
     </Wrap>
   )
 }
@@ -50,6 +63,7 @@ export const Wrap = styled.div`
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `
@@ -82,7 +96,7 @@ const ContentWrap = styled.div`
   border-bottom-right-radius: ${props => (props.bottom ? '3rem' : 0)};
 `
 
-const RichText = styled.textarea`
+const InputDescription = styled.textarea`
   flex: 2;
   height: 100%;
   border: 0;

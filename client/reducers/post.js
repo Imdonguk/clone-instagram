@@ -26,10 +26,16 @@ const dummyLikeUser = {
 const initialState = {
   isPostSetting: false,
   posts: [],
+  imagePaths: [],
 }
 
 export const OPEN_POST_SETTING = 'OPEN_POST_SETTING'
 export const CLOSE_POST_SETTING = 'CLOSE_POST_SETTING'
+
+
+export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
+export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
+export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
 
 export const ADD_POST = 'ADD_POST'
 export const REMOVE_POST = 'REMOVE_POST'
@@ -58,6 +64,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: [{ ...dummyPost, id: postId++ }, ...state.posts],
+      }
+    }
+    case UPLOAD_IMAGES_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case UPLOAD_IMAGES_SUCCESS: {
+      return {
+        ...state,
+        imagePaths: produce(state.imagePaths, draftState => {
+          return draftState.concat(action.data)
+        }),
+      }
+    }
+    case UPLOAD_IMAGES_FAILURE: {
+      return {
+        ...state,
       }
     }
     case ADD_COMMENT: {
