@@ -21,7 +21,6 @@ const upload = multer({
 })
 
 router.post('/images', upload.array('image'), (req, res, next) => {
-  console.log(req.files.map(v => v.filename))
   res.json(req.files.map(v => v.filename))
 })
 
@@ -31,6 +30,18 @@ router.delete('/image/:filename', (req, res, next) => {
     if (err) next(err)
     res.send(filename)
   })
+})
+
+router.delete('/images', (req, res, next) => {
+  try {
+    const { images } = req.body
+    images.forEach(v => {
+      fs.unlinkSync(`uploads/${v}`)
+    })
+    res.send([])
+  } catch (e) {
+    next(e)
+  }
 })
 
 module.exports = router
