@@ -1,15 +1,15 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import imageUploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
 import { CLOSE_POST_FORM } from '../../reducers/user'
-import { ADD_POST } from '../../reducers/post'
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../../reducers/post'
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 
 const PostForm = () => {
   const dispatch = useDispatch()
+  const { imagePaths } = useSelector(state => state.post)
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
     dispatch({ type: CLOSE_POST_FORM })
@@ -30,6 +30,17 @@ const PostForm = () => {
       data: imageFormData,
     })
   }
+
+  const handleClickCancleBtn = e => {
+    if (imagePaths.length > 0) {
+      dispatch({
+        type: REMOVE_IMAGE_REQUEST,
+        data: imagePaths,
+      })
+    }
+    cancleForm(e)
+  }
+
   return (
     <Wrap onClick={cancleForm}>
       <Form encType="multipart/form-data" onSubmit={handleSubmit}>
@@ -45,7 +56,7 @@ const PostForm = () => {
           <InputDescription placeholder="설명입력...." ref={descriptionRef} />
         </ContentWrap>
         <ContentWrap bottom>
-          <Button onClick={cancleForm}>닫기</Button>
+          <Button onClick={handleClickCancleBtn}>닫기</Button>
           <Button type="submit">업로드</Button>
         </ContentWrap>
       </Form>

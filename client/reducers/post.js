@@ -94,6 +94,12 @@ export default (state = initialState, action) => {
       }
     }
     case REMOVE_IMAGE_SUCCESS: {
+      if (Array.isArray(action.data)) {
+        return {
+          ...state,
+          imagePaths: [],
+        }
+      }
       return {
         ...state,
         imagePaths: state.imagePaths.filter(v => v !== action.data),

@@ -6,7 +6,7 @@ import { REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 const PreviewImg = () => {
   const { imagePaths } = useSelector(state => state.post)
   const dispatch = useDispatch()
-  const handleDeletePreviewImg = (index, value) => () => {
+  const handleDeletePreviewImg = value => () => {
     dispatch({
       type: REMOVE_IMAGE_REQUEST,
       data: value,
@@ -15,10 +15,10 @@ const PreviewImg = () => {
   return (
     <Wrap>
       {imagePaths &&
-        imagePaths.map((v, i) => (
+        imagePaths.map(v => (
           <div>
             <img src={`http://localhost:3065/${v}`} alt="preview" />
-            <button type="button" onClick={handleDeletePreviewImg(i, v)}>
+            <button type="button" onClick={handleDeletePreviewImg(v)}>
               제거
             </button>
           </div>

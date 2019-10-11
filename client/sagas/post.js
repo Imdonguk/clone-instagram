@@ -31,8 +31,13 @@ function* watchUploadImages() {
   yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages)
 }
 
-function removeImageApi(filename) {
-  return axios.delete(`post/image/${filename}`)
+function removeImageApi(data) {
+  if (Array.isArray(data))
+    return axios.delete('post/images', {
+      withCredentials: true,
+      data: { images: data },
+    })
+  return axios.delete(`post/image/${data}`, { withCredentials: true })
 }
 
 function* removeImage(action) {
