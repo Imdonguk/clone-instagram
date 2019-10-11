@@ -3,6 +3,10 @@ import axios from 'axios'
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
+  REMOVE_IMAGE_REQUEST,
+  REMOVE_IMAGE_SUCCESS,
+  REMOVE_IMAGE_FAILURE,
+} from '../reducers/post'
 function uploadImagesApi(data) {
   return axios.post('/post/images', data, {
     withCredentials: true,
@@ -25,6 +29,28 @@ function* uploadImages(action) {
 
 function* watchUploadImages() {
   yield takeEvery(UPLOAD_IMAGES_REQUEST, uploadImages)
+}
+
+function removeImageApi(filename) {
+  return axios.delete(`post/image/${filename}`)
+}
+
+function* removeImage(action) {
+  try {
+    const result = yield call(removeImageApi, action.data)
+    yield put({
+      type: REMOVE_IMAGE_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: REMOVE_IMAGE_FAILURE,
+    })
+  }
+}
+
+function* watchRemoveImage() {
+  yield takeEvery(REMOVE_IMAGE_REQUEST, removeImage)
 }
 
 function* postSaga() {

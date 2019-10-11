@@ -37,6 +37,10 @@ export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
 
+export const REMOVE_IMAGE_REQUEST = 'REMOVE_IMAGE_REQUEST'
+export const REMOVE_IMAGE_SUCCESS = 'REMOVE_IMAGE_SUCCESS'
+export const REMOVE_IMAGE_FAILURE = 'REMOVE_IMAGE_FAILURE'
+
 export const ADD_POST = 'ADD_POST'
 export const REMOVE_POST = 'REMOVE_POST'
 
@@ -80,6 +84,22 @@ export default (state = initialState, action) => {
       }
     }
     case UPLOAD_IMAGES_FAILURE: {
+      return {
+        ...state,
+      }
+    }
+    case REMOVE_IMAGE_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case REMOVE_IMAGE_SUCCESS: {
+      return {
+        ...state,
+        imagePaths: state.imagePaths.filter(v => v !== action.data),
+      }
+    }
+    case REMOVE_IMAGE_FAILURE: {
       return {
         ...state,
       }
