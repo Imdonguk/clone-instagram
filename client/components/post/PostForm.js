@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import imageUploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
 import { CLOSE_POST_FORM } from '../../reducers/user'
@@ -10,16 +9,27 @@ import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '.
 const PostForm = () => {
   const dispatch = useDispatch()
   const { imagePaths } = useSelector(state => state.post)
+  const descriptionRef = useRef('')
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
     dispatch({ type: CLOSE_POST_FORM })
   }
-  const handleSubmit = e => {
-    e.preventDefault()
-    dispatch({
-      type: ADD_POST,
-    })
-    cancleForm(e)
+  const handleSubmit = async e => {
+    try {
+      e.preventDefault()
+      const description = descriptionRef.current.value
+      const formData = new FormData()
+
+      imagePaths.forEach(v => formData.append('image', v))
+      formData.append('description', description)
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: formData,
+      })
+      cancleForm()
+    } catch (error) {
+      console.log(error.response.data)
+    }
   }
   const handleChangeImages = e => {
     const imageFormData = new FormData()
