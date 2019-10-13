@@ -4,6 +4,7 @@ const path = require('path')
 const router = express.Router()
 const db = require('../../models')
 const fs = require('fs')
+
 const storage = multer.diskStorage({
   destination: (req, file, cd) => {
     cd(null, 'uploads')
@@ -18,6 +19,56 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: { fileSize: 20 * 1024 * 1024 },
+})
+
+router.post('/', upload.none(), async (req, res, next) => {
+  try {
+    const { description, image } = req.body
+    const hashtags = description.match(/#[^#\s,;]+/gm)
+
+    const newPost = await db.Post.create({ description, UserId: req.user.id })
+
+    if (hashtags) {
+      const result = await Promise.all(
+        hashtags.map(tag =>
+          db.Hashtag.findOrCreate({
+            where: { name: tag.slice(1).toLowerCase() },
+          }),
+        ),
+      )
+      console.log(result)
+      await newPost.addHashtags(result.map(r => r[0]))
+    }
+
+    if (image) {
+      if (Array.isArray(image)) {
+        const newImages = await Promise.all(image.map(filename => db.Image.create({ src: filename })))
+        await newPost.addImages(newImages)
+      } else {
+        const newImage = await db.Image.create({ src: image })
+        await newPost.addImage(newImage)
+      }
+    }
+
+    const responsePost = await db.Post.findOne({
+      where: { id: newPost.id },
+      include: [
+        {
+          model: db.User,
+          attributes: ['id', 'name', 'userName'],
+        },
+        {
+          model: db.Image,
+          attributes: ['id', 'src'],
+        },
+      ],
+      attributes: ['id', 'description'],
+    })
+    res.json(responsePost.toJSON())
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
 })
 
 router.post('/images', upload.array('image'), (req, res, next) => {
