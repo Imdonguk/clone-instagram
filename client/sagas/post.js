@@ -1,5 +1,9 @@
 import { all, fork, takeEvery, put, call } from 'redux-saga/effects'
 import axios from 'axios'
+import {
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,
+  ADD_POST_FAILURE,
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
@@ -7,6 +11,31 @@ import axios from 'axios'
   REMOVE_IMAGE_SUCCESS,
   REMOVE_IMAGE_FAILURE,
 } from '../reducers/post'
+
+async function addPostApi(data) {
+  const result = await axios.post('/post', data, { withCredentials: true })
+  const { id, User: user, Images: images, description } = result.data
+  return { id, user, images, description }
+}
+
+function* addPost(action) {
+  try {
+    const result = yield call(addPostApi, action.data)
+    yield put({
+      type: ADD_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: ADD_POST_FAILURE,
+    })
+  }
+}
+
+function* watchAddPost() {
+  yield takeEvery(ADD_POST_REQUEST, addPost)
+}
+
 function uploadImagesApi(data) {
   return axios.post('/post/images', data, {
     withCredentials: true,
