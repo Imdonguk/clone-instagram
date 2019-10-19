@@ -42,11 +42,13 @@ router.post('/signup', async (req, res, next) => {
     })
     if (user) throw new Error('기존에 있는 사용자입니다.')
     const hashPassword = await bcrypt.hash(password, 12)
-    await db.User.create({
+    const newUser = await db.User.create({
       name,
       userName,
       password: hashPassword,
     })
+    const newImage = await db.Image.create({ src: 'static_profile.jpg' })
+    await newUser.setImage(newImage)
     res.json({ msg: 'ok' })
   } catch (e) {
     res.status(403).send(e.message)
