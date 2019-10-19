@@ -36,7 +36,6 @@ router.post('/', upload.none(), async (req, res, next) => {
           }),
         ),
       )
-      console.log(result)
       await newPost.addHashtags(result.map(r => r[0]))
     }
 
@@ -55,6 +54,12 @@ router.post('/', upload.none(), async (req, res, next) => {
       include: [
         {
           model: db.User,
+          include: [
+            {
+              model: db.Image,
+              attributes: ['id', 'src'],
+            },
+          ],
           attributes: ['id', 'name', 'userName'],
         },
         {
