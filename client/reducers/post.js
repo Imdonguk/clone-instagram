@@ -32,6 +32,9 @@ const initialState = {
 export const OPEN_POST_SETTING = 'OPEN_POST_SETTING'
 export const CLOSE_POST_SETTING = 'CLOSE_POST_SETTING'
 
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
@@ -68,6 +71,23 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: [{ ...dummyPost, id: postId++ }, ...state.posts],
+      }
+    }
+    case ADD_POST_REQUEST: {
+      return {
+        ...state,
+      }
+    }
+    case ADD_POST_SUCCESS: {
+      return {
+        ...state,
+        posts: [action.data].concat(...state.posts),
+        imagePaths: [],
+      }
+    }
+    case ADD_POST_FAILURE: {
+      return {
+        ...state,
       }
     }
     case UPLOAD_IMAGES_REQUEST: {

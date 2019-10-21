@@ -15,7 +15,9 @@ import {
 async function addPostApi(data) {
   const result = await axios.post('/post', data, { withCredentials: true })
   const { id, User: user, Images: images, description } = result.data
-  return { id, user, images, description }
+  const newUser = Object.assign({}, { ...user }, { image: user.Image })
+  delete newUser.Image
+  return { id, user: newUser, images, description }
 }
 
 function* addPost(action) {
@@ -23,7 +25,7 @@ function* addPost(action) {
     const result = yield call(addPostApi, action.data)
     yield put({
       type: ADD_POST_SUCCESS,
-      data: result.data,
+      data: result,
     })
   } catch (e) {
     yield put({
