@@ -58,13 +58,16 @@ router.post('/', upload.none(), async (req, res, next) => {
             {
               model: db.Image,
               attributes: ['id', 'src'],
+              as: 'image',
             },
           ],
           attributes: ['id', 'name', 'userName'],
+          as: 'user',
         },
         {
           model: db.Image,
           attributes: ['id', 'src'],
+          as: 'images',
         },
       ],
       attributes: ['id', 'description'],
