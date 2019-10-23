@@ -4,18 +4,19 @@ import Link from 'next/link'
 import PropTypes from 'prop-types'
 
 const PostHeader = ({ user }) => {
+  const { userName, image } = user
   return (
     <Wrap>
       <div className="user-image">
-        <Link href={`/${user.name}`}>
+        <Link href={`/${userName}`}>
           <a>
-            <img src={user.profileImage} alt="프로필이미지" />
+            <img src={`http://localhost:3065/${image.src}`} alt="프로필이미지" />
           </a>
         </Link>
       </div>
       <div className="user-name">
-        <Link href={`/${user.name}`}>
-          <a>{user.name}</a>
+        <Link href={`/${userName}`}>
+          <a>{userName}</a>
         </Link>
       </div>
     </Wrap>

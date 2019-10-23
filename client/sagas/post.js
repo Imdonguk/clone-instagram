@@ -12,12 +12,8 @@ import {
   REMOVE_IMAGE_FAILURE,
 } from '../reducers/post'
 
-async function addPostApi(data) {
-  const result = await axios.post('/post', data, { withCredentials: true })
-  const { id, User: user, Images: images, description } = result.data
-  const newUser = Object.assign({}, { ...user }, { image: user.Image })
-  delete newUser.Image
-  return { id, user: newUser, images, description }
+function addPostApi(data) {
+  return axios.post('/post', data, { withCredentials: true })
 }
 
 function* addPost(action) {
@@ -25,7 +21,7 @@ function* addPost(action) {
     const result = yield call(addPostApi, action.data)
     yield put({
       type: ADD_POST_SUCCESS,
-      data: result,
+      data: Object.assign({}, result.data, { likeList: [], comments: [] }),
     })
   } catch (e) {
     yield put({

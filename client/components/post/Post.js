@@ -7,7 +7,7 @@ import { OPEN_POST_SETTING } from '../../reducers/post'
 
 const Post = ({ info }) => {
   const dispatch = useDispatch()
-  const { user, image, description, comments, likeList, id } = info
+  const { user, images, description, comments, likeList, id } = info
   const openPostSetting = () => {
     dispatch({
       type: OPEN_POST_SETTING,
@@ -16,7 +16,7 @@ const Post = ({ info }) => {
   return (
     <Wrap>
       <PostHeader user={user} />
-      <PostContent img={image} />
+      <PostContent img={images} />
       <PostFooter user={user} id={id} des={description} comments={comments} likeList={likeList} />
       <Setting>
         <SettingIcon onClick={openPostSetting} />

@@ -16,7 +16,7 @@ const Container = () => {
       <div className="container">
         <div className="posts">
           {posts.map(v => (
-            <Post key={v.id.toString()} info={v} />
+            <Post key={v.id} info={v} />
           ))}
           {isPostForm && <PostForm />}
           {isPostSetting && <PostSetting />}

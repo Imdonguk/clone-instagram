@@ -14,10 +14,9 @@ const PostContent = ({ img }) => {
   return (
     <Wrap>
       <Slider {...settings}>
-        <img src={img} alt="게시물이미지" />
-        <img src={img} alt="게시물이미지" />
-        <img src={img} alt="게시물이미지" />
-        <img src={img} alt="게시물이미지" />
+        {img.map(v => (
+          <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
+        ))}
       </Slider>
     </Wrap>
   )
