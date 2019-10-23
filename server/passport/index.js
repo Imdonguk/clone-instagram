@@ -11,6 +11,13 @@ module.exports = () => {
     try {
       const user = await db.User.findOne({
         where: { userName },
+        include: [
+          {
+            model: db.Image,
+            attributes: ['src'],
+            as: 'image',
+          },
+        ],
         attributes: ['userName', 'name', 'id'],
       })
       return done(null, user)

@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { useSelector } from 'react-redux'
 
 const Index = () => {
-  const { userName, name, profileImage } = useSelector(state => state.user.me)
+  const { userName, name, image } = useSelector(state => state.user.me)
 
   return (
     <Wrap>
       <div className="profile-image">
-        <img src={profileImage} alt="프로필사진" />
+        <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
       </div>
       <div className="profile-text">
         <div className="user-name">
