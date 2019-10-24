@@ -37,7 +37,8 @@ export const ExploreIcon = styled(BasicIcon)`
 `
 
 export const LikeIcon = styled(BasicIcon)`
-  background-position: -2.5rem -13.7rem;
+  background-position-x: ${props => (props.like === true ? '0' : '-2.5rem')};
+  background-position-y: -13.7rem;
 `
 
 export const ProfileIcon = styled(BasicIcon)`

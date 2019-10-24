@@ -9,11 +9,15 @@ const Index = () => {
   return (
     <Wrap>
       <div className="profile-image">
-        <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
+        <Link href={`/${userName}`}>
+          <a>
+            <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
+          </a>
+        </Link>
       </div>
       <div className="profile-text">
         <div className="user-name">
-          <Link href="/">
+          <Link href={`/${userName}`}>
             <a>{userName}</a>
           </Link>
         </div>
