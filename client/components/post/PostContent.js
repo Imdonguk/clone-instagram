@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Slider from 'react-slick'
 import PropTypes from 'prop-types'
@@ -11,14 +11,17 @@ const PostContent = ({ img }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   }
-  return (
-    <Wrap>
-      <Slider {...settings}>
-        {img.map(v => (
-          <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
-        ))}
-      </Slider>
-    </Wrap>
+  return useMemo(
+    () => (
+      <Wrap>
+        <Slider {...settings}>
+          {img.map(v => (
+            <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
+          ))}
+        </Slider>
+      </Wrap>
+    ),
+    [img],
   )
 }
 

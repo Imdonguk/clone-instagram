@@ -1,25 +1,27 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import PropTypes from 'prop-types'
 
 const PostHeader = ({ user }) => {
   const { userName, image } = user
-  return (
-    <Wrap>
-      <div className="user-image">
-        <Link href={`/${userName}`}>
-          <a>
-            <img src={`http://localhost:3065/${image.src}`} alt="프로필이미지" />
-          </a>
-        </Link>
-      </div>
-      <div className="user-name">
-        <Link href={`/${userName}`}>
-          <a>{userName}</a>
-        </Link>
-      </div>
-    </Wrap>
+  return useMemo(
+    () => (
+      <Wrap>
+        <div className="user-image">
+          <Link href={`/${userName}`}>
+            <a>
+              <img src={`http://localhost:3065/${image.src}`} alt="프로필이미지" />
+            </a>
+          </Link>
+        </div>
+        <div className="user-name">
+          <Link href={`/${userName}`}>
+            <a>{userName}</a>
+          </Link>
+        </div>
+      </Wrap>
+    ),
+    [userName],
   )
 }
 

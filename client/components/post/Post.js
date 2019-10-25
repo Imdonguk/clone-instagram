@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostFooter } from './index'
@@ -13,15 +13,18 @@ const Post = ({ info }) => {
       type: OPEN_POST_SETTING,
     })
   }
-  return (
-    <Wrap>
-      <PostHeader user={user} />
-      <PostContent img={images} />
-      <PostFooter user={user} postId={id} des={description} comments={comments} likers={likers} />
-      <Setting>
-        <SettingIcon onClick={openPostSetting} />
-      </Setting>
-    </Wrap>
+  return useMemo(
+    () => (
+      <Wrap>
+        <PostHeader user={user} />
+        <PostContent img={images} />
+        <PostFooter user={user} postId={id} des={description} comments={comments} likers={likers} />
+        <Setting>
+          <SettingIcon onClick={openPostSetting} />
+        </Setting>
+      </Wrap>
+    ),
+    [id, likers],
   )
 }
 
