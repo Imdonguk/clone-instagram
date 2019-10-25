@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { OPEN_POST_FORM, SIGN_OUT_REQUEST } from '../reducers/user'
 import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
 

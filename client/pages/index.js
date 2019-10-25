@@ -4,14 +4,15 @@ import Router from 'next/router'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Container from '../components/Container'
+// import { LOAD_MAIN_POSTS } from '../reducers'
 
 const Index = () => {
-  const { me } = useSelector(state => state.user)
+  const userName = useSelector(state => state.user.me && state.user.me.userName)
   useEffect(() => {
-    me.userName || Router.push('/signin')
-  }, [me.userName])
+    userName || Router.push('/signin')
+  }, [userName])
 
-  if (!me.userName) return null
+  if (!userName) return null
   return (
     <Wrapper>
       <Header />
@@ -20,7 +21,7 @@ const Index = () => {
   )
 }
 
-Index.getInitialProps = async context => {}
+// Index.getInitialProps = async context => {}
 
 const Wrapper = styled.div`
   position: relative;

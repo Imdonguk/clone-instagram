@@ -1,8 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Wrap } from './PostForm'
 
 const PostSetting = () => {
+  const isPostSetting = useSelector(state => state.post.isPostSetting)
+  if (!isPostSetting) return null
   return (
     <Wrap>
       <Box>

@@ -1,25 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 import Profile from './profile'
 import Story from './story'
 import Recommend from './recommend'
-import { Post, PostForm, PostSetting } from './post'
+import { PostList, PostForm, PostSetting } from './post'
 import Footer from './Footer'
 
 const Container = () => {
-  const { posts, isPostSetting } = useSelector(state => state.post)
-  const { isPostForm } = useSelector(state => state.user)
-
   return (
     <Wrapper>
       <div className="container">
         <div className="posts">
-          {posts.map(v => (
-            <Post key={v.id} info={v} />
-          ))}
-          {isPostForm && <PostForm />}
-          {isPostSetting && <PostSetting />}
+          <PostList />
+          <PostForm />
+          <PostSetting />
         </div>
         <div className="right">
           <div className="right-column">

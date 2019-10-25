@@ -8,7 +8,8 @@ import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '.
 
 const PostForm = () => {
   const dispatch = useDispatch()
-  const { imagePaths } = useSelector(state => state.post)
+  const imagePaths = useSelector(state => state.post.imagePaths)
+  const isPostForm = useSelector(state => state.user.isPostForm)
   const descriptionRef = useRef('')
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
@@ -51,6 +52,7 @@ const PostForm = () => {
     cancleForm(e)
   }
 
+  if (!isPostForm) return null
   return (
     <Wrap onClick={cancleForm}>
       <Form encType="multipart/form-data" onSubmit={handleSubmit}>
