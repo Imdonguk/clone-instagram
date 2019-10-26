@@ -114,4 +114,15 @@ router.post('/:id/like', async (req, res, next) => {
   }
 })
 
+router.delete('/:id/like', async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id } })
+    if (!post) return res.status(404).send('no post')
+    await post.removeLiker(req.user.id)
+    res.json({ userId: req.user.id })
+  } catch (e) {
+    next(e)
+  }
+})
+
 module.exports = router
