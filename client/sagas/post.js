@@ -10,6 +10,9 @@ import {
   REMOVE_IMAGE_REQUEST,
   REMOVE_IMAGE_SUCCESS,
   REMOVE_IMAGE_FAILURE,
+  LIKE_POST_REQUEST,
+  LIKE_POST_SUCCESS,
+  LIKE_POST_FAILURE,
 } from '../reducers/post'
 
 function addPostApi(data) {
@@ -83,6 +86,28 @@ function* removeImage(action) {
 
 function* watchRemoveImage() {
   yield takeEvery(REMOVE_IMAGE_REQUEST, removeImage)
+}
+
+function likePostApi(postId) {
+  return axios.post(`/post/${postId}/like`, {}, { withCredentials: true })
+}
+
+function* likePost(action) {
+  try {
+    const result = yield call(likePostApi, action.data)
+    yield put({
+      type: LIKE_POST_SUCCESS,
+      data: { postId: action.data, userId: result.data.userId },
+    })
+  } catch (e) {
+    yield put({
+      type: LIKE_POST_FAILURE,
+    })
+  }
+}
+
+function* watchLikePost() {
+  yield takeEvery(LIKE_POST_REQUEST, likePost)
 }
 
 function* postSaga() {

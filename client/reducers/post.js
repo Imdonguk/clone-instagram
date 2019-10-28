@@ -26,8 +26,10 @@ export const REMOVE_POST = 'REMOVE_POST'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 
-export const LIKE_POST = 'LIKE_POST'
-export const UNLIKE_POST = 'UNLIKE_POST'
+export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST'
+export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS'
+export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE'
+
 
 export default (state = initialState, action) => {
   return produce(state, draft => {
@@ -83,6 +85,11 @@ export default (state = initialState, action) => {
       case LIKE_POST_REQUEST: {
         break
       }
+      case LIKE_POST_SUCCESS: {
+        const { userId, postId } = action.data
+        const postIndex = draft.posts.findIndex(v => v.id === postId)
+        draft.posts[postIndex].likers.unshift(userId)
+        break
       }
     }
     case ADD_COMMENT: {
@@ -94,6 +101,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: newPosts,
+      case LIKE_POST_FAILURE: {
+        break
       }
     }
     case LIKE_POST: {
