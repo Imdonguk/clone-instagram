@@ -13,6 +13,9 @@ import {
   LIKE_POST_REQUEST,
   LIKE_POST_SUCCESS,
   LIKE_POST_FAILURE,
+  UNLIKE_POST_REQUEST,
+  UNLIKE_POST_SUCCESS,
+  UNLIKE_POST_FAILURE,
 } from '../reducers/post'
 
 function addPostApi(data) {
@@ -110,8 +113,36 @@ function* watchLikePost() {
   yield takeEvery(LIKE_POST_REQUEST, likePost)
 }
 
+function unlikePostApi(postId) {
+  return axios.delete(`/post/${postId}/like`, { withCredentials: true })
+}
+
+function* unlikePost(action) {
+  try {
+    const result = yield call(unlikePostApi, action.data)
+    yield put({
+      type: UNLIKE_POST_SUCCESS,
+      data: { postId: action.data, userId: result.data.userId },
+    })
+  } catch (e) {
+    yield put({
+      type: UNLIKE_POST_FAILURE,
+    })
+  }
+}
+
+function* watchUnlikePost() {
+  yield takeEvery(UNLIKE_POST_REQUEST, unlikePost)
+}
+
 function* postSaga() {
-  yield all([fork(watchRemoveImage), fork(watchUploadImages), fork(watchAddPost)])
+  yield all([
+    fork(watchRemoveImage),
+    fork(watchUploadImages),
+    fork(watchAddPost),
+    fork(watchLikePost),
+    fork(watchUnlikePost),
+  ])
 }
 
 export default postSaga
