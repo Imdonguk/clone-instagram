@@ -30,74 +30,59 @@ export const LIKE_POST = 'LIKE_POST'
 export const UNLIKE_POST = 'UNLIKE_POST'
 
 export default (state = initialState, action) => {
-  switch (action.type) {
-    case OPEN_POST_SETTING: {
-      return {
-        ...state,
-        isPostSetting: true,
+  return produce(state, draft => {
+    switch (action.type) {
+      case OPEN_POST_SETTING: {
+        draft.isPostSetting = true
+        break
       }
-    }
-    case CLOSE_POST_SETTING: {
-      return {
-        ...state,
-        isPostSetting: false,
+      case CLOSE_POST_SETTING: {
+        draft.isPostSetting = false
+        break
       }
-    }
-    case ADD_POST_REQUEST: {
-      return {
-        ...state,
+      case ADD_POST_REQUEST: {
+        break
       }
-    }
-    case ADD_POST_SUCCESS: {
-      return {
-        ...state,
-        posts: [action.data].concat(...state.posts),
-        imagePaths: [],
+      case ADD_POST_SUCCESS: {
+        draft.posts.unshift(action.data)
+        draft.imagePaths = []
+        break
       }
-    }
-    case ADD_POST_FAILURE: {
-      return {
-        ...state,
+      case ADD_POST_FAILURE: {
+        break
       }
-    }
-    case UPLOAD_IMAGES_REQUEST: {
-      return {
-        ...state,
+      case UPLOAD_IMAGES_REQUEST: {
+        break
       }
-    }
-    case UPLOAD_IMAGES_SUCCESS: {
-      return {
-        ...state,
-        imagePaths: produce(state.imagePaths, draftState => {
-          return draftState.concat(action.data)
-        }),
+      case UPLOAD_IMAGES_SUCCESS: {
+        draft.imagePaths.push(...action.data)
+        break
       }
-    }
-    case UPLOAD_IMAGES_FAILURE: {
-      return {
-        ...state,
+      case UPLOAD_IMAGES_FAILURE: {
+        break
       }
-    }
-    case REMOVE_IMAGE_REQUEST: {
-      return {
-        ...state,
+      case REMOVE_IMAGE_REQUEST: {
+        break
       }
-    }
-    case REMOVE_IMAGE_SUCCESS: {
-      if (Array.isArray(action.data)) {
+      case REMOVE_IMAGE_SUCCESS: {
+        if (Array.isArray(action.data)) {
+          draft.imagePaths = []
+        } else {
+          draft.imagePaths = draft.imagePaths.filter(v => v !== action.data)
+        }
+        break
+      }
+      case REMOVE_IMAGE_FAILURE: {
+        break
+      }
         return {
           ...state,
-          imagePaths: [],
+          posts: newPosts,
         }
       }
-      return {
-        ...state,
-        imagePaths: state.imagePaths.filter(v => v !== action.data),
+      case LIKE_POST_REQUEST: {
+        break
       }
-    }
-    case REMOVE_IMAGE_FAILURE: {
-      return {
-        ...state,
       }
     }
     case ADD_COMMENT: {
