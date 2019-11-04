@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const PostComment = ({ id, name, comment }) => {
+const PostComment = ({ id, userName, comment }) => {
   return (
     <Item>
-      <Name>{name}</Name>
+      <Name>{userName}</Name>
       {comment}
     </Item>
   )

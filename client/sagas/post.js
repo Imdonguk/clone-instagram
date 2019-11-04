@@ -16,6 +16,9 @@ import {
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
   UNLIKE_POST_FAILURE,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
+  ADD_COMMENT_FAILURE,
 } from '../reducers/post'
 
 function addPostApi(data) {
@@ -135,6 +138,29 @@ function* watchUnlikePost() {
   yield takeEvery(UNLIKE_POST_REQUEST, unlikePost)
 }
 
+function addCommentApi({ postId, content }) {
+  return axios.post(`/post/${postId}/comment`, { content }, { withCredentials: true })
+}
+
+function* addComment(action) {
+  try {
+    const result = yield call(addCommentApi, action.data)
+    yield put({
+      type: ADD_COMMENT_SUCCESS,
+      postId: action.data.postId,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: ADD_COMMENT_FAILURE,
+    })
+  }
+}
+
+function* watchAddComment() {
+  yield takeEvery(ADD_COMMENT_REQUEST, addComment)
+}
+
 function* postSaga() {
   yield all([
     fork(watchRemoveImage),
@@ -142,6 +168,7 @@ function* postSaga() {
     fork(watchAddPost),
     fork(watchLikePost),
     fork(watchUnlikePost),
+    fork(watchAddComment),
   ])
 }
 

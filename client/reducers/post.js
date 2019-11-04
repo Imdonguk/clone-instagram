@@ -23,7 +23,6 @@ export const REMOVE_IMAGE_FAILURE = 'REMOVE_IMAGE_FAILURE'
 
 export const REMOVE_POST = 'REMOVE_POST'
 
-export const ADD_COMMENT = 'ADD_COMMENT'
 export const REMOVE_COMMENT = 'REMOVE_COMMENT'
 
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST'
@@ -33,6 +32,10 @@ export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE'
 export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST'
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS'
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE'
+
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST'
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
 
 export default (state = initialState, action) => {
   return produce(state, draft => {
@@ -80,11 +83,6 @@ export default (state = initialState, action) => {
       case REMOVE_IMAGE_FAILURE: {
         break
       }
-        return {
-          ...state,
-          posts: newPosts,
-        }
-      }
       case LIKE_POST_REQUEST: {
         break
       }
@@ -94,16 +92,6 @@ export default (state = initialState, action) => {
         draft.posts[postIndex].likers.unshift({ id: userId })
         break
       }
-    }
-    case ADD_COMMENT: {
-      const { id, comment, user } = action.data
-      const postIndex = state.posts.findIndex(v => v.id === id)
-      const newPosts = produce(state.posts, draftState => {
-        draftState[postIndex].comments.push({ user, comment })
-      })
-      return {
-        ...state,
-        posts: newPosts,
       case LIKE_POST_FAILURE: {
         break
       }
@@ -117,6 +105,17 @@ export default (state = initialState, action) => {
         break
       }
       case UNLIKE_POST_FAILURE: {
+        break
+      }
+      case ADD_COMMENT_REQUEST: {
+        break
+      }
+      case ADD_COMMENT_SUCCESS: {
+        const postIndex = draft.posts.findIndex(v => v.id === action.postId)
+        draft.posts[postIndex].comments.push(action.data)
+        break
+      }
+      case ADD_COMMENT_FAILURE: {
         break
       }
       default: {

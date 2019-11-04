@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { LikeIcon, CommentIcon, SaveIcon, ShareIcon } from '../Icons'
-import { ADD_COMMENT, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post'
+import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post'
 import { PostComment } from './index'
 
 const PostFooter = ({ postId, des, comments, likers, user }) => {
@@ -14,8 +14,8 @@ const PostFooter = ({ postId, des, comments, likers, user }) => {
   const addComment = e => {
     e.preventDefault()
     dispatch({
-      type: ADD_COMMENT,
-      data: { postId, user, comment: commentRef.current.value },
+      type: ADD_COMMENT_REQUEST,
+      data: { postId, content: commentRef.current.value },
     })
     commentRef.current.value = ''
   }
@@ -56,9 +56,9 @@ const PostFooter = ({ postId, des, comments, likers, user }) => {
       </div>
       <div className="like-user-count">좋아요 {likers.length}개</div>
       <div className="comment">
-        <PostComment name={user.name} comment={des} />
+        <PostComment userName={user.userName} comment={des} />
         {comments.map(v => (
-          <PostComment name={v.user.name} comment={v.comment} id={v.id} />
+          <PostComment userName={v.user.userName} comment={v.content} id={v.id} />
         ))}
       </div>
       <div className="input-comment">
