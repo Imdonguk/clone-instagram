@@ -37,18 +37,17 @@ router.post('/signout', (req, res, next) => {
 router.post('/signup', async (req, res, next) => {
   try {
     const { name, userName, password } = req.body
-    const user = await db.User.findOne({
+    const user = await db.user.findOne({
       where: { userName },
     })
     if (user) throw new Error('기존에 있는 사용자입니다.')
     const hashPassword = await bcrypt.hash(password, 12)
-    const newUser = await db.User.create({
+    const newUser = await db.user.create({
       name,
       userName,
       password: hashPassword,
     })
-    const newImage = await db.Image.create({ src: 'static_profile.jpg' })
-    await newUser.setImage(newImage)
+    await newUser.createImage({ src: 'static_profile.jpg' })
     res.json({ msg: 'ok' })
   } catch (e) {
     res.status(403).send(e.message)
