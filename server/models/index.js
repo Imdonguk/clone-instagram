@@ -4,11 +4,11 @@ const db = {}
 
 const sequelize = new Sequelize(config.database, config.username, config.password, config)
 
-db.User = require('./user')(sequelize, Sequelize)
-db.Post = require('./post')(sequelize, Sequelize)
-db.Image = require('./image')(sequelize, Sequelize)
-db.Comment = require('./comment')(sequelize, Sequelize)
-db.Hashtag = require('./hashtag')(sequelize, Sequelize)
+db.user = require('./user')(sequelize, Sequelize)
+db.post = require('./post')(sequelize, Sequelize)
+db.image = require('./image')(sequelize, Sequelize)
+db.comment = require('./comment')(sequelize, Sequelize)
+db.hashtag = require('./hashtag')(sequelize, Sequelize)
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

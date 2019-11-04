@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'User',
+  const user = sequelize.define(
+    'user',
     {
       name: {
         type: DataTypes.STRING(20),
@@ -22,14 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     },
   )
 
-  User.associate = db => {
-    db.User.hasMany(db.Post, { as: 'Post' })
-    db.User.hasMany(db.Comment)
-    db.User.hasOne(db.Image, { as: 'image' })
-    db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' })
-    db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' })
-    db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'followerId' })
+  user.associate = db => {
+    db.user.hasMany(db.post, { as: 'post', onDelete: 'cascade' })
+    db.user.hasMany(db.comment, { onDelete: 'cascade' })
+    db.user.hasOne(db.image, { onDelete: 'cascade' })
+    db.user.belongsToMany(db.post, { through: 'liker', as: 'liked' })
+    db.user.belongsToMany(db.user, { through: 'follow', as: 'followers', foreignKey: 'followingId' })
+    db.user.belongsToMany(db.user, { through: 'follow', as: 'followings', foreignKey: 'followerId' })
   }
 
-  return User
+  return user
 }

@@ -11,7 +11,7 @@ module.exports = () => {
         passwordField: 'password',
       },
       async (userName, password, done) => {
-        const user = await db.User.findOne({
+        const user = await db.user.findOne({
           where: { userName },
         })
         if (!user) return done(null, false, { message: '유저가 없습니다.' })

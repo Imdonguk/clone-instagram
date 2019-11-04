@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Post = sequelize.define(
-    'Post',
+  const post = sequelize.define(
+    'post',
     {
       description: {
         type: DataTypes.TEXT,
@@ -13,13 +13,13 @@ module.exports = (sequelize, DataTypes) => {
     },
   )
 
-  Post.associate = db => {
-    db.Post.belongsTo(db.User, { as: 'user' })
-    db.Post.hasMany(db.Comment)
-    db.Post.hasMany(db.Image, { as: 'images' })
-    db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' })
-    db.Post.belongsToMany(db.User, { through: 'Like', as: 'Likers' })
+  post.associate = db => {
+    db.post.belongsTo(db.user)
+    db.post.hasMany(db.comment, { onDelete: 'cascade' })
+    db.post.hasMany(db.image, { onDelete: 'cascade' })
+    db.post.belongsToMany(db.hashtag, { through: 'postHashtag', onDelete: 'cascade' })
+    db.post.belongsToMany(db.user, { through: 'like', as: 'likers', onDelete: 'cascade' })
   }
 
-  return Post
+  return post
 }

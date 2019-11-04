@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Image = sequelize.define(
-    'Image',
+  const image = sequelize.define(
+    'image',
     {
       src: {
         type: DataTypes.STRING(200),
@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   )
 
-  Image.associate = db => {
-    db.Image.belongsTo(db.Post)
-    db.Image.belongsTo(db.User)
+  image.associate = db => {
+    db.image.belongsTo(db.post)
+    db.image.belongsTo(db.user)
   }
-  return Image
+  return image
 }

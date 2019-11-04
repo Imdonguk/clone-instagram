@@ -26,12 +26,12 @@ router.post('/', upload.none(), async (req, res, next) => {
     const { description, image } = req.body
     const hashtags = description.match(/#[^#\s,;]+/gm)
 
-    const newPost = await db.Post.create({ description, UserId: req.user.id })
+    const newPost = await db.post.create({ description, userId: req.user.id })
 
     if (hashtags) {
       const result = await Promise.all(
         hashtags.map(tag =>
-          db.Hashtag.findOrCreate({
+          db.hashtag.findOrCreate({
             where: { name: tag.slice(1).toLowerCase() },
           }),
         ),
@@ -41,31 +41,28 @@ router.post('/', upload.none(), async (req, res, next) => {
 
     if (image) {
       if (Array.isArray(image)) {
-        const newImages = await Promise.all(image.map(filename => db.Image.create({ src: filename })))
+        const newImages = await Promise.all(image.map(filename => db.image.create({ src: filename })))
         await newPost.addImages(newImages)
       } else {
-        const newImage = await db.Image.create({ src: image })
+        const newImage = await db.image.create({ src: image })
         await newPost.addImage(newImage)
       }
     }
 
-    const responsePost = await db.Post.findOne({
+    const post = await db.post.findOne({
       where: { id: newPost.id },
       include: [
         {
-          model: db.User,
+          model: db.user,
           include: [
             {
-              model: db.Image,
+              model: db.image,
               attributes: ['id', 'src'],
-              as: 'image',
             },
           ],
           attributes: ['id', 'name', 'userName'],
-          as: 'user',
         },
         {
-          model: db.Image,
           attributes: ['id', 'src'],
           as: 'images',
         },

@@ -9,13 +9,12 @@ module.exports = () => {
 
   passport.deserializeUser(async (userName, done) => {
     try {
-      const user = await db.User.findOne({
+      const user = await db.user.findOne({
         where: { userName },
         include: [
           {
-            model: db.Image,
+            model: db.image,
             attributes: ['src'],
-            as: 'image',
           },
         ],
         attributes: ['userName', 'name', 'id'],

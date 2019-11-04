@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Comment = sequelize.define(
-    'Comment',
+  const comment = sequelize.define(
+    'comment',
     {
       content: {
         type: DataTypes.TEXT,
@@ -13,10 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   )
 
-  Comment.associate = db => {
-    db.Comment.belongsTo(db.User)
-    db.Comment.belongsTo(db.Post)
+  comment.associate = db => {
+    db.comment.belongsTo(db.user)
+    db.comment.belongsTo(db.post)
   }
 
-  return Comment
+  return comment
 }
