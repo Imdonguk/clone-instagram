@@ -4,6 +4,9 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
@@ -41,6 +44,28 @@ function* addPost(action) {
 
 function* watchAddPost() {
   yield takeEvery(ADD_POST_REQUEST, addPost)
+}
+
+function loadPostsApi() {
+  return axios.get('/posts', { withCredentials: true })
+}
+
+function* loadPosts() {
+  try {
+    const result = yield call(loadPostsApi, '')
+    yield put({
+      type: LOAD_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: LOAD_POSTS_FAILURE,
+    })
+  }
+}
+
+function* watchLoadPosts() {
+  yield takeEvery(LOAD_POSTS_REQUEST, loadPosts)
 }
 
 function uploadImagesApi(data) {
@@ -169,6 +194,7 @@ function* postSaga() {
     fork(watchLikePost),
     fork(watchUnlikePost),
     fork(watchAddComment),
+    fork(watchLoadPosts),
   ])
 }
 

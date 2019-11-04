@@ -13,6 +13,10 @@ export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
 
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST'
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS'
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE'
+
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
 export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE'
@@ -57,6 +61,16 @@ export default (state = initialState, action) => {
         break
       }
       case ADD_POST_FAILURE: {
+        break
+      }
+      case LOAD_POSTS_REQUEST: {
+        break
+      }
+      case LOAD_POSTS_SUCCESS: {
+        draft.posts = action.data
+        break
+      }
+      case LOAD_POSTS_FAILURE: {
         break
       }
       case UPLOAD_IMAGES_REQUEST: {
