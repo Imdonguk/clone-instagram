@@ -27,7 +27,7 @@ function* addPost(action) {
     const result = yield call(addPostApi, action.data)
     yield put({
       type: ADD_POST_SUCCESS,
-      data: Object.assign({}, result.data, { likers: [], comments: [] }),
+      data: Object.assign({}, result.data),
     })
   } catch (e) {
     yield put({

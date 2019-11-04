@@ -9,7 +9,7 @@ const PostFooter = ({ postId, des, comments, likers, user }) => {
   const commentRef = useRef('')
   const dispatch = useDispatch()
   const userId = useSelector(state => state.user.me && state.user.me.id)
-  const isLiked = useMemo(() => !!likers.find(v => v === userId), [likers])
+  const isLiked = useMemo(() => !!likers.find(v => v.id === userId), [likers])
 
   const addComment = e => {
     e.preventDefault()

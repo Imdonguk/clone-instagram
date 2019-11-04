@@ -63,13 +63,15 @@ router.post('/', upload.none(), async (req, res, next) => {
           attributes: ['id', 'name', 'userName'],
         },
         {
+          model: db.image,
           attributes: ['id', 'src'],
-          as: 'images',
         },
       ],
       attributes: ['id', 'description'],
     })
-    res.json(responsePost.toJSON())
+    const initComments = { comments: [], commentCount: 0 }
+    const initLikers = { likers: [] }
+    res.json(Object.assign({}, post.toJSON(), initComments, initLikers))
   } catch (e) {
     console.log(e)
     next(e)
@@ -102,7 +104,7 @@ router.delete('/images', (req, res, next) => {
 
 router.post('/:id/like', async (req, res, next) => {
   try {
-    const post = await db.Post.findOne({ where: { id: req.params.id } })
+    const post = await db.post.findOne({ where: { id: req.params.id } })
     if (!post) return res.status(404).send('no post')
     await post.addLiker(req.user.id)
     res.json({ userId: req.user.id })
@@ -113,7 +115,7 @@ router.post('/:id/like', async (req, res, next) => {
 
 router.delete('/:id/like', async (req, res, next) => {
   try {
-    const post = await db.Post.findOne({ where: { id: req.params.id } })
+    const post = await db.post.findOne({ where: { id: req.params.id } })
     if (!post) return res.status(404).send('no post')
     await post.removeLiker(req.user.id)
     res.json({ userId: req.user.id })
