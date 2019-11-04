@@ -124,4 +124,22 @@ router.delete('/:id/like', async (req, res, next) => {
   }
 })
 
+router.post('/:id/comment', async (req, res, next) => {
+  try {
+    const post = await db.post.findOne({ where: { id: req.params.id } })
+    if (!post) return res.status(404).send('no post')
+
+    const comment = await post.createComment({
+      content: req.body.content,
+      userId: req.user.id,
+    })
+    const user = await comment.getUser({
+      attributes: ['userName'],
+    })
+    res.json({ id: comment.id, content: comment.content, user })
+  } catch (e) {
+    next(e)
+  }
+})
+
 module.exports = router
