@@ -30,7 +30,15 @@ app.prepare().then(() => {
     }),
   )
 
-  server.get('/user/:userName', (req, res) => {
+  server.get('/signin', (req, res) => {
+    return app.render(req, res, '/signin')
+  })
+
+  server.get('/signup', (req, res) => {
+    return app.render(req, res, '/signup')
+  })
+
+  server.get('/:userName', (req, res) => {
     return app.render(req, res, '/user', { userName: req.params.userName })
   })
 
