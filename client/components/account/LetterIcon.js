@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import img from '../../images/share_image.png'
+import img from '../../images/sprite_core.png'
 
 const LetterIcon = styled.i`
   display: block;

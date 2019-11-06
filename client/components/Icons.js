@@ -65,3 +65,14 @@ export const SettingIcon = styled(BasicIcon)`
   background-image: url(${glyphsImg2x});
   background-position: -4.5rem -16.55rem;
 `
+
+export const EditIcon = styled(SettingIcon)`
+  background-position: -4.7rem -18.8rem;
+`
+
+export const PostIcon = styled(SearchIcon)`
+  width: 1.2rem;
+  height: 1.2rem;
+  background-size: 41rem 39.6rem;
+  background-position: -20.8rem -36.6rem;
+`

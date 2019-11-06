@@ -106,4 +106,4 @@ const Content = styled.div`
 `
 
 export default AccountWrap
-export { Content }
+export { Content, FooterWrap }
