@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 import { useDispatch } from 'react-redux'
-import { OPEN_POST_FORM, SIGN_OUT_REQUEST } from '../reducers/user'
+import { OPEN_POST_FORM } from '../reducers/user'
 import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
 
 const Header = () => {
@@ -10,20 +11,19 @@ const Header = () => {
     dispatch({ type: OPEN_POST_FORM })
   }
 
-  const handleClickLogoutBtn = () => {
-    dispatch({ type: SIGN_OUT_REQUEST })
-  }
-
   return (
     <Wrapper>
       <NaviBar>
         <br />
         <Content>
-          <LogoWrap onClick={handleClickLogoutBtn}>
-            <LogoIcon />
-            <Boundary />
-            <LetterIcon />
-          </LogoWrap>
+          <Link href="/">
+            <LogoWrap>
+              <LogoIcon />
+              <Boundary />
+              <LetterIcon />
+            </LogoWrap>
+          </Link>
+
           <NavInput>
             <input className="search" />
             <div className="search-icon">
@@ -82,6 +82,7 @@ const LogoWrap = styled.a`
   width: 16rem;
   align-items: center;
   background-color: #fff;
+  cursor: pointer;
 `
 
 const Boundary = styled.div`
