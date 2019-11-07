@@ -6,6 +6,8 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { FooterWrap } from '../components/account'
 import UserTemplate from '../components/user/UserTemplate'
+import { LOAD_OTHER_USER_REQUEST } from '../reducers/user'
+import { LOAD_USER_POSTS_REQUEST } from '../reducers/post'
 
 const User = () => {
   const { userName, name } = useSelector(state => state.user.userInfo)
@@ -39,9 +41,6 @@ const User = () => {
   )
 }
 
-user.getInitialProps = async context => {
-  console.log(`userName is ${context.query.userName}`)
-  return { userName: context.query.userName }
 const Wrapper = styled.div`
   position: relative;
   min-height: 100vh;
@@ -57,5 +56,16 @@ const Main = styled.div`
   margin: 0 auto;
   flex: 1;
 `
+
+User.getInitialProps = async context => {
+  context.store.dispatch({
+    type: LOAD_OTHER_USER_REQUEST,
+    data: context.query.userName,
+  })
+
+  context.store.dispatch({
+    type: LOAD_USER_POSTS_REQUEST,
+    data: context.query.userName,
+  })
 }
-export default user
+export default User
