@@ -2,11 +2,7 @@ import produce from 'immer'
 
 const initialState = {
   me: {},
-  isPostForm: false,
 }
-
-export const OPEN_POST_FORM = 'OPEN_POST_FORM'
-export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
 
 export const SIGN_IN = 'SIGN_IN'
 
@@ -21,14 +17,6 @@ export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE'
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
-      case OPEN_POST_FORM: {
-        draft.isPostForm = true
-        break
-      }
-      case CLOSE_POST_FORM: {
-        draft.isPostForm = false
-        break
-      }
       case SIGN_IN: {
         break
       }

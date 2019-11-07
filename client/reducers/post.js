@@ -1,13 +1,10 @@
 import produce from 'immer'
 
 const initialState = {
-  isPostSetting: false,
   posts: [],
+  userPosts: [],
   imagePaths: [],
 }
-
-export const OPEN_POST_SETTING = 'OPEN_POST_SETTING'
-export const CLOSE_POST_SETTING = 'CLOSE_POST_SETTING'
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST'
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS'
@@ -44,14 +41,6 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
-      case OPEN_POST_SETTING: {
-        draft.isPostSetting = true
-        break
-      }
-      case CLOSE_POST_SETTING: {
-        draft.isPostSetting = false
-        break
-      }
       case ADD_POST_REQUEST: {
         break
       }
