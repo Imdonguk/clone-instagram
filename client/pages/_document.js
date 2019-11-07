@@ -18,7 +18,7 @@ class MyDocument extends Document {
     return (
       <html {...htmlAttrs}>
         <head>
-          <link rel="stylesheet" href="../static/index.css" />
+          <link rel="stylesheet" href="/index.css" />
           {this.props.styleTags}
           {Object.values(helmet).map(el => el.toComponent())}
         </head>

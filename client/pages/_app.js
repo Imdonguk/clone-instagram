@@ -51,6 +51,10 @@ const WoogieBoogie = ({ Component, store, pageProps }) => {
           ]}
           link={[
             {
+              rel: 'shortcut icon',
+              href: '/favicon.ico',
+            },
+            {
               rel: 'stylesheet',
               type: 'text/css',
               href: 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css',
