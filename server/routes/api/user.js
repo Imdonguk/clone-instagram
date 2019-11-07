@@ -31,6 +31,44 @@ router.get('/:userName', async (req, res, next) => {
     next(e)
   }
 })
+
+router.get('/:userName/posts', async (req, res, next) => {
+  try {
+    const user = await db.user.findOne({ where: { userName: req.params.userName } })
+
+    const posts = await user.getPost({
+      attributes: ['id', 'description'],
+      include: [
+        {
+          model: db.image,
+          attributes: ['id', 'src'],
+        },
+        {
+          model: db.user,
+          as: 'likers',
+          through: {
+            attributes: [],
+          },
+          attributes: ['id'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+    })
+
+    const result = await Promise.all(
+      posts.map(async post => {
+        const jsonPost = post.toJSON()
+        const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
+        return { ...jsonPost, commentCount }
+      }),
+    )
+
+    res.json(result)
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.post('/signin', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err)
