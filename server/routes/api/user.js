@@ -6,10 +6,31 @@ const db = require('../../models')
 const { isLoggedIn } = require('../middleware')
 const config = require('../../config')
 
-router.post('/', isLoggedIn, (req, res, next) => {
+router.get('/', isLoggedIn, (req, res, next) => {
   res.json(req.user.toJSON())
 })
 
+router.get('/:userName', async (req, res, next) => {
+  try {
+    const user = await db.user.findOne({
+      where: { userName: req.params.userName },
+      include: [
+        {
+          model: db.image,
+          attributes: ['src'],
+        },
+      ],
+      attributes: ['id', 'name', 'userName'],
+    })
+    if (!user) return res.status(401).send('유저가없습니다!')
+
+    const postCount = await user.getPost().then(r => Promise.resolve(r.length))
+    const result = { ...user.toJSON(), postCount }
+    res.json(result)
+  } catch (e) {
+    next(e)
+  }
+})
 router.post('/signin', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err)
