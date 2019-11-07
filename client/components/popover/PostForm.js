@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import imageUploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
-import { CLOSE_POST_FORM } from '../../reducers/user'
+import { CLOSE_POST_FORM } from '../../reducers/popover'
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 
 const PostForm = () => {
   const dispatch = useDispatch()
   const imagePaths = useSelector(state => state.post.imagePaths)
-  const isPostForm = useSelector(state => state.user.isPostForm)
+  const isPostForm = useSelector(state => state.popover.isPostForm)
   const descriptionRef = useRef('')
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
