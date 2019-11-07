@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, put, call } from 'redux-saga/effects'
+import { all, fork, takeEvery, takeLatest, put, call } from 'redux-saga/effects'
 import axios from 'axios'
 import {
   ADD_POST_REQUEST,
@@ -7,6 +7,9 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAILURE,
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
@@ -52,7 +55,7 @@ function loadPostsApi() {
 
 function* loadPosts() {
   try {
-    const result = yield call(loadPostsApi, '')
+    const result = yield call(loadPostsApi)
     yield put({
       type: LOAD_POSTS_SUCCESS,
       data: result.data,
@@ -65,7 +68,30 @@ function* loadPosts() {
 }
 
 function* watchLoadPosts() {
-  yield takeEvery(LOAD_POSTS_REQUEST, loadPosts)
+  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
+}
+
+function loadUserPostsApi(userName) {
+  return axios.get(`/user/${userName}/posts`)
+}
+
+function* loadUserPosts(action) {
+  try {
+    const userName = action.data
+    const result = yield call(loadUserPostsApi, userName)
+    yield put({
+      type: LOAD_USER_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: LOAD_USER_POSTS_FAILURE,
+    })
+  }
+}
+
+function* watchLoadUserPosts() {
+  yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts)
 }
 
 function uploadImagesApi(data) {
@@ -195,6 +221,7 @@ function* postSaga() {
     fork(watchUnlikePost),
     fork(watchAddComment),
     fork(watchLoadPosts),
+    fork(watchLoadUserPosts),
   ])
 }
 

@@ -38,6 +38,10 @@ export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST'
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
 
+export const LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST'
+export const LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS'
+export const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -60,6 +64,16 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_POSTS_FAILURE: {
+        break
+      }
+      case LOAD_USER_POSTS_REQUEST: {
+        break
+      }
+      case LOAD_USER_POSTS_SUCCESS: {
+        draft.userPosts = action.data
+        break
+      }
+      case LOAD_USER_POSTS_FAILURE: {
         break
       }
       case UPLOAD_IMAGES_REQUEST: {
