@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux'
-import { OPEN_POST_FORM } from '../reducers/user'
+import { OPEN_POST_FORM } from '../reducers/popover'
 import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
 
 const Header = () => {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostFooter } from './index'
 import { SettingIcon } from '../Icons'
-import { OPEN_POST_SETTING } from '../../reducers/post'
+import { OPEN_POST_SETTING } from '../../reducers/popover'
 
 const Post = ({ info }) => {
   const dispatch = useDispatch()

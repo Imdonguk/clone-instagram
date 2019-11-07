@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Profile from './profile'
 import Story from './story'
 import Recommend from './recommend'
-import { PostList, PostForm, PostSetting } from './post'
+import { PostList } from './post'
 import Footer from './Footer'
 
 const Container = () => {
@@ -12,8 +12,6 @@ const Container = () => {
       <div className="container">
         <div className="posts">
           <PostList />
-          <PostForm />
-          <PostSetting />
         </div>
         <div className="right">
           <div className="right-column">

@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import Container from '../components/Container'
 import { LOAD_POSTS_REQUEST } from '../reducers/post'
+import { PostForm, EditPost } from '../components/popover'
 
 const Index = () => {
   const userName = useSelector(state => state.user.me && state.user.me.userName)
@@ -14,10 +15,14 @@ const Index = () => {
 
   if (!userName) return null
   return (
-    <Wrapper>
-      <Header />
-      <Container />
-    </Wrapper>
+    <>
+      <Wrapper>
+        <Header />
+        <Container />
+      </Wrapper>
+      <PostForm />
+      <EditPost />
+    </>
   )
 }
 
