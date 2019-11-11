@@ -6,10 +6,10 @@ const initialState = {
 }
 
 export const OPEN_POST_FORM = 'OPEN_POST_FORM'
-export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
+export const OPEN_EDIT_POST = 'OPEN_EDIT_POST'
+export const OPEN_EDIT_PROFILE_IMAGE = 'OPEN_EDIT_PROFILE_IMAGE'
 
-export const OPEN_POST_SETTING = 'OPEN_POST_SETTING'
-export const CLOSE_POST_SETTING = 'CLOSE_POST_SETTING'
+export const CLOSE_POP_OVER = 'CLOSE_POP_OVER'
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -19,23 +19,20 @@ export default (state = initialState, action) => {
         isPostForm: true,
       }
     }
-    case CLOSE_POST_FORM: {
-      return {
-        ...state,
-        isPostForm: false,
-      }
-    }
-    case OPEN_POST_SETTING: {
+    case OPEN_EDIT_POST: {
       return {
         ...state,
         isSettingPost: true,
       }
     }
-    case CLOSE_POST_SETTING: {
+    case OPEN_EDIT_PROFILE_IMAGE: {
       return {
         ...state,
-        isSettingPost: false,
+        isSettingProfileImage: true,
       }
+    }
+    case CLOSE_POP_OVER: {
+      return initialState
     }
     default: {
       return {

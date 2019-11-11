@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { FooterWrap } from '../components/account'
+import EditProfileImage from '../components/popover/EditProfileImage'
 import UserTemplate from '../components/user/UserTemplate'
 import { LOAD_OTHER_USER_REQUEST } from '../reducers/user'
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post'
@@ -15,29 +16,31 @@ const User = () => {
 
   if (isLodding) return null
   return (
-    <Wrapper>
-      <Helmet
-        title={`${name} (${userName})`}
-        meta={[
-          {
-            name: 'og:title',
-            content: `${name} (${userName})`,
-          },
-          {
-            name: 'og:description',
-            content: `${userName}의 instagram`,
-          },
-        ]}
-      />
-      <Header />
-      <Main>
-        <UserTemplate />
-      </Main>
-      <FooterWrap>
-        <Footer page="common" />
-      </FooterWrap>
-    </Wrapper>
-    // <EditProfileImage />
+    <>
+      <Wrapper>
+        <Helmet
+          title={`${name} (${userName})`}
+          meta={[
+            {
+              name: 'og:title',
+              content: `${name} (${userName})`,
+            },
+            {
+              name: 'og:description',
+              content: `${userName}의 instagram`,
+            },
+          ]}
+        />
+        <Header />
+        <Main>
+          <UserTemplate />
+        </Main>
+        <FooterWrap>
+          <Footer page="common" />
+        </FooterWrap>
+      </Wrapper>
+      <EditProfileImage />
+    </>
   )
 }
 

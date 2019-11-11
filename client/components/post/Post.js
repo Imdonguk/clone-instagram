@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostFooter } from './index'
 import { SettingIcon } from '../Icons'
-import { OPEN_POST_SETTING } from '../../reducers/popover'
+import { OPEN_EDIT_POST } from '../../reducers/popover'
 
 const Post = ({ info }) => {
   const dispatch = useDispatch()
   const { user, images, description, comments, likers, id } = info
   const openPostSetting = () => {
     dispatch({
-      type: OPEN_POST_SETTING,
+      type: OPEN_EDIT_POST,
     })
   }
   return useMemo(

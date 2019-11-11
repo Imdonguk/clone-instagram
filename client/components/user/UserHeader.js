@@ -1,14 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon } from '../Icons'
+import { OPEN_EDIT_PROFILE_IMAGE } from '../../reducers/popover'
 
 const UserHeader = () => {
   const { userName, name, image, postCount } = useSelector(state => state.user.userInfo)
+  const dispatch = useDispatch()
+  const handleClickProfileImg = () => {
+    dispatch({ type: OPEN_EDIT_PROFILE_IMAGE })
+  }
   return (
     <Wrap>
       <div className="profile-image">
-        <div className="button-wrap">
+        <div className="button-wrap" onClick={handleClickProfileImg}>
           <button type="button">
             <img src={`http://localhost:3065/${image.src}`} alt="프로필이미지" />
           </button>
