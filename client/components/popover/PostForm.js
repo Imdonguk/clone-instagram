@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import imageUploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
-import { CLOSE_POST_FORM } from '../../reducers/popover'
+import { PopoverWrap } from '../common/PopoverStyle'
+import { CLOSE_POP_OVER } from '../../reducers/popover'
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 
 const PostForm = () => {
@@ -11,9 +12,10 @@ const PostForm = () => {
   const imagePaths = useSelector(state => state.post.imagePaths)
   const isPostForm = useSelector(state => state.popover.isPostForm)
   const descriptionRef = useRef('')
+
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
-    dispatch({ type: CLOSE_POST_FORM })
+    dispatch({ type: CLOSE_POP_OVER })
   }
   const handleSubmit = async e => {
     try {
@@ -27,7 +29,7 @@ const PostForm = () => {
         type: ADD_POST_REQUEST,
         data: formData,
       })
-      cancleForm()
+      cancleForm(e)
     } catch (error) {
       console.log(error.response.data)
     }
@@ -42,19 +44,19 @@ const PostForm = () => {
     })
   }
 
-  const handleClickCancleBtn = e => {
+  const handleClickCancleBtn = () => {
     if (imagePaths.length > 0) {
       dispatch({
         type: REMOVE_IMAGE_REQUEST,
         data: imagePaths,
       })
     }
-    cancleForm(e)
+    cancleForm()
   }
 
   if (!isPostForm) return null
   return (
-    <Wrap onClick={cancleForm}>
+    <PopoverWrap>
       <Form encType="multipart/form-data" onSubmit={handleSubmit}>
         <ContentWrap header>
           <h2>새로운 게시물</h2>
@@ -68,28 +70,16 @@ const PostForm = () => {
           <InputDescription placeholder="설명입력...." ref={descriptionRef} />
         </ContentWrap>
         <ContentWrap bottom>
-          <Button onClick={handleClickCancleBtn}>닫기</Button>
+          <Button type="button" onClick={handleClickCancleBtn}>
+            닫기
+          </Button>
           <Button type="submit">업로드</Button>
         </ContentWrap>
       </Form>
       <PreviewImg />
-    </Wrap>
+    </PopoverWrap>
   )
 }
-
-export const Wrap = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  background-color: #00000050;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`
 
 const Form = styled.form`
   width: 50rem;
