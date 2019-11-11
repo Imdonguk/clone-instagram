@@ -27,9 +27,12 @@ const Index = () => {
 }
 
 Index.getInitialProps = async context => {
-  context.store.dispatch({
-    type: LOAD_POSTS_REQUEST,
-  })
+  const { posts } = context.store.getState().post
+
+  posts.length ||
+    context.store.dispatch({
+      type: LOAD_POSTS_REQUEST,
+    })
 }
 
 const Wrapper = styled.div`
