@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import coreImg from '../images/sprite_core.png'
 import glyphsImg from '../images/sprite_glyphs.png'
 import glyphsImg2x from '../images/sprite_glyphs_2x.png'
+import mediaImage from '../images/media.png'
 
 export const BasicIcon = styled.span`
   background-image: url(${glyphsImg});
@@ -75,4 +76,24 @@ export const PostIcon = styled(SearchIcon)`
   height: 1.2rem;
   background-size: 41rem 39.6rem;
   background-position: -20.8rem -36.6rem;
+`
+
+export const WhiteLikeIcon = styled.span`
+  width: 1.9rem;
+  height: 1.9rem;
+  background-image: url(${coreImg});
+  background-size: 41rem 39.6rem;
+  background-position: -37.6rem -23.3rem;
+`
+
+export const WhiteCommentIcon = styled(WhiteLikeIcon)`
+  background-position: -37.6rem -27.5rem;
+`
+
+export const SlideIcon = styled.span`
+  width: 3.2rem;
+  height: 3.2rem;
+  background-image: url(${mediaImage});
+  background-size: 6.5rem 6.5rem;
+  background-position: 0 0;
 `
