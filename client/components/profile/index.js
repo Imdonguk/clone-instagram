@@ -9,7 +9,7 @@ const Index = () => {
   return (
     <Wrap>
       <div className="profile-image">
-        <Link href={`/${userName}`}>
+        <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
           <a>
             <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
           </a>
@@ -17,7 +17,7 @@ const Index = () => {
       </div>
       <div className="profile-text">
         <div className="user-name">
-          <Link href={`/${userName}`}>
+          <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
             <a>{userName}</a>
           </Link>
         </div>

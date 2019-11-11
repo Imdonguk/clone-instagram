@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { OPEN_POST_FORM } from '../reducers/popover'
 import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
 
 const Header = () => {
   const dispatch = useDispatch()
+  const userName = useSelector(state => state.user.me && state.user.me.userName)
   const openPostForm = () => {
     dispatch({ type: OPEN_POST_FORM })
   }
@@ -40,9 +41,13 @@ const Header = () => {
             <IconWrap>
               <LikeIcon />
             </IconWrap>
-            <IconWrap>
-              <ProfileIcon />
-            </IconWrap>
+            <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
+              <a>
+                <IconWrap>
+                  <ProfileIcon />
+                </IconWrap>
+              </a>
+            </Link>
           </Accounts>
         </Content>
       </NaviBar>
@@ -54,6 +59,7 @@ const Wrapper = styled.div`
   position: relative;
   width: 100%;
   height: 7.7rem;
+  z-index: 10;
 `
 
 const NaviBar = styled.div`
