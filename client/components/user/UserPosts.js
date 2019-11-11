@@ -8,7 +8,14 @@ const UserPosts = () => {
   return (
     <Wrap>
       {userPosts.map(post => {
-        return <UserPost images={post.images} key={post.id} />
+        return (
+          <UserPost
+            images={post.images}
+            likeCount={post.likers.length}
+            commentCount={post.commentCount}
+            key={post.id}
+          />
+        )
       })}
     </Wrap>
   )
