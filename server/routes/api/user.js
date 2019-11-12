@@ -1,6 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const bcrypt = require('bcrypt')
+const fs = require('fs')
 const router = express.Router()
 const db = require('../../models')
 const { isLoggedIn } = require('../middleware')
@@ -121,11 +122,29 @@ router.post('/image', upload.single('profileImage'), async (req, res, next) => {
         src: req.file.filename,
       },
       {
-        where: { id: req.user.id },
+        where: { userId: req.user.id },
       },
     )
     res.json(req.file.filename)
   } catch (e) {}
+})
+
+router.delete('/image/:filename', async (req, res, next) => {
+  try {
+    const filename = req.params.filename
+    const image = await db.image.update(
+      {
+        src: 'static_profile.jpg',
+      },
+      {
+        where: { userId: req.user.id },
+      },
+    )
+    fs.unlinkSync(`uploads/${filename}`)
+    res.json('static_profile.jpg')
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 module.exports = router
