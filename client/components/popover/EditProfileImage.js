@@ -5,7 +5,7 @@ import { PopoverWrap, ButtonWrap, PopoverButton } from '../common/PopoverStyle'
 import { UPLOAD_PROFILE_IMAGE_REQUEST, REMOVE_PROFILE_IMAGE_REQUEST } from '../../reducers/user'
 
 const EditProifileImage = () => {
-  const isSettingProfileImage = useSelector(state => state.popover.isSettingProfileImage)
+  const isEditProfileImage = useSelector(state => state.popover.isEditProfileImage)
   const userName = useSelector(state => state.user.me.userName)
   const image = userName && useSelector(state => state.user.me.image)
   const imageInput = useRef()
@@ -32,7 +32,7 @@ const EditProifileImage = () => {
       userName,
     })
   }
-  if (!isSettingProfileImage || !userName) return null
+  if (!isEditProfileImage || !userName) return null
 
   return (
     <PopoverWrap>
@@ -65,8 +65,8 @@ const NewPopoverButton = styled(PopoverButton).attrs({
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  border-top-left-radius: 2rem;
-  border-top-right-radius: 2rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
   box-sizing: border-box;
   height: 7rem;
   font-size: 1.8rem;

@@ -68,14 +68,14 @@ export const Button = styled.button`
     ${props =>
       props.location === 'top' &&
       css`
-        border-top-left-radius: 2rem;
-        border-top-right-radius: 2rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
       `}
     ${props =>
       props.location === 'bottom' &&
       css`
-        border-bottom-left-radius: 2rem;
-        border-bottom-right-radius: 2rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
       `}
     ${props =>
       props.fontColor === 'blue'

@@ -2,10 +2,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from '../common/PopoverStyle'
 
-const PostSetting = () => {
-  const isSettingPost = useSelector(state => state.popover.isSettingPost)
+const EditPost = () => {
+  const isEditPost = useSelector(state => state.popover.isEditPost)
 
-  if (!isSettingPost) return null
+  if (!isEditPost) return null
   return (
     <PopoverWrap>
       <ButtonWrap>
@@ -23,4 +23,4 @@ const PostSetting = () => {
   )
 }
 
-export default PostSetting
+export default EditPost

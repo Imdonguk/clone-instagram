@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { FooterWrap } from '../components/account'
 import EditProfileImage from '../components/popover/EditProfileImage'
+import EditAccount from '../components/popover/EditAccount'
 import UserTemplate from '../components/user/UserTemplate'
 import { LOAD_OTHER_USER_REQUEST } from '../reducers/user'
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post'
@@ -40,6 +41,7 @@ const User = () => {
         </FooterWrap>
       </Wrapper>
       <EditProfileImage />
+      <EditAccount />
     </>
   )
 }
