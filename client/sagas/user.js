@@ -11,7 +11,35 @@ import {
   LOAD_OTHER_USER_REQUEST,
   LOAD_OTHER_USER_SUCCESS,
   LOAD_OTHER_USER_FAILURE,
+  UPLOAD_PROFILE_IMAGE_REQUEST,
+  UPLOAD_PROFILE_IMAGE_SUCCESS,
+  UPLOAD_PROFILE_IMAGE_FAILURE,
 } from '../reducers/user'
+
+import { CLOSE_POP_OVER } from '../reducers/popover'
+
+function uploadProfileImageApi(data) {
+  return axios.post('/user/image', data, { withCredentials: true })
+}
+
+function* uploadProfileImage(action) {
+  try {
+    const result = yield call(uploadProfileImageApi, action.data)
+    yield put({
+      type: UPLOAD_PROFILE_IMAGE_SUCCESS,
+      data: result.data,
+    })
+    yield put({ type: CLOSE_POP_OVER })
+  } catch (e) {
+    yield put({
+      type: UPLOAD_PROFILE_IMAGE_FAILURE,
+    })
+  }
+}
+
+function* watchUpdataProfileImage() {
+  yield takeLatest(UPLOAD_PROFILE_IMAGE_REQUEST, uploadProfileImage)
+}
 
 function loadUserApi() {
   return axios.get('/user', { withCredentials: true })
@@ -83,7 +111,7 @@ function* watchSignout() {
 }
 
 function* userSaga() {
-  yield all([fork(watchLoadUser), fork(watchSignout), fork(watchLoadOtherUser)])
+  yield all([fork(watchLoadUser), fork(watchSignout), fork(watchLoadOtherUser), fork(watchUpdataProfileImage)])
 }
 
 export default userSaga
