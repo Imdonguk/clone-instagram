@@ -42,6 +42,8 @@ export const LOAD_USER_POSTS_REQUEST = 'LOAD_USER_POSTS_REQUEST'
 export const LOAD_USER_POSTS_SUCCESS = 'LOAD_USER_POSTS_SUCCESS'
 export const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE'
 
+export const UPDATE_MY_POSTS_PROFILE_IMAGE = 'UPDATE_MY_POSTS_PROFILE_IMAGE'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -133,6 +135,14 @@ export default (state = initialState, action) => {
         break
       }
       case ADD_COMMENT_FAILURE: {
+        break
+      }
+      case UPDATE_MY_POSTS_PROFILE_IMAGE: {
+        draft.posts.forEach(v => {
+          if (v.user.userName === action.userName) {
+            v.user.image.src = action.data
+          }
+        })
         break
       }
       default: {
