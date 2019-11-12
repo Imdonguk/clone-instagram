@@ -61,18 +61,14 @@ const Main = styled.div`
 `
 
 User.getInitialProps = async context => {
-  const isReload = context.query.userName !== context.store.getState().user.userInfo.userName
+  context.store.dispatch({
+    type: LOAD_OTHER_USER_REQUEST,
+    data: context.query.userName,
+  })
 
-  isReload &&
-    context.store.dispatch({
-      type: LOAD_OTHER_USER_REQUEST,
-      data: context.query.userName,
-    })
-
-  isReload &&
-    context.store.dispatch({
-      type: LOAD_USER_POSTS_REQUEST,
-      data: context.query.userName,
-    })
+  context.store.dispatch({
+    type: LOAD_USER_POSTS_REQUEST,
+    data: context.query.userName,
+  })
 }
 export default User

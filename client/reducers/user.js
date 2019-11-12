@@ -25,6 +25,10 @@ export const UPLOAD_PROFILE_IMAGE_REQUEST = 'UPLOAD_PROFILE_IMAGE_REQUEST'
 export const UPLOAD_PROFILE_IMAGE_SUCCESS = 'UPLOAD_PROFILE_IMAGE_SUCCESS'
 export const UPLOAD_PROFILE_IMAGE_FAILURE = 'UPLOAD_PROFILE_IMAGE_FAILURE'
 
+export const REMOVE_PROFILE_IMAGE_REQUEST = 'REMOVE_PROFILE_IMAGE_REQUEST'
+export const REMOVE_PROFILE_IMAGE_SUCCESS = 'REMOVE_PROFILE_IMAGE_SUCCESS'
+export const REMOVE_PROFILE_IMAGE_FAILURE = 'REMOVE_PROFILE_IMAGE_FAILURE'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -63,17 +67,20 @@ export default (state = initialState, action) => {
       case LOAD_OTHER_USER_FAILURE: {
         break
       }
-      case UPLOAD_PROFILE_IMAGE_REQUEST: {
+      case UPLOAD_PROFILE_IMAGE_REQUEST:
+      case REMOVE_PROFILE_IMAGE_REQUEST: {
         draft.isUploadingProfileImage = true
         break
       }
-      case UPLOAD_PROFILE_IMAGE_SUCCESS: {
+      case UPLOAD_PROFILE_IMAGE_SUCCESS:
+      case REMOVE_PROFILE_IMAGE_SUCCESS: {
         draft.isUploadingProfileImage = false
         draft.me.image.src = action.data
         draft.userInfo.image.src = action.data
         break
       }
-      case UPLOAD_PROFILE_IMAGE_FAILURE: {
+      case UPLOAD_PROFILE_IMAGE_FAILURE:
+      case REMOVE_PROFILE_IMAGE_FAILURE: {
         break
       }
       default: {

@@ -14,7 +14,12 @@ import {
   UPLOAD_PROFILE_IMAGE_REQUEST,
   UPLOAD_PROFILE_IMAGE_SUCCESS,
   UPLOAD_PROFILE_IMAGE_FAILURE,
+  REMOVE_PROFILE_IMAGE_REQUEST,
+  REMOVE_PROFILE_IMAGE_SUCCESS,
+  REMOVE_PROFILE_IMAGE_FAILURE,
 } from '../reducers/user'
+
+import { UPDATE_MY_POSTS_PROFILE_IMAGE } from '../reducers/post'
 
 import { CLOSE_POP_OVER } from '../reducers/popover'
 
@@ -24,12 +29,18 @@ function uploadProfileImageApi(data) {
 
 function* uploadProfileImage(action) {
   try {
-    const result = yield call(uploadProfileImageApi, action.data)
+    const { userName, data } = action
+    const result = yield call(uploadProfileImageApi, data)
     yield put({
       type: UPLOAD_PROFILE_IMAGE_SUCCESS,
       data: result.data,
     })
     yield put({ type: CLOSE_POP_OVER })
+    yield put({
+      type: UPDATE_MY_POSTS_PROFILE_IMAGE,
+      data: result.data,
+      userName,
+    })
   } catch (e) {
     yield put({
       type: UPLOAD_PROFILE_IMAGE_FAILURE,
@@ -37,8 +48,37 @@ function* uploadProfileImage(action) {
   }
 }
 
-function* watchUpdataProfileImage() {
+function* watchUploadProfileImage() {
   yield takeLatest(UPLOAD_PROFILE_IMAGE_REQUEST, uploadProfileImage)
+}
+
+function removeProfileImageApi(data) {
+  return axios.delete(`/user/image/${data}`, { withCredentials: true })
+}
+
+function* removeProfileImage(action) {
+  try {
+    const { userName, data } = action
+    const result = yield call(removeProfileImageApi, data)
+    yield put({
+      type: REMOVE_PROFILE_IMAGE_SUCCESS,
+      data: result.data,
+    })
+    yield put({ type: CLOSE_POP_OVER })
+    yield put({
+      type: UPDATE_MY_POSTS_PROFILE_IMAGE,
+      data: result.data,
+      userName,
+    })
+  } catch (e) {
+    yield put({
+      type: REMOVE_PROFILE_IMAGE_FAILURE,
+    })
+  }
+}
+
+function* watchRemoveProfileImage() {
+  yield takeLatest(REMOVE_PROFILE_IMAGE_REQUEST, removeProfileImage)
 }
 
 function loadUserApi() {
@@ -111,7 +151,13 @@ function* watchSignout() {
 }
 
 function* userSaga() {
-  yield all([fork(watchLoadUser), fork(watchSignout), fork(watchLoadOtherUser), fork(watchUpdataProfileImage)])
+  yield all([
+    fork(watchLoadUser),
+    fork(watchSignout),
+    fork(watchLoadOtherUser),
+    fork(watchUploadProfileImage),
+    fork(watchRemoveProfileImage),
+  ])
 }
 
 export default userSaga

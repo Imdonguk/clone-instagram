@@ -24,7 +24,7 @@ const Post = ({ info }) => {
         </Setting>
       </Wrap>
     ),
-    [id, likers, comments],
+    [info],
   )
 }
 
