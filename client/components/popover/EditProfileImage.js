@@ -27,9 +27,19 @@ const EditProifileImage = () => {
   )
 }
 
-const NewPopoverButton = styled(PopoverButton)`
+const NewPopoverButton = styled(PopoverButton).attrs({
+  as: 'div',
+})`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  box-sizing: border-box;
   height: 7rem;
   font-size: 1.8rem;
+  border-bottom: 0.1rem solid #aaa;
 `
 
 export default EditProifileImage
