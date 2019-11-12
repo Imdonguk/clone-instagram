@@ -2,13 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon } from '../Icons'
-import { OPEN_EDIT_PROFILE_IMAGE } from '../../reducers/popover'
+import { OPEN_EDIT_PROFILE_IMAGE, OPEN_EDIT_ACCOUNT } from '../../reducers/popover'
 
 const UserHeader = () => {
   const { userName, name, image, postCount } = useSelector(state => state.user.userInfo)
   const dispatch = useDispatch()
   const handleClickProfileImg = () => {
     dispatch({ type: OPEN_EDIT_PROFILE_IMAGE })
+  }
+  const handleClickEditAccountBtn = () => {
+    dispatch({ type: OPEN_EDIT_ACCOUNT })
   }
   return (
     <Wrap>
@@ -25,7 +28,7 @@ const UserHeader = () => {
           <a>
             <button type="button">프로필편집</button>
           </a>
-          <div className="edit-wrap">
+          <div className="edit-wrap" onClick={handleClickEditAccountBtn}>
             <EditIcon />
           </div>
         </div>

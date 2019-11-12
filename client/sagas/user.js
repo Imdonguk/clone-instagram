@@ -1,6 +1,5 @@
 import { all, fork, put, call, takeLatest, takeEvery } from 'redux-saga/effects'
 import axios from 'axios'
-import Router from 'next/router'
 import {
   SIGN_OUT_REQUEST,
   SIGN_OUT_SUCCESS,
@@ -138,7 +137,9 @@ function* signout() {
     yield put({
       type: SIGN_OUT_SUCCESS,
     })
-    yield Router.push('/signin')
+    yield put({
+      type: CLOSE_POP_OVER,
+    })
   } catch (e) {
     yield put({
       type: SIGN_OUT_FAILURE,
