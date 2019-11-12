@@ -5,6 +5,7 @@ const router = express.Router()
 const db = require('../../models')
 const { isLoggedIn } = require('../middleware')
 const config = require('../../config')
+const upload = require('../../multer')
 
 router.get('/', isLoggedIn, (req, res, next) => {
   res.json(req.user.toJSON())
@@ -111,6 +112,20 @@ router.post('/signup', async (req, res, next) => {
   } catch (e) {
     res.status(403).send(e.message)
   }
+})
+
+router.post('/image', upload.single('profileImage'), async (req, res, next) => {
+  try {
+    await db.image.update(
+      {
+        src: req.file.filename,
+      },
+      {
+        where: { id: req.user.id },
+      },
+    )
+    res.json(req.file.filename)
+  } catch (e) {}
 })
 
 module.exports = router
