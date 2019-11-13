@@ -1,18 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
-const Index = () => {
+const Story = () => {
+  const { image, userName } = useSelector(state => state.user.me)
   const recommendList = (list = [1, 2, 3]) => {
     return list.map(() => (
       <div className="recommend-item">
         <div className="user-image">
-          <img
-            src="https://scontent-icn1-1.cdninstagram.com/vp/9246af266e3e74a8ccc79c2003b54947/5DFA1AB0/t51.2885-19/s150x150/30593507_198606810920786_1907780050036457472_n.jpg?_nc_ht=scontent-icn1-1.cdninstagram.com"
-            alt="프로필사진"
-          />
+          <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
         </div>
         <div className="user-info">
-          <div className="user-name">woogieboogie</div>
+          <div className="user-name">{userName}</div>
           <div className="recommend-description">회원님을 팔로우합니다.</div>
         </div>
         <div className="follow">팔로우</div>
@@ -97,4 +96,4 @@ const Wrap = styled.div`
   }
 `
 
-export default Index
+export default Story

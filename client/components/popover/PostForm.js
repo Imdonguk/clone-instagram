@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import imageUploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
-import { PopoverWrap } from '../common/PopoverStyle'
+import { PopoverWrap } from './PopoverStyle'
 import { CLOSE_POP_OVER } from '../../reducers/popover'
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 

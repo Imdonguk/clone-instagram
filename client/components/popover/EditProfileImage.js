@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { PopoverWrap, ButtonWrap, PopoverButton } from '../common/PopoverStyle'
+import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { UPLOAD_PROFILE_IMAGE_REQUEST, REMOVE_PROFILE_IMAGE_REQUEST } from '../../reducers/user'
 
 const EditProifileImage = () => {

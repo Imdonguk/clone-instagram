@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 
-const Index = () => {
+const Story = () => {
   const { userName, name, image } = useSelector(state => state.user.me)
 
   return (
@@ -64,4 +64,4 @@ const Wrap = styled.div`
   }
 `
 
-export default Index
+export default Story

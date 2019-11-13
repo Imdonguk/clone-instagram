@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { PopoverWrap, ButtonWrap, PopoverButton } from '../common/PopoverStyle'
+import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 
 const EditPost = () => {
   const isEditPost = useSelector(state => state.popover.isEditPost)

@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import Profile from './profile'
-import Story from './story'
-import Recommend from './recommend'
-import { PostList } from './post'
-import Footer from './layout/Footer'
+import Profile from './Profile'
+import Story from './Story'
+import Recommend from './Recommend'
+import { PostList } from '../post'
+import Footer from '../layout/Footer'
 
 const Container = () => {
   return (

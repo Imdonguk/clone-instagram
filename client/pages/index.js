@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import Router from 'next/router'
 import styled from 'styled-components'
 import Header from '../components/layout/Header'
-import Container from '../components/Container'
+import Container from '../components/main/Container'
 import { LOAD_POSTS_REQUEST } from '../reducers/post'
 import { PostForm, EditPost } from '../components/popover'
 
