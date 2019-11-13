@@ -2,6 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import AppLayout from '../components/layout'
 import HashtagTemplate from '../components/hashtag/HashtagTemplae'
+import { LOAD_HASHTAG_POSTS_REQUEST } from '../reducers/post'
 
 const Hashtag = ({ tag }) => {
   return (
@@ -24,8 +25,13 @@ const Hashtag = ({ tag }) => {
   )
 }
 
-hashtag.getInitialProps = async context => {
+Hashtag.getInitialProps = async context => {
+  context.store.dispatch({
+    type: LOAD_HASHTAG_POSTS_REQUEST,
+    data: context.query.tag,
+  })
+
   return { tag: context.query.tag }
 }
 
-export default hashtag
+export default Hashtag
