@@ -10,6 +10,9 @@ import {
   LOAD_USER_POSTS_REQUEST,
   LOAD_USER_POSTS_SUCCESS,
   LOAD_USER_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_SUCCESS,
+  LOAD_HASHTAG_POSTS_FAILURE,
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
@@ -92,6 +95,30 @@ function* loadUserPosts(action) {
 
 function* watchLoadUserPosts() {
   yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts)
+}
+
+function loadHashtagPostsApi(tag) {
+  return axios.get(`/hashtag/${tag}`)
+}
+
+function* loadHashtagPosts(action) {
+  try {
+    const tag = action.data
+    const result = yield call(loadHashtagPostsApi, tag)
+    yield put({
+      type: LOAD_HASHTAG_POSTS_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    console.log(e)
+    yield put({
+      type: LOAD_HASHTAG_POSTS_FAILURE,
+    })
+  }
+}
+
+function* watchLoadHashtagPosts() {
+  yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
 }
 
 function uploadImagesApi(data) {
@@ -222,6 +249,7 @@ function* postSaga() {
     fork(watchAddComment),
     fork(watchLoadPosts),
     fork(watchLoadUserPosts),
+    fork(watchLoadHashtagPosts),
   ])
 }
 
