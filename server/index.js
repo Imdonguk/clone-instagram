@@ -46,6 +46,8 @@ passportConfig()
 app.use('/api/user', require('./routes/api/user'))
 app.use('/api/post', require('./routes/api/post'))
 app.use('/api/posts', require('./routes/api/posts'))
+app.use('/api/hashtag', require('./routes/api/hashtag'))
+
 app.listen(3065, () => {
   console.log('start server')
 })
