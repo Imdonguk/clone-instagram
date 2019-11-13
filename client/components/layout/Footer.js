@@ -54,21 +54,21 @@ const Content = styled.div`
   flex-direction: row;
   justify-content: space-between;
   ${props =>
-    props.page === 'common'
+    props.page === 'main'
       ? css`
+          display: flex;
+          width: 100%;
+          padding: 0;
+          text-transform: none;
+          flex-wrap: wrap;
+        `
+      : css`
           display: flex;
           max-width: 93.5rem;
           height: 100%;
           padding: 3.8rem 0;
           color: #999;
           text-transform: uppercase;
-        `
-      : css`
-          display: flex;
-          width: 100%;
-          padding: 0;
-          text-transform: none;
-          flex-wrap: wrap;
         `}
 
   .yaer{
@@ -77,14 +77,14 @@ const Content = styled.div`
 
   nav {
     ${props =>
-      props.page === 'common'
+      props.page === 'main'
         ? css`
-            width: 64.1rem;
-            text-align: center;
-          `
-        : css`
             display: flex;
             margin-bottom: 1.6rem;
+          `
+        : css`
+            width: 64.1rem;
+            text-align: center;
           `}
     
 
@@ -96,12 +96,12 @@ const Content = styled.div`
       ${props =>
         props.page === 'common'
           ? css`
-              display: flex;
-              justify-content: space-around;
-            `
-          : css`
               display: block;
               line-height: 1.8rem;
+            `
+          : css`
+              display: flex;
+              justify-content: space-around;
             `}
       
       li{
@@ -120,7 +120,7 @@ const Content = styled.div`
       }
       .link {
           cursor: pointer;
-          color:${props => (props.page === 'common' ? '#003569' : '#c7c7c7')} ;
+          color:${props => (props.page === 'main' ? '#c7c7c7' : '#003569')} ;
       }
   }
 `

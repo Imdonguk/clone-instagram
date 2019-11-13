@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Footer from '../Footer'
+import Footer from '../layout/Footer'
+import FooterWrap from '../layout/FooterWrap'
 
 const AccountWrap = ({ children }) => {
   return (
@@ -9,7 +10,7 @@ const AccountWrap = ({ children }) => {
         <div className="main-inner">{children}</div>
       </div>
       <FooterWrap>
-        <Footer page="common" />
+        <Footer />
       </FooterWrap>
     </Wrap>
   )
@@ -33,15 +34,6 @@ const Wrap = styled.div`
       justify-content: center;
     }
   }
-`
-
-const FooterWrap = styled.div`
-  height: 10.4rem;
-  padding: 0 2rem;
-  box-sizing: border-box;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #999;
 `
 
 const Content = styled.div`
@@ -106,4 +98,4 @@ const Content = styled.div`
 `
 
 export default AccountWrap
-export { Content, FooterWrap }
+export { Content }

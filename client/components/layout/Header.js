@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
-import { OPEN_POST_FORM } from '../reducers/popover'
-import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from './Icons'
+import { OPEN_POST_FORM } from '../../reducers/popover'
+import { SearchIcon, LogoIcon, LetterIcon, UploadIcon, ExploreIcon, LikeIcon, ProfileIcon } from '../Icons'
 
-const Header = () => {
+const Header = ({ page }) => {
   const dispatch = useDispatch()
   const userName = useSelector(state => state.user.me && state.user.me.userName)
   const openPostForm = () => {
@@ -32,9 +32,11 @@ const Header = () => {
             </div>
           </NavInput>
           <Accounts>
-            <IconWrap first>
-              <UploadIcon onClick={openPostForm} />
-            </IconWrap>
+            {page === 'main' && (
+              <IconWrap first>
+                <UploadIcon onClick={openPostForm} />
+              </IconWrap>
+            )}
             <IconWrap>
               <ExploreIcon />
             </IconWrap>

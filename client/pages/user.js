@@ -1,10 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import Helmet from 'react-helmet'
 import { useSelector } from 'react-redux'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { FooterWrap } from '../components/account'
+import AppLayout from '../components/layout'
 import EditProfileImage from '../components/popover/EditProfileImage'
 import EditAccount from '../components/popover/EditAccount'
 import UserTemplate from '../components/user/UserTemplate'
@@ -18,7 +15,7 @@ const User = () => {
   if (isLodding) return null
   return (
     <>
-      <Wrapper>
+      <AppLayout>
         <Helmet
           title={`${name} (${userName})`}
           meta={[
@@ -32,35 +29,13 @@ const User = () => {
             },
           ]}
         />
-        <Header />
-        <Main>
-          <UserTemplate />
-        </Main>
-        <FooterWrap>
-          <Footer page="common" />
-        </FooterWrap>
-      </Wrapper>
+        <UserTemplate />
+      </AppLayout>
       <EditProfileImage />
       <EditAccount />
     </>
   )
 }
-
-const Wrapper = styled.div`
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #fafafa;
-
-  display: flex;
-  flex-direction: column;
-`
-
-const Main = styled.div`
-  width: 93.5rem;
-  margin: 0 auto;
-  flex: 1;
-`
 
 User.getInitialProps = async context => {
   context.store.dispatch({

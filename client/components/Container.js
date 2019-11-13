@@ -4,7 +4,7 @@ import Profile from './profile'
 import Story from './story'
 import Recommend from './recommend'
 import { PostList } from './post'
-import Footer from './Footer'
+import Footer from './layout/Footer'
 
 const Container = () => {
   return (

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Router from 'next/router'
 import styled from 'styled-components'
-import Header from '../components/Header'
+import Header from '../components/layout/Header'
 import Container from '../components/Container'
 import { LOAD_POSTS_REQUEST } from '../reducers/post'
 import { PostForm, EditPost } from '../components/popover'
@@ -17,7 +17,7 @@ const Index = () => {
   return (
     <>
       <Wrapper>
-        <Header />
+        <Header page="main" />
         <Container />
       </Wrapper>
       <PostForm />
