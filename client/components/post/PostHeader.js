@@ -8,7 +8,7 @@ const PostHeader = ({ user }) => {
     () => (
       <Wrap>
         <div className="user-image">
-          <Link href={`/${userName}`}>
+          <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
             <a>
               <img src={`http://localhost:3065/${image.src}`} alt="프로필이미지" />
             </a>

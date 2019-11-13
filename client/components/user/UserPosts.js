@@ -21,7 +21,7 @@ const UserPosts = () => {
   )
 }
 
-const Wrap = styled.div`
+export const Wrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 2.8rem;
