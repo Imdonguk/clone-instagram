@@ -3,6 +3,7 @@ import Helmet from 'react-helmet'
 import AppLayout from '../components/layout'
 import HashtagTemplate from '../components/hashtag/HashtagTemplae'
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../reducers/post'
+import { CancleFollow } from '../components/popover'
 
 const Hashtag = ({ tag }) => {
   return (

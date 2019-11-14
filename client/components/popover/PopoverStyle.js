@@ -16,7 +16,6 @@ export const PopoverWrap = ({ children }) => {
 export const PopoverButton = ({ children, fontColor, location, close, onClick }) => {
   const dispatch = useDispatch()
   const canclePopover = () => {
-    if (!close) return
     dispatch({ type: CLOSE_POP_OVER })
   }
 
@@ -47,8 +46,6 @@ const Wrap = styled.div`
 
 export const ButtonWrap = styled.div`
   width: 40rem;
-  background-color: #fff;
-  border-radius: 50%;
 `
 
 export const Button = styled.button`

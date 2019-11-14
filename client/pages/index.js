@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Header from '../components/layout/Header'
 import Container from '../components/main/Container'
 import { LOAD_POSTS_REQUEST } from '../reducers/post'
-import { PostForm, EditPost } from '../components/popover'
+import { PostForm, EditPost, CancleFollow } from '../components/popover'
 
 const Index = () => {
   const userName = useSelector(state => state.user.me && state.user.me.userName)
@@ -22,6 +22,7 @@ const Index = () => {
       </Wrapper>
       <PostForm />
       <EditPost />
+      <CancleFollow />
     </>
   )
 }
