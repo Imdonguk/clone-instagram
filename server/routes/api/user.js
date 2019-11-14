@@ -9,7 +9,7 @@ const config = require('../../config')
 const upload = require('../../multer')
 
 router.get('/', isLoggedIn, (req, res, next) => {
-  res.json(req.user.toJSON())
+  res.json(req.user)
 })
 
 router.get('/:userName', async (req, res, next) => {
@@ -132,7 +132,7 @@ router.post('/image', upload.single('profileImage'), async (req, res, next) => {
 router.delete('/image/:filename', async (req, res, next) => {
   try {
     const filename = req.params.filename
-    const image = await db.image.update(
+    await db.image.update(
       {
         src: 'static_profile.jpg',
       },
@@ -144,6 +144,28 @@ router.delete('/image/:filename', async (req, res, next) => {
     res.json('static_profile.jpg')
   } catch (e) {
     console.log(e)
+  }
+})
+
+router.post('/:id/follow', async (req, res, next) => {
+  try {
+    const followingUserId = +req.params.id
+    const me = await db.user.findOne({ where: { id: req.user.id } })
+    await me.addFollowings(followingUserId)
+    res.json({ id: followingUserId })
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.delete('/:id/follow', async (req, res, next) => {
+  try {
+    const followingUserId = +req.params.id
+    const me = await db.user.findOne({ where: { id: req.user.id } })
+    await me.removeFollowings(followingUserId)
+    res.json({ id: followingUserId })
+  } catch (e) {
+    next(e)
   }
 })
 
