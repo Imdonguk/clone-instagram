@@ -29,6 +29,14 @@ export const REMOVE_PROFILE_IMAGE_REQUEST = 'REMOVE_PROFILE_IMAGE_REQUEST'
 export const REMOVE_PROFILE_IMAGE_SUCCESS = 'REMOVE_PROFILE_IMAGE_SUCCESS'
 export const REMOVE_PROFILE_IMAGE_FAILURE = 'REMOVE_PROFILE_IMAGE_FAILURE'
 
+export const FOLLOW_USER_REQUEST = 'FOLLOW_USER_REQUEST'
+export const FOLLOW_USER_SUCCESS = 'FOLLOW_USER_SUCCESS'
+export const FOLLOW_USER_FAILURE = 'FOLLOW_USER_FAILURE'
+
+export const UNFOLLOW_USER_REQUEST = 'UNFOLLOW_USER_REQUEST'
+export const UNFOLLOW_USER_SUCCESS = 'UNFOLLOW_USER_SUCCESS'
+export const UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -83,6 +91,27 @@ export default (state = initialState, action) => {
       case REMOVE_PROFILE_IMAGE_FAILURE: {
         break
       }
+      case FOLLOW_USER_REQUEST: {
+        break
+      }
+      case FOLLOW_USER_SUCCESS: {
+        draft.me.followings.push(action.data)
+        break
+      }
+      case FOLLOW_USER_FAILURE: {
+        break
+      }
+      case UNFOLLOW_USER_REQUEST: {
+        break
+      }
+      case UNFOLLOW_USER_SUCCESS: {
+        draft.me.followings = draft.me.followings.filter(v => v.id !== action.data)
+        break
+      }
+      case UNFOLLOW_USER_FAILURE: {
+        break
+      }
+
       default: {
         break
       }
