@@ -16,6 +16,22 @@ module.exports = () => {
             model: db.image,
             attributes: ['src'],
           },
+          {
+            model: db.user,
+            as: 'followings',
+            attributes: ['id'],
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: db.user,
+            as: 'followers',
+            attributes: ['id'],
+            through: {
+              attributes: [],
+            },
+          },
         ],
         attributes: ['userName', 'name', 'id'],
       })
