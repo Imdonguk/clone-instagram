@@ -30,6 +30,8 @@ const UserHeader = () => {
           </a>
           <div className="edit-wrap" onClick={handleClickEditAccountBtn}>
             <EditIcon />
+          <div className="follow-button-wrap">
+            <FollowButton user={userInfo} />
           </div>
         </div>
         <div className="profile-center">
@@ -110,6 +112,12 @@ const Wrap = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+
+      & .follow-button-wrap {
+        height: 2.8rem;
+        margin-left: 2rem;
+        font-size: 1.4rem;
       }
     }
     .profile-center {

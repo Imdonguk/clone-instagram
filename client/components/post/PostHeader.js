@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
+import FollowBtn from './FollowButton'
 
 const PostHeader = ({ user }) => {
-  const { userName, image } = user
+  const { id, userName, image } = user
   return useMemo(
     () => (
       <Wrap>
@@ -15,13 +16,14 @@ const PostHeader = ({ user }) => {
           </Link>
         </div>
         <div className="user-name">
-          <Link href={`/${userName}`}>
+          <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
             <a>{userName}</a>
           </Link>
         </div>
+        <FollowBtn user={user} mode="text" />
       </Wrap>
     ),
-    [userName],
+    [],
   )
 }
 
