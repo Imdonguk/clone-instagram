@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon } from '../Icons'
 import { OPEN_EDIT_PROFILE_IMAGE, OPEN_EDIT_ACCOUNT } from '../../reducers/popover'
+import FollowButton from '../post/FollowButton'
 
 const UserHeader = () => {
-  const { userName, name, image, postCount } = useSelector(state => state.user.userInfo)
+  const me = useSelector(state => state.user.me)
+  const userInfo = useSelector(state => state.user.userInfo)
+
+  const isOwner = useMemo(() => me.userName === userInfo.userName, [me.userName, userInfo.userName])
+
   const dispatch = useDispatch()
   const handleClickProfileImg = () => {
     dispatch({ type: OPEN_EDIT_PROFILE_IMAGE })
@@ -17,26 +22,32 @@ const UserHeader = () => {
     <Wrap>
       <div className="profile-image">
         <div className="button-wrap" onClick={handleClickProfileImg}>
-          <button type="button">
-            <img src={`http://localhost:3065/${image.src}`} alt="프로필이미지" />
-          </button>
+          <img src={`http://localhost:3065/${userInfo.image.src}`} alt="프로필이미지" />
+          {isOwner && <button className="owner" type="button" title="프로필편집" />}
         </div>
       </div>
       <div className="profile-info">
         <div className="profile-top">
-          <h1>{userName}</h1>
-          <a>
-            <button type="button">프로필편집</button>
-          </a>
-          <div className="edit-wrap" onClick={handleClickEditAccountBtn}>
-            <EditIcon />
+          <h1>{userInfo.userName}</h1>
+          {isOwner ? (
+            <>
+              <a>
+                <button type="button" className="edit-profile">
+                  프로필편집
+                </button>
+              </a>
+              <div className="edit-wrap" onClick={handleClickEditAccountBtn}>
+                <EditIcon />
+              </div>
+            </>
+          ) : null}
           <div className="follow-button-wrap">
             <FollowButton user={userInfo} />
           </div>
         </div>
         <div className="profile-center">
           <div>
-            게시물 <span>{postCount}</span>
+            게시물 <span>{userInfo.postCount}</span>
           </div>
           <div>
             게시물 <span>81</span>
@@ -45,7 +56,7 @@ const UserHeader = () => {
             게시물 <span>147</span>
           </div>
         </div>
-        <div className="profile-bottom">{name}</div>
+        <div className="profile-bottom">{userInfo.name}</div>
       </div>
     </Wrap>
   )
@@ -59,24 +70,25 @@ const Wrap = styled.div`
     width: 30rem;
 
     & .button-wrap {
+      position: relative;
       width: 15rem;
       height: 15rem;
       margin: 0 auto;
 
-      & button {
+      & > img {
         width: 100%;
         height: 100%;
-        border: 0;
-        cursor: pointer;
-        padding: 0;
         border-radius: 50%;
-        outline: none;
+      }
 
-        & > img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
+      & .owner {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        border-radius: 50%;
+        opacity: 0;
+        cursor: pointer;
       }
     }
   }
@@ -95,13 +107,14 @@ const Wrap = styled.div`
         font-weight: 300;
         font-size: 2.8rem;
       }
-      & button {
+      & .edit-profile {
         font-size: 1.4rem;
         font-weight: 600;
         margin-left: 2rem;
         padding: 0.5rem 0.9rem;
         border-radius: 0.4rem;
         outline: none;
+        cursor: pointer;
       }
 
       .edit-wrap {
