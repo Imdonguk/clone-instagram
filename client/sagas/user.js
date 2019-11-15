@@ -22,6 +22,9 @@ import {
   UNFOLLOW_USER_REQUEST,
   UNFOLLOW_USER_SUCCESS,
   UNFOLLOW_USER_FAILURE,
+  SAVE_OTHER_POST_REQUEST,
+  SAVE_OTHER_POST_SUCCESS,
+  SAVE_OTHER_POST_FAILURE,
 } from '../reducers/user'
 
 import { UPDATE_MY_POSTS_PROFILE_IMAGE } from '../reducers/post'
@@ -205,6 +208,29 @@ function* unFollowUser(action) {
 
 function* watchUnFollowUser() {
   yield takeEvery(UNFOLLOW_USER_REQUEST, unFollowUser)
+}
+
+function saveOtherPostApi(postId) {
+  return axios.post(`/user/save/${postId}`, {}, { withCredentials: true })
+}
+
+function* saveOtherPost(action) {
+  try {
+    const result = yield call(saveOtherPostApi, action.data)
+    yield put({
+      type: SAVE_OTHER_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: SAVE_OTHER_POST_FAILURE,
+      data: e,
+    })
+  }
+}
+
+function* watchSaveOtherPost() {
+  yield takeEvery(SAVE_OTHER_POST_REQUEST, saveOtherPost)
 }
 
 function* userSaga() {

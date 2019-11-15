@@ -37,6 +37,9 @@ export const UNFOLLOW_USER_REQUEST = 'UNFOLLOW_USER_REQUEST'
 export const UNFOLLOW_USER_SUCCESS = 'UNFOLLOW_USER_SUCCESS'
 export const UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE'
 
+export const SAVE_OTHER_POST_REQUEST = 'SAVE_OTHER_POST_REQUEST'
+export const SAVE_OTHER_POST_SUCCESS = 'SAVE_OTHER_POST_SUCCESS'
+export const SAVE_OTHER_POST_FAILURE = 'SAVE_OTHER_POST_FAILURE'
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -111,7 +114,16 @@ export default (state = initialState, action) => {
       case UNFOLLOW_USER_FAILURE: {
         break
       }
-
+      case SAVE_OTHER_POST_REQUEST: {
+        break
+      }
+      case SAVE_OTHER_POST_SUCCESS: {
+        draft.me.saved.push(action.data)
+        break
+      }
+      case SAVE_OTHER_POST_FAILURE: {
+        break
+      }
       default: {
         break
       }
