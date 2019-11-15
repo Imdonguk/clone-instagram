@@ -40,6 +40,11 @@ export const UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE'
 export const SAVE_OTHER_POST_REQUEST = 'SAVE_OTHER_POST_REQUEST'
 export const SAVE_OTHER_POST_SUCCESS = 'SAVE_OTHER_POST_SUCCESS'
 export const SAVE_OTHER_POST_FAILURE = 'SAVE_OTHER_POST_FAILURE'
+
+export const REMOVE_SAVED_POST_REQUEST = 'REMOVE_SAVED_POST_REQUEST'
+export const REMOVE_SAVED_POST_SUCCESS = 'REMOVE_SAVED_POST_SUCCESS'
+export const REMOVE_SAVED_POST_FAILURE = 'REMOVE_SAVED_POST_FAILURE'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -108,7 +113,7 @@ export default (state = initialState, action) => {
         break
       }
       case UNFOLLOW_USER_SUCCESS: {
-        draft.me.followings = draft.me.followings.filter(v => v.id !== action.data)
+        draft.me.followings = draft.me.followings.filter(v => v.id !== action.data.id)
         break
       }
       case UNFOLLOW_USER_FAILURE: {
@@ -122,6 +127,16 @@ export default (state = initialState, action) => {
         break
       }
       case SAVE_OTHER_POST_FAILURE: {
+        break
+      }
+      case REMOVE_SAVED_POST_REQUEST: {
+        break
+      }
+      case REMOVE_SAVED_POST_SUCCESS: {
+        draft.me.saved = draft.me.saved.filter(v => v.id !== action.data.id)
+        break
+      }
+      case REMOVE_SAVED_POST_FAILURE: {
         break
       }
       default: {

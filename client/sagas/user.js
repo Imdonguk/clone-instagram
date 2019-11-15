@@ -25,6 +25,9 @@ import {
   SAVE_OTHER_POST_REQUEST,
   SAVE_OTHER_POST_SUCCESS,
   SAVE_OTHER_POST_FAILURE,
+  REMOVE_SAVED_POST_REQUEST,
+  REMOVE_SAVED_POST_SUCCESS,
+  REMOVE_SAVED_POST_FAILURE,
 } from '../reducers/user'
 
 import { UPDATE_MY_POSTS_PROFILE_IMAGE } from '../reducers/post'
@@ -190,10 +193,9 @@ function unFollowUserApi(userId) {
 function* unFollowUser(action) {
   try {
     const result = yield call(unFollowUserApi, action.data)
-    const userId = result.data.id
     yield put({
       type: UNFOLLOW_USER_SUCCESS,
-      data: userId,
+      data: result.data,
     })
     yield put({
       type: CLOSE_POP_OVER,
@@ -233,6 +235,30 @@ function* watchSaveOtherPost() {
   yield takeEvery(SAVE_OTHER_POST_REQUEST, saveOtherPost)
 }
 
+function removeSavedPostApi(postId) {
+  return axios.delete(`/user/save/${postId}`, { withCredentials: true })
+}
+
+function* removeSavedPost(action) {
+  try {
+    console.log('?')
+    const result = yield call(removeSavedPostApi, action.data)
+    yield put({
+      type: REMOVE_SAVED_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: REMOVE_SAVED_POST_FAILURE,
+      data: e,
+    })
+  }
+}
+
+function* watchRemoveSavedPost() {
+  yield takeEvery(REMOVE_SAVED_POST_REQUEST, removeSavedPost)
+}
+
 function* userSaga() {
   yield all([
     fork(watchLoadUser),
@@ -242,6 +268,8 @@ function* userSaga() {
     fork(watchRemoveProfileImage),
     fork(watchFollowUser),
     fork(watchUnFollowUser),
+    fork(watchSaveOtherPost),
+    fork(watchRemoveSavedPost),
   ])
 }
 
