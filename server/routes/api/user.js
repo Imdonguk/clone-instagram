@@ -193,4 +193,16 @@ router.delete('/:id/follow', async (req, res, next) => {
   }
 })
 
+router.post('/save/:postId', async (req, res, next) => {
+  try {
+    const postId = +req.params.postId
+    const post = await db.post.findOne({ where: { id: postId } })
+    if (!post) return res.status(401).send('no post')
+    await req.user.addSaved(postId)
+    res.json({ id: postId })
+  } catch (e) {
+    next(e)
+  }
+})
+
 module.exports = router
