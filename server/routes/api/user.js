@@ -21,6 +21,30 @@ router.get('/:userName', async (req, res, next) => {
           model: db.image,
           attributes: ['src'],
         },
+        {
+          model: db.user,
+          as: 'followers',
+          attributes: ['id'],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: db.user,
+          as: 'followings',
+          attributes: ['id'],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: db.post,
+          as: 'saved',
+          attributes: ['id'],
+          through: {
+            attributes: [],
+          },
+        },
       ],
       attributes: ['id', 'name', 'userName'],
     })

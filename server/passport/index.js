@@ -32,6 +32,14 @@ module.exports = () => {
               attributes: [],
             },
           },
+          {
+            model: db.post,
+            as: 'saved',
+            attributes: ['id'],
+            through: {
+              attributes: [],
+            },
+          },
         ],
         attributes: ['userName', 'name', 'id'],
       })

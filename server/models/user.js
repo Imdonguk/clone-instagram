@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     db.user.hasMany(db.comment, { onDelete: 'cascade' })
     db.user.hasOne(db.image, { onDelete: 'cascade' })
     db.user.belongsToMany(db.post, { through: 'like', as: 'liked' })
+    db.user.belongsToMany(db.post, { through: 'save', as: 'saved', onDelete: 'cascade' })
     db.user.belongsToMany(db.user, { through: 'follow', as: 'followers', foreignKey: 'followingId' })
     db.user.belongsToMany(db.user, { through: 'follow', as: 'followings', foreignKey: 'followerId' })
   }
