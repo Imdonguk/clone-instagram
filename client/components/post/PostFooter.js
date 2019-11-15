@@ -3,13 +3,16 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { LikeIcon, CommentIcon, SaveIcon, ShareIcon } from '../Icons'
 import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post'
+import { SAVE_OTHER_POST_REQUEST, REMOVE_SAVED_POST_REQUEST } from '../../reducers/user'
 import { PostComment } from './index'
 
 const PostFooter = ({ postId, des, comments, likers, user }) => {
   const commentRef = useRef('')
   const dispatch = useDispatch()
-  const userId = useSelector(state => state.user.me && state.user.me.id)
+  const { id: userId, saved } = useSelector(state => state.user.me)
+
   const isLiked = useMemo(() => !!likers.find(v => v.id === userId), [likers])
+  const isSaved = useMemo(() => saved.find(v => v.id === postId), [saved])
 
   const addComment = e => {
     e.preventDefault()
@@ -38,6 +41,20 @@ const PostFooter = ({ postId, des, comments, likers, user }) => {
     }
   }, [isLiked])
 
+  const handleClickSaveBtn = () => {
+    if (isSaved) {
+      dispatch({
+        type: REMOVE_SAVED_POST_REQUEST,
+        data: postId,
+      })
+    } else {
+      dispatch({
+        type: SAVE_OTHER_POST_REQUEST,
+        data: postId,
+      })
+    }
+  }
+
   return (
     <Wrap>
       <div className="icons">
@@ -51,7 +68,7 @@ const PostFooter = ({ postId, des, comments, likers, user }) => {
           <ShareIcon />
         </IconWrap>
         <IconWrap last>
-          <SaveIcon />
+          <SaveIcon save={isSaved} onClick={handleClickSaveBtn} />
         </IconWrap>
       </div>
       <div className="like-user-count">좋아요 {likers.length}개</div>

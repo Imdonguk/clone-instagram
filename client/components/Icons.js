@@ -55,7 +55,8 @@ export const CommentIcon = styled(BasicIcon)`
 `
 
 export const SaveIcon = styled(BasicIcon)`
-  background-position: -21.1rem -10rem;
+  background-position-x: -21.1rem;
+  background-position-y: ${({ save }) => (save ? '-2.4rem' : '-10rem')};
 `
 
 export const UploadIcon = styled(BasicIcon)`
