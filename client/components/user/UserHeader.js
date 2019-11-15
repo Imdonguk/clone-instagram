@@ -21,9 +21,9 @@ const UserHeader = () => {
   return (
     <Wrap>
       <div className="profile-image">
-        <div className="button-wrap" onClick={handleClickProfileImg}>
+        <div className="button-wrap">
           <img src={`http://localhost:3065/${userInfo.image.src}`} alt="프로필이미지" />
-          {isOwner && <button className="owner" type="button" title="프로필편집" />}
+          {isOwner && <button className="owner" type="button" title="프로필편집" onClick={handleClickProfileImg} />}
         </div>
       </div>
       <div className="profile-info">
@@ -40,20 +40,21 @@ const UserHeader = () => {
                 <EditIcon />
               </div>
             </>
-          ) : null}
-          <div className="follow-button-wrap">
-            <FollowButton user={userInfo} />
-          </div>
+          ) : (
+            <div className="follow-button-wrap">
+              <FollowButton user={userInfo} />
+            </div>
+          )}
         </div>
         <div className="profile-center">
           <div>
             게시물 <span>{userInfo.postCount}</span>
           </div>
           <div>
-            게시물 <span>81</span>
+            팔로워 <span>{userInfo.followers.length}</span>
           </div>
           <div>
-            게시물 <span>147</span>
+            팔로우 <span>{userInfo.followings.length}</span>
           </div>
         </div>
         <div className="profile-bottom">{userInfo.name}</div>
