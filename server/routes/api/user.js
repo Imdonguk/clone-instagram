@@ -205,4 +205,16 @@ router.post('/save/:postId', async (req, res, next) => {
   }
 })
 
+router.delete('/save/:postId', async (req, res, next) => {
+  try {
+    const postId = +req.params.postId
+    const post = await db.post.findOne({ where: { id: postId } })
+    if (!post) return res.status(401).send('no post')
+    await req.user.removeSaved(postId)
+    res.json({ id: postId })
+  } catch (e) {
+    next(e)
+  }
+})
+
 module.exports = router
