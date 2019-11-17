@@ -41,6 +41,10 @@ app.prepare().then(() => {
     return app.render(req, res, '/signup')
   })
 
+  server.get('/post/:id', (req, res) => {
+    return app.render(req, res, '/post', { id: req.params.id })
+  })
+
   server.get('/:userName', (req, res) => {
     return app.render(req, res, '/user', { userName: req.params.userName })
   })
