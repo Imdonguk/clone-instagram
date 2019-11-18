@@ -30,8 +30,15 @@ PostContent.propTypes = {
 }
 
 const Wrap = styled.div`
-  & > img {
-    width: 100%;
+  width: inherit;
+  height: inherit;
+
+  & * {
+    height: inherit;
+  }
+  & img {
+    width: inherit;
+    max-height: 61.4rem;
   }
 
   & .slick-dots li {

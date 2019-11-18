@@ -4,7 +4,7 @@ import Link from 'next/link'
 import FollowBtn from './FollowButton'
 
 const PostHeader = ({ user }) => {
-  const { id, userName, image } = user
+  const { userName, image } = user
   return useMemo(
     () => (
       <Wrap>
@@ -28,9 +28,6 @@ const PostHeader = ({ user }) => {
 }
 
 const Wrap = styled.div`
-  height: 6rem;
-  padding: 1.6rem;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
 

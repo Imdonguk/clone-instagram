@@ -1,108 +1,20 @@
-import React, { useRef, useMemo, useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
-import { LikeIcon, CommentIcon, SaveIcon, ShareIcon } from '../Icons'
-import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post'
-import { SAVE_OTHER_POST_REQUEST, REMOVE_SAVED_POST_REQUEST } from '../../reducers/user'
-import { PostComment } from './index'
+import { PostIcons, PostLikeCount, PostCommentList, PostInputForm } from './index'
 
-const PostFooter = ({ postId, des, comments, likers, user }) => {
-  const commentRef = useRef('')
-  const dispatch = useDispatch()
-  const { id: userId, saved } = useSelector(state => state.user.me)
-
-  const isLiked = useMemo(() => !!likers.find(v => v.id === userId), [likers])
-  const isSaved = useMemo(() => saved.find(v => v.id === postId), [saved])
-
-  const addComment = e => {
-    e.preventDefault()
-    dispatch({
-      type: ADD_COMMENT_REQUEST,
-      data: { postId, content: commentRef.current.value },
-    })
-    commentRef.current.value = ''
-  }
-
-  const handleClickCommentBtn = () => {
-    commentRef.current.focus()
-  }
-
-  const handleClickLikeBtn = useCallback(async () => {
-    if (isLiked) {
-      dispatch({
-        type: UNLIKE_POST_REQUEST,
-        data: postId,
-      })
-    } else {
-      dispatch({
-        type: LIKE_POST_REQUEST,
-        data: postId,
-      })
-    }
-  }, [isLiked])
-
-  const handleClickSaveBtn = () => {
-    if (isSaved) {
-      dispatch({
-        type: REMOVE_SAVED_POST_REQUEST,
-        data: postId,
-      })
-    } else {
-      dispatch({
-        type: SAVE_OTHER_POST_REQUEST,
-        data: postId,
-      })
-    }
-  }
-
+const PostFooter = ({ info }) => {
+  const { id: postId, likers, description, comments, user } = info
   return (
     <Wrap>
-      <div className="icons">
-        <IconWrap first>
-          <LikeIcon like={isLiked} onClick={handleClickLikeBtn} />
-        </IconWrap>
-        <IconWrap>
-          <CommentIcon onClick={handleClickCommentBtn} />
-        </IconWrap>
-        <IconWrap>
-          <ShareIcon />
-        </IconWrap>
-        <IconWrap last>
-          <SaveIcon save={isSaved} onClick={handleClickSaveBtn} />
-        </IconWrap>
-      </div>
-      <div className="like-user-count">좋아요 {likers.length}개</div>
-      <div className="comment">
-        <PostComment userName={user.userName} comment={des} />
-        {comments.map(v => (
-          <PostComment userName={v.user.userName} comment={v.content} id={v.id} />
-        ))}
-      </div>
-      <div className="input-comment">
-        <form onSubmit={addComment}>
-          <input placeholder="댓글달기..." ref={commentRef} />
-        </form>
-      </div>
+      <PostIcons postId={postId} likers={likers} />
+      <PostLikeCount likers={likers} />
+      <PostCommentList description={description} comments={comments} user={user} />
+      <PostInputForm postId={postId} />
     </Wrap>
   )
 }
 
 const Wrap = styled.div`
-  position: relative;
-  padding: 0 1.6rem;
-
-  & > .icons {
-    margin-top: 0.4rem;
-    display: flex;
-  }
-  & > .like-user-count {
-    font-size: 1.4rem;
-    height: 2rem;
-    line-height: 2rem;
-    color: #262626;
-    margin-bottom: 0.8rem;
-    font-weight: 600;
-  }
   .input-comment {
     height: 5.6rem;
     border-top: 0.1rem solid #e6e6e6;
@@ -121,16 +33,6 @@ const Wrap = styled.div`
       }
     }
   }
-`
-
-const IconWrap = styled.div`
-  display: flex;
-  width: 4rem;
-  height: 4rem;
-  align-items: center;
-  justify-content: center;
-  margin-left: ${props => (props.first ? '-0.8rem' : props.last ? 'auto' : '0')};
-  margin-right: ${props => (props.last ? '-1rem' : '0')};
 `
 
 export default PostFooter

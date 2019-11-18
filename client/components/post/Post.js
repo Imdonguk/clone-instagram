@@ -7,7 +7,7 @@ import { OPEN_EDIT_POST } from '../../reducers/popover'
 
 const Post = ({ info }) => {
   const dispatch = useDispatch()
-  const { user, images, description, comments, likers, id } = info
+  const { user, images } = info
   const openPostSetting = () => {
     dispatch({
       type: OPEN_EDIT_POST,
@@ -16,9 +16,13 @@ const Post = ({ info }) => {
   return useMemo(
     () => (
       <Wrap>
-        <PostHeader user={user} />
+        <PostHeaderWrap>
+          <PostHeader user={user} />
+        </PostHeaderWrap>
         <PostContent img={images} />
-        <PostFooter user={user} postId={id} des={description} comments={comments} likers={likers} />
+        <PostFooterWrap>
+          <PostFooter info={info} />
+        </PostFooterWrap>
         <Setting>
           <SettingIcon onClick={openPostSetting} />
         </Setting>
@@ -46,6 +50,17 @@ const Setting = styled.div`
   right: 0.4rem;
   bottom: -1rem;
   top: 0;
+`
+
+const PostFooterWrap = styled.div`
+  position: relative;
+  padding: 0 1.6rem;
+`
+
+const PostHeaderWrap = styled.div`
+  height: 6rem;
+  padding: 1.6rem;
+  box-sizing: border-box;
 `
 
 export default Post
