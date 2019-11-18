@@ -4,6 +4,60 @@ const db = require('../../models')
 const fs = require('fs')
 const upload = require('../../multer')
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const post = await db.post.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: db.user,
+          attributes: ['id', 'name', 'userName'],
+          include: [
+            {
+              model: db.image,
+              attributes: ['src'],
+            },
+          ],
+        },
+        {
+          model: db.user,
+          as: 'likers',
+          through: {
+            attributes: [],
+          },
+          attributes: ['id'],
+        },
+        {
+          model: db.image,
+          attributes: ['id', 'src'],
+        },
+        {
+          model: db.comment,
+          attributes: ['id', 'content'],
+          include: [
+            {
+              model: db.user,
+              attributes: ['id', 'userName', 'name'],
+              include: [
+                {
+                  model: db.image,
+                  attributes: ['src'],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      attributes: ['id', 'description'],
+      order: [['createdAt', 'DESC']],
+    })
+    if (!post) res.status(401).send('no post')
+    res.json(post)
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.post('/', upload.none(), async (req, res, next) => {
   try {
     const { description, image } = req.body
