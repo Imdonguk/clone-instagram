@@ -1,37 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 import { PostHeader, PostContent, PostPageCommentList, PostIcons, PostLikeCount, PostInputForm } from './index'
 
-const dummyData = {
-  user: {
-    userName: 'woogieboogie',
-    name: '우기부기',
-    image: {
-      src: 'IMG_24531573541982446.jpg',
-    },
-  },
-
-  images: [{ id: 1, src: 'IMG_24531573541982446.jpg' }],
-  description: '하이욱!',
-  id: 1,
-  likers: [1, 2, 3],
-}
 const PostTemplate = () => {
+  const { post } = useSelector(state => state.post)
   return (
     <Wrap>
       <PostContentWrap>
-        <PostContent img={dummyData.images} />
+        <PostContent img={post.images} />
       </PostContentWrap>
       <PostRightLayout>
         <PostHeaderWrap>
-          <PostHeader user={dummyData.user} />
+          <PostHeader user={post.user} />
         </PostHeaderWrap>
         <PostCommentListWrap>
-          <PostPageCommentList user={dummyData.user} comments={[]} description={dummyData.description} />
+          <PostPageCommentList user={post.user} comments={[]} description={post.description} />
         </PostCommentListWrap>
-        <PostIcons postId={dummyData.id} likers={dummyData.likers} />
-        <PostLikeCount likers={dummyData.likers} />
-        <PostInputForm postId={dummyData.id} />
+        <PostIcons postId={post.id} likers={post.likers} />
+        <PostLikeCount likers={post.likers} />
+        <PostInputForm postId={post.id} />
       </PostRightLayout>
     </Wrap>
   )
