@@ -2,6 +2,7 @@ import produce from 'immer'
 
 const initialState = {
   posts: [],
+  post: {},
   userPosts: [],
   hashtagPosts: [],
   imagePaths: [],
@@ -14,6 +15,10 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST'
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS'
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE'
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST'
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS'
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE'
 
 export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST'
 export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS'
@@ -71,6 +76,16 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_POSTS_FAILURE: {
+        break
+      }
+      case LOAD_POST_REQUEST: {
+        break
+      }
+      case LOAD_POST_SUCCESS: {
+        draft.post = action.data
+        break
+      }
+      case LOAD_POST_FAILURE: {
         break
       }
       case LOAD_USER_POSTS_REQUEST: {

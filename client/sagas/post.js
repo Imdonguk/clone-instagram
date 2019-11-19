@@ -7,6 +7,9 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE,
   LOAD_USER_POSTS_REQUEST,
   LOAD_USER_POSTS_SUCCESS,
   LOAD_USER_POSTS_FAILURE,
@@ -74,6 +77,28 @@ function* watchLoadPosts() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
 }
 
+function loadPostApi(postId) {
+  return axios.get(`/post/${postId}`)
+}
+
+function* loadPost(action) {
+  try {
+    const result = yield call(loadPostApi, action.data)
+    yield put({
+      type: LOAD_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: LOAD_POST_FAILURE,
+    })
+  }
+}
+
+function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost)
+}
+
 function loadUserPostsApi(userName) {
   return axios.get(`/user/${userName}/posts`)
 }
@@ -110,7 +135,6 @@ function* loadHashtagPosts(action) {
       data: result.data,
     })
   } catch (e) {
-    console.log(e)
     yield put({
       type: LOAD_HASHTAG_POSTS_FAILURE,
     })
@@ -250,6 +274,7 @@ function* postSaga() {
     fork(watchLoadPosts),
     fork(watchLoadUserPosts),
     fork(watchLoadHashtagPosts),
+    fork(watchLoadPost),
   ])
 }
 
