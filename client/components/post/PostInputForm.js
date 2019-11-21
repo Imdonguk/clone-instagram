@@ -1,13 +1,16 @@
 import React, { useRef, useCallback } from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import Router from 'next/router'
+import { useDispatch, useSelector } from 'react-redux'
 import { ADD_COMMENT_REQUEST } from '../../reducers/post'
 
 const PostInputForm = ({ postId }) => {
   const commentRef = useRef('')
   const dispatch = useDispatch()
+  const isLogged = useSelector(state => state.user.me.userName)
   const addComment = useCallback(
     e => {
+      if (!isLogged) return Router.push('/signin')
       e.preventDefault()
       dispatch({
         type: ADD_COMMENT_REQUEST,

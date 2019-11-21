@@ -1,18 +1,21 @@
 import React, { useMemo, useCallback } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
+import Router from 'next/router'
+import Link from 'next/link'
 import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post'
 import { SAVE_OTHER_POST_REQUEST, REMOVE_SAVED_POST_REQUEST } from '../../reducers/user'
 import { LikeIcon, CommentIcon, SaveIcon, ShareIcon } from '../Icons'
 
 const PostIcons = ({ postId, likers }) => {
   const dispatch = useDispatch()
-
   const { id: userId, saved } = useSelector(state => state.user.me)
+  const isLogged = useMemo(() => userId, [userId])
   const isLiked = likers && useMemo(() => !!likers.find(v => v.id === userId), [likers])
   const isSaved = saved && useMemo(() => saved.find(v => v.id === postId), [saved])
 
   const handleClickLikeBtn = useCallback(async () => {
+    if (!isLogged) return Router.push('/signin')
     if (isLiked) {
       dispatch({
         type: UNLIKE_POST_REQUEST,
@@ -27,6 +30,7 @@ const PostIcons = ({ postId, likers }) => {
   }, [isLiked])
 
   const handleClickSaveBtn = () => {
+    if (!isLogged) return Router.push('/signin')
     if (isSaved) {
       dispatch({
         type: REMOVE_SAVED_POST_REQUEST,
@@ -44,9 +48,13 @@ const PostIcons = ({ postId, likers }) => {
       <IconWrap first>
         <LikeIcon like={isLiked} onClick={handleClickLikeBtn} />
       </IconWrap>
-      <IconWrap>
-        <CommentIcon />
-      </IconWrap>
+      <Link href={{ pathname: '/post', query: { id: postId } }} as={`/post/${postId}`}>
+        <a>
+          <IconWrap>
+            <CommentIcon />
+          </IconWrap>
+        </a>
+      </Link>
       <IconWrap>
         <ShareIcon />
       </IconWrap>
