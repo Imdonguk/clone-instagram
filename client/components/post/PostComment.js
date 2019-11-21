@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 
-const PostComment = ({ id, userName, comment }) => {
+const PostComment = ({ userName, comment }) => {
   return (
     <Wrap>
       <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
@@ -10,10 +10,14 @@ const PostComment = ({ id, userName, comment }) => {
           <span className="user-name">{userName}</span>
         </a>
       </Link>
-      {comment.split(/(#[^#\s,;]+)/gm).map(v => {
+      {comment.split(/(#[^#\s,;]+)/gm).map((v, i) => {
         if (v.match(/#[^\s,;]+/)) {
           return (
-            <Link href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }} as={`/hashtag/${v.slice(1)}`}>
+            <Link
+              href={{ pathname: '/hashtag', query: { tag: v.slice(1) } }}
+              as={`/hashtag/${v.slice(1)}`}
+              key={i.toString()}
+            >
               <a className="hashtag">{v}</a>
             </Link>
           )
@@ -26,6 +30,8 @@ const PostComment = ({ id, userName, comment }) => {
 
 const Wrap = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
   font-size: 1.4rem;
   margin-bottom: 1rem;
 
