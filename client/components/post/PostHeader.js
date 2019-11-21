@@ -23,7 +23,7 @@ const PostHeader = ({ user }) => {
         <FollowBtn user={user} mode="text" />
       </Wrap>
     ),
-    [],
+    [user],
   )
 }
 

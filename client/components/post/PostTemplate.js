@@ -15,7 +15,7 @@ const PostTemplate = () => {
           <PostHeader user={post.user} />
         </PostHeaderWrap>
         <PostCommentListWrap>
-          <PostPageCommentList user={post.user} comments={[]} description={post.description} />
+          <PostPageCommentList user={post.user} comments={post.comments} description={post.description} />
         </PostCommentListWrap>
         <PostIcons postId={post.id} likers={post.likers} />
         <PostLikeCount likers={post.likers} />

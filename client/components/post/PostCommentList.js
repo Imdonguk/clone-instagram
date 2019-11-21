@@ -7,7 +7,7 @@ const PostCommentList = ({ description, comments, user }) => {
     <Wrap>
       <PostComment userName={user.userName} comment={description} />
       {comments.map(v => (
-        <PostComment userName={v.user.userName} comment={v.content} id={v.id} />
+        <PostComment userName={v.user.userName} comment={v.content} id={v.id} key={v.id} />
       ))}
     </Wrap>
   )

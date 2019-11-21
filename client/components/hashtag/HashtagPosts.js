@@ -14,6 +14,7 @@ const HashtagPosts = () => {
             likeCount={post.likers.length}
             commentCount={post.commentCount}
             key={post.id}
+            postId={post.id}
           />
         )
       })}

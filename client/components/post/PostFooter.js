@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import { PostIcons, PostLikeCount, PostCommentList, PostInputForm } from './index'
 
 const PostFooter = ({ info }) => {
-  const { id: postId, likers, description, comments, user } = info
+  const { id: postId, likers, description, previewComments, user } = info
   return (
     <Wrap>
       <PostIcons postId={postId} likers={likers} />
       <PostLikeCount likers={likers} />
-      <PostCommentList description={description} comments={comments} user={user} />
+      <PostCommentList description={description} comments={previewComments} user={user} />
       <PostInputForm postId={postId} />
     </Wrap>
   )

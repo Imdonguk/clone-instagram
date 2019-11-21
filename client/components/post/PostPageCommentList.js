@@ -16,7 +16,7 @@ const PostPageCommentList = ({ description, comments, user }) => {
           <div className="profile-image">
             <img src={`http://localhost:3065/${v.user.image.src}`} alt="유저프로필이미지" />
           </div>
-          <PostComment userName={v.user.userName} comment={v.content} />
+          <PostComment userName={v.user.userName} comment={v.content} key={v.id} />
         </PostCommentWrap>
       ))}
     </>

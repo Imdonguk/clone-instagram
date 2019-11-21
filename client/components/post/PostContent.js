@@ -33,7 +33,8 @@ const Wrap = styled.div`
   width: inherit;
   height: inherit;
 
-  & * {
+  & div,
+  img {
     height: inherit;
   }
   & img {

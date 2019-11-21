@@ -13,6 +13,7 @@ const UserPosts = () => {
             images={post.images}
             likeCount={post.likers.length}
             commentCount={post.commentCount}
+            postId={post.id}
             key={post.id}
           />
         )
