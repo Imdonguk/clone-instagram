@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 import { WhiteLikeIcon, WhiteCommentIcon, SlideIcon } from '../Icons'
 
-const UserPost = ({ images, likeCount, commentCount }) => {
+const UserPost = ({ images, likeCount, commentCount, postId }) => {
   const [isPostActivity, setisPostActivity] = useState(false)
 
   const isSlideIcon = useMemo(() => images.length > 1, [images])
@@ -10,26 +11,30 @@ const UserPost = ({ images, likeCount, commentCount }) => {
   const handleMouseLeavePost = () => setisPostActivity(false)
 
   return (
-    <Wrap onMouseOver={handleMouseOverPost} onMouseLeave={handleMouseLeavePost} onFocus={handleMouseOverPost}>
-      <img src={`http://localhost:3065/${images[0].src}`} alt="게시물이미지" />
-      {isSlideIcon && (
-        <div className="slide-icon-wrap">
-          <SlideIcon />
-        </div>
-      )}
-      {isPostActivity && (
-        <div className="post-activity">
-          <div className="activity-wrap">
-            <WhiteLikeIcon />
-            <span className="activity-count">{likeCount}</span>
-          </div>
-          <div className="activity-wrap comment-count-wrap">
-            <WhiteCommentIcon />
-            <span className="activity-count">{commentCount}</span>
-          </div>
-        </div>
-      )}
-    </Wrap>
+    <Link href={{ pathname: '/post', query: { id: postId } }} as={`/post/${postId}`}>
+      <a>
+        <Wrap onMouseOver={handleMouseOverPost} onMouseLeave={handleMouseLeavePost} onFocus={handleMouseOverPost}>
+          <img src={`http://localhost:3065/${images[0].src}`} alt="게시물이미지" />
+          {isSlideIcon && (
+            <div className="slide-icon-wrap">
+              <SlideIcon />
+            </div>
+          )}
+          {isPostActivity && (
+            <div className="post-activity">
+              <div className="activity-wrap">
+                <WhiteLikeIcon />
+                <span className="activity-count">{likeCount}</span>
+              </div>
+              <div className="activity-wrap comment-count-wrap">
+                <WhiteCommentIcon />
+                <span className="activity-count">{commentCount}</span>
+              </div>
+            </div>
+          )}
+        </Wrap>
+      </a>
+    </Link>
   )
 }
 
