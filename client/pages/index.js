@@ -28,7 +28,10 @@ const Index = () => {
 }
 
 Index.getInitialProps = async context => {
+  const { me } = context.store.getState().user
   const { posts } = context.store.getState().post
+
+  if (!me.userName) return
 
   posts.length ||
     context.store.dispatch({
