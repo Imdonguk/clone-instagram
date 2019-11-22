@@ -28,10 +28,6 @@ router.get('/:id', async (req, res, next) => {
           attributes: ['id'],
         },
         {
-          model: db.image,
-          attributes: ['id', 'src'],
-        },
-        {
           model: db.comment,
           attributes: ['id', 'content'],
           include: [
@@ -51,8 +47,12 @@ router.get('/:id', async (req, res, next) => {
       attributes: ['id', 'description'],
       order: [['createdAt', 'DESC']],
     })
+    const images = await post.getImages({
+      attributes: ['id', 'src'],
+      order: [['id', 'DESC']],
+    })
     if (!post) res.status(401).send('no post')
-    res.json(post)
+    res.json({ ...post.toJSON(), images })
   } catch (e) {
     next(e)
   }
@@ -106,7 +106,7 @@ router.post('/', upload.none(), async (req, res, next) => {
       ],
       attributes: ['id', 'description'],
     })
-    const initComments = { comments: [], commentCount: 0 }
+    const initComments = { previewComments: [], commentCount: 0 }
     const initLikers = { likers: [] }
     res.json(Object.assign({}, post.toJSON(), initComments, initLikers))
   } catch (e) {

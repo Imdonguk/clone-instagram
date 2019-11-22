@@ -20,8 +20,14 @@ router.get('/:tag', async (req, res, next) => {
           },
         },
         {
-          model: db.image,
-          attributes: ['id', 'src'],
+          model: db.user,
+          attribtues: ['id', 'userName', 'name'],
+          include: [
+            {
+              model: db.image,
+              attrubtes: ['src'],
+            },
+          ],
         },
         {
           model: db.user,
@@ -37,9 +43,31 @@ router.get('/:tag', async (req, res, next) => {
     })
     const result = await Promise.all(
       posts.map(async post => {
-        const jsonPost = post.toJSON()
+        const comments = await post.getComments({
+          include: [
+            {
+              model: db.user,
+              attributes: ['userName'],
+              include: [
+                {
+                  model: db.image,
+                  attributes: ['src'],
+                },
+              ],
+            },
+          ],
+          attributes: ['id', 'content'],
+          order: [['createdAt', 'DESC']],
+          limit: 10,
+        })
+
+        const images = await post.getImages({
+          attributes: ['id', 'src'],
+          order: [['id', 'DESC']],
+        })
         const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
-        return { ...jsonPost, commentCount }
+        comments.reverse()
+        return { ...post.toJSON(), previewComments: comments.slice(0, 2), comments, images, commentCount }
       }),
     )
     res.json(result)
