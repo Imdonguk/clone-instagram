@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, takeLatest, put, call } from 'redux-saga/effects'
+import { all, fork, takeEvery, takeLatest, put, call, delay } from 'redux-saga/effects'
 import axios from 'axios'
 import {
   ADD_POST_REQUEST,
@@ -88,6 +88,7 @@ function* loadPost(action) {
       type: LOAD_POST_SUCCESS,
       data: result.data,
     })
+    yield action.promise.resolve()
   } catch (e) {
     yield put({
       type: LOAD_POST_FAILURE,

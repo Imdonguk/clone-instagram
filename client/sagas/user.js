@@ -103,12 +103,12 @@ function* loadUser(action) {
       type: LOAD_USER_SUCCESS,
       data: result.data,
     })
-    yield action.data.resolve('success')
+    yield action.promise.resolve('success')
   } catch (e) {
     yield put({
       type: LOAD_USER_FAILURE,
     })
-    yield action.data.reject(e)
+    yield action.promise.reject(e)
   }
 }
 
@@ -241,7 +241,6 @@ function removeSavedPostApi(postId) {
 
 function* removeSavedPost(action) {
   try {
-    console.log('?')
     const result = yield call(removeSavedPostApi, action.data)
     yield put({
       type: REMOVE_SAVED_POST_SUCCESS,
