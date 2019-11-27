@@ -13,6 +13,10 @@ const Signin = () => {
   const { me } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    me.userName && Router.push('/')
+  }, [])
+
   const handleSubmit = async e => {
     e.preventDefault()
     const data = {
@@ -28,10 +32,6 @@ const Signin = () => {
       .then(() => Router.push('/'))
       .catch(error => setErrorMsg(error.response.data))
   }
-
-  useEffect(() => {
-    me.userName && Router.push('/')
-  }, [me.userName])
 
   if (me.userName) return null
 
