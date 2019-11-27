@@ -8,7 +8,6 @@ import FollowButton from '../post/FollowButton'
 const UserHeader = () => {
   const me = useSelector(state => state.user.me)
   const userInfo = useSelector(state => state.user.userInfo)
-
   const isOwner = useMemo(() => me.userName === userInfo.userName, [me.userName, userInfo.userName])
 
   const dispatch = useDispatch()
@@ -80,6 +79,7 @@ const Wrap = styled.div`
         width: 100%;
         height: 100%;
         border-radius: 50%;
+        object-fit: cover;
       }
 
       & .owner {

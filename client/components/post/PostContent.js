@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Slider from 'react-slick'
-import PropTypes from 'prop-types'
 
-const PostContent = ({ img }) => {
+const PostContent = ({ images }) => {
   const settings = {
     dots: true,
     infinite: false,
@@ -15,25 +14,20 @@ const PostContent = ({ img }) => {
     () => (
       <Wrap>
         <Slider {...settings}>
-          {img.map(v => (
+          {images.map(v => (
             <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
           ))}
         </Slider>
       </Wrap>
     ),
-    [img],
+    [images],
   )
-}
-
-PostContent.propTypes = {
-  img: PropTypes.string.isRequired,
 }
 
 const Wrap = styled.div`
   width: inherit;
   height: inherit;
   box-sizing: border-box;
-  border: 0.1rem solid #e6e6e6;
 
   & div {
     height: inherit;

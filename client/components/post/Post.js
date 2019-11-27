@@ -19,7 +19,7 @@ const Post = ({ info }) => {
         <PostHeaderWrap>
           <PostHeader user={user} />
         </PostHeaderWrap>
-        <PostContent img={images} />
+        <PostContent images={images} />
         <PostFooterWrap>
           <PostFooter info={info} />
         </PostFooterWrap>
@@ -55,12 +55,14 @@ const Setting = styled.div`
 const PostFooterWrap = styled.div`
   position: relative;
   padding: 0 1.6rem;
+  border-top: 0.1rem solid #e6e6e6;
 `
 
 const PostHeaderWrap = styled.div`
   height: 6rem;
   padding: 1.6rem;
   box-sizing: border-box;
+  border-bottom: 0.1rem solid #e6e6e6;
 `
 
 export default Post

@@ -8,7 +8,7 @@ const PostTemplate = () => {
   return (
     <Wrap>
       <PostContentWrap>
-        <PostContent img={post.images} />
+        <PostContent images={post.images} />
       </PostContentWrap>
       <PostRightLayout>
         <PostHeaderWrap>
@@ -26,6 +26,7 @@ const PostTemplate = () => {
 }
 
 const Wrap = styled.div`
+  background-color: #fff;
   width: 93.5rem;
   margin-top: 4rem;
   padding-bottom: 6rem;
@@ -38,7 +39,7 @@ const PostContentWrap = styled.div`
   height: inherit;
   display: flex;
   align-items: center;
-  // border: 0.1rem solid #e6e6e6;
+  border: 0.1rem solid #e6e6e6;
   border-right: 0;
 `
 
