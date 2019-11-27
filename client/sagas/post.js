@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, takeLatest, put, call, delay } from 'redux-saga/effects'
+import { all, fork, takeEvery, takeLatest, put, call, throttle } from 'redux-saga/effects'
 import axios from 'axios'
 import {
   ADD_POST_REQUEST,
@@ -55,16 +55,18 @@ function* watchAddPost() {
   yield takeEvery(ADD_POST_REQUEST, addPost)
 }
 
-function loadPostsApi() {
-  return axios.get('/posts', { withCredentials: true })
+function loadPostsApi(lastId = 0) {
+  return axios.get(`/posts?lastId=${lastId}`, { withCredentials: true })
 }
 
-function* loadPosts() {
+function* loadPosts(action) {
   try {
-    const result = yield call(loadPostsApi)
+    const result = yield call(loadPostsApi, action.lastId)
+    const { posts, hasMorePost } = result.data
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: result.data,
+      data: posts,
+      hasMorePost,
     })
   } catch (e) {
     yield put({
@@ -74,7 +76,7 @@ function* loadPosts() {
 }
 
 function* watchLoadPosts() {
-  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts)
+  yield throttle(2000, LOAD_POSTS_REQUEST, loadPosts)
 }
 
 function loadPostApi(postId) {

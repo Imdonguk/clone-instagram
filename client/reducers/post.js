@@ -72,7 +72,8 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_POSTS_SUCCESS: {
-        draft.posts = action.data
+        draft.posts = draft.posts.concat(action.data)
+        draft.hasMorePost = action.hasMorePost
         break
       }
       case LOAD_POSTS_FAILURE: {
@@ -161,6 +162,7 @@ export default (state = initialState, action) => {
       }
       case ADD_COMMENT_SUCCESS: {
         const postIndex = draft.posts.findIndex(v => v.id === action.postId)
+        draft.posts[postIndex].previewComments.push(action.data)
         draft.posts[postIndex].comments.push(action.data)
         break
       }
