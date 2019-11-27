@@ -54,6 +54,8 @@ export const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE'
 
 export const UPDATE_MY_POSTS_PROFILE_IMAGE = 'UPDATE_MY_POSTS_PROFILE_IMAGE'
 
+export const RESET_POST_REDUCER = 'RESET_POST_REDUCER'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -90,20 +92,24 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_USER_POSTS_REQUEST: {
+        draft.userPosts = []
         break
       }
       case LOAD_USER_POSTS_SUCCESS: {
-        draft.userPosts = action.data
+        draft.userPosts = draft.userPosts.concat(action.data)
+        draft.hasMorePost = action.hasMorePost
         break
       }
       case LOAD_USER_POSTS_FAILURE: {
         break
       }
       case LOAD_HASHTAG_POSTS_REQUEST: {
+        draft.hashtagPosts = []
         break
       }
       case LOAD_HASHTAG_POSTS_SUCCESS: {
-        draft.hashtagPosts = action.data
+        draft.hashtagPosts = draft.hashtagPosts.concat(action.data)
+        draft.hasMorePost = action.hasMorePost
         break
       }
       case LOAD_HASHTAG_POSTS_FAILURE: {
@@ -175,6 +181,12 @@ export default (state = initialState, action) => {
             v.user.image.src = action.data
           }
         })
+        break
+      }
+      case RESET_POST_REDUCER: {
+        draft.posts = []
+        draft.userPosts = []
+        draft.hashtagPosts = []
         break
       }
       default: {
