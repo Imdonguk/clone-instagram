@@ -7,6 +7,9 @@ import { UPLOAD_PROFILE_IMAGE_REQUEST, REMOVE_PROFILE_IMAGE_REQUEST } from '../.
 const EditProifileImage = () => {
   const isEditProfileImage = useSelector(state => state.popover.isEditProfileImage)
   const userName = useSelector(state => state.user.me.userName)
+
+  if (!isEditProfileImage || !userName) return null
+
   const image = userName && useSelector(state => state.user.me.image)
   const imageInput = useRef()
   const dispatch = useDispatch()
@@ -32,7 +35,6 @@ const EditProifileImage = () => {
       userName,
     })
   }
-  if (!isEditProfileImage || !userName) return null
 
   return (
     <PopoverWrap>
