@@ -29,7 +29,7 @@ const Hashtag = ({ tag }) => {
 Hashtag.getInitialProps = async context => {
   context.store.dispatch({
     type: LOAD_HASHTAG_POSTS_REQUEST,
-    data: encodeURIComponent(context.query.tag),
+    data: context.query.tag,
   })
 
   return { tag: context.query.tag }

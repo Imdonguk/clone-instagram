@@ -103,16 +103,18 @@ function* watchLoadPost() {
 }
 
 function loadUserPostsApi(userName) {
-  return axios.get(`/user/${userName}/posts`)
+  return axios.get(`/user/${encodeURI(userName)}/posts`)
 }
 
 function* loadUserPosts(action) {
   try {
     const userName = action.data
     const result = yield call(loadUserPostsApi, userName)
+    const { posts, hasMorePost } = result.data
     yield put({
       type: LOAD_USER_POSTS_SUCCESS,
-      data: result.data,
+      data: posts,
+      hasMorePost,
     })
   } catch (e) {
     yield put({
@@ -125,17 +127,19 @@ function* watchLoadUserPosts() {
   yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts)
 }
 
-function loadHashtagPostsApi(tag) {
-  return axios.get(`/hashtag/${tag}`)
+function loadHashtagPostsApi(tag, lastId = 0) {
+  return axios.get(`/hashtag/${encodeURI(tag)}?lastId=${lastId}`)
 }
 
 function* loadHashtagPosts(action) {
   try {
     const tag = action.data
     const result = yield call(loadHashtagPostsApi, tag)
+    const { posts, hasMorePost } = result.data
     yield put({
       type: LOAD_HASHTAG_POSTS_SUCCESS,
-      data: result.data,
+      data: posts,
+      hasMorePost,
     })
   } catch (e) {
     yield put({

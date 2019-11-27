@@ -40,12 +40,12 @@ const User = () => {
 User.getInitialProps = async context => {
   context.store.dispatch({
     type: LOAD_OTHER_USER_REQUEST,
-    data: encodeURIComponent(context.query.userName),
+    data: context.query.userName,
   })
 
   context.store.dispatch({
     type: LOAD_USER_POSTS_REQUEST,
-    data: encodeURIComponent(context.query.userName),
+    data: context.query.userName,
   })
 }
 export default User

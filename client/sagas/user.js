@@ -118,7 +118,7 @@ function* watchLoadUser() {
 }
 
 function loadOtherUserApi(userName) {
-  return axios.get(`/user/${userName}`)
+  return axios.get(`/user/${encodeURI(userName)}`)
 }
 
 function* loadOtherUser(action) {
