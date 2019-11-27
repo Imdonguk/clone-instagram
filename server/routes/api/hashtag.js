@@ -9,11 +9,20 @@ router.get('/', (req, res, next) => {
 
 router.get('/:tag', async (req, res, next) => {
   try {
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.lt]: +req.query.lastId,
+          },
+        }
+      : {}
+    const limit = 2
     const posts = await db.post.findAll({
+      where,
       include: [
         {
           model: db.hashtag,
-          where: { name: decodeURIComponent(req.params.tag) },
+          where: { name: decodeURI(req.params.tag) },
           attributes: [],
           through: {
             attributes: [],
@@ -21,11 +30,11 @@ router.get('/:tag', async (req, res, next) => {
         },
         {
           model: db.user,
-          attribtues: ['id', 'userName', 'name'],
+          attributes: ['id', 'userName', 'name'],
           include: [
             {
               model: db.image,
-              attrubtes: ['src'],
+              attributes: ['src'],
             },
           ],
         },
@@ -38,9 +47,11 @@ router.get('/:tag', async (req, res, next) => {
           },
         },
       ],
-      attributes: ['id', 'description'],
+      attributes: ['id', 'description', 'userId', 'createdAt'],
+      limit,
       order: [['createdAt', 'DESC']],
     })
+
     const result = await Promise.all(
       posts.map(async post => {
         const comments = await post.getComments({
@@ -58,7 +69,6 @@ router.get('/:tag', async (req, res, next) => {
           ],
           attributes: ['id', 'content'],
           order: [['createdAt', 'DESC']],
-          limit: 10,
         })
 
         const images = await post.getImages({
@@ -70,8 +80,11 @@ router.get('/:tag', async (req, res, next) => {
         return { ...post.toJSON(), previewComments: comments.slice(0, 2), comments, images, commentCount }
       }),
     )
-    res.json(result)
-  } catch (e) {}
+    const hasMorePost = result.length !== 0 && result.length % limit === 0
+    res.json({ posts: result, hasMorePost })
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 module.exports = router

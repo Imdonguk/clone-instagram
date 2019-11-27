@@ -15,7 +15,7 @@ router.get('/', isLoggedIn, (req, res, next) => {
 router.get('/:userName', async (req, res, next) => {
   try {
     const user = await db.user.findOne({
-      where: { userName: req.params.userName },
+      where: { userName: decodeURI(req.params.userName) },
       include: [
         {
           model: db.image,
@@ -60,10 +60,28 @@ router.get('/:userName', async (req, res, next) => {
 
 router.get('/:userName/posts', async (req, res, next) => {
   try {
-    const user = await db.user.findOne({ where: { userName: req.params.userName } })
+    const user = await db.user.findOne({
+      where: { userName: decodeURI(req.params.userName) },
+      include: [
+        {
+          model: db.image,
+          attributes: ['src'],
+        },
+      ],
+      attributes: ['id', 'userName', 'name'],
+    })
 
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.lt]: +req.query.lastId,
+          },
+        }
+      : {}
+
+    const limit = 2
     const posts = await user.getPost({
-      attributes: ['id', 'description'],
+      where,
       include: [
         {
           model: db.image,
@@ -79,6 +97,8 @@ router.get('/:userName/posts', async (req, res, next) => {
           attributes: ['id'],
         },
       ],
+      attributes: ['id', 'description', 'userId', 'createdAt'],
+      limit,
       order: [['createdAt', 'DESC']],
     })
 
@@ -99,7 +119,6 @@ router.get('/:userName/posts', async (req, res, next) => {
           ],
           attributes: ['id', 'content'],
           order: [['createdAt', 'DESC']],
-          limit: 10,
         })
 
         const images = await post.getImages({
@@ -108,11 +127,12 @@ router.get('/:userName/posts', async (req, res, next) => {
         })
         const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
         comments.reverse()
-        return { ...post.toJSON(), previewComments: comments.slice(0, 2), comments, images, commentCount }
+        return { ...post.toJSON(), user, previewComments: comments.slice(0, 2), comments, images, commentCount }
       }),
     )
 
-    res.json(result)
+    const hasMorePost = result.length !== 0 && result.length % limit === 0
+    res.json({ posts: result, hasMorePost })
   } catch (e) {
     next(e)
   }
