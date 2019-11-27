@@ -26,26 +26,32 @@ const PostTemplate = () => {
 }
 
 const Wrap = styled.div`
-  margin: 4rem 0;
+  width: 93.5rem;
+  margin-top: 4rem;
+  padding-bottom: 6rem;
   display: flex;
-  height: 60rem;
-
-  border: 0.1rem solid #e6e6e6;
+  max-height: 61.4rem;
 `
 
 const PostContentWrap = styled.div`
   width: 60rem;
   height: inherit;
+  display: flex;
+  align-items: center;
+  // border: 0.1rem solid #e6e6e6;
+  border-right: 0;
 `
 
 const PostRightLayout = styled.div`
-  flex: 1;
+  min-height: 45rem;
+  flex-grow: 1;
+
   display: flex;
   flex-direction: column;
   height: inherit;
   background-color: #fff;
   padding: 0 1.6rem;
-  border-left: 0.1rem solid #e6e6e6;
+  border: 0.1rem solid #e6e6e6;
 `
 
 const PostHeaderWrap = styled.div`
@@ -54,6 +60,7 @@ const PostHeaderWrap = styled.div`
 `
 
 const PostCommentListWrap = styled.div`
+  position: relative;
   flex: 1;
   overflow: auto;
   &::-webkit-scrollbar {

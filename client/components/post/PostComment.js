@@ -30,9 +30,8 @@ const PostComment = ({ userName, comment }) => {
 
 const Wrap = styled.div`
   width: 100%;
-  display: flex;
-  align-items: center;
   font-size: 1.4rem;
+  line-height: 1.8rem;
   margin-bottom: 1rem;
 
   & a {

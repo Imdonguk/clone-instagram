@@ -68,7 +68,6 @@ const PostIcons = ({ postId, likers }) => {
 const Wrap = styled.div`
   margin-top: 0.4rem;
   display: flex;
-  border-top: 0.1rem solid #e6e6e6;
 `
 
 const IconWrap = styled.div`

@@ -4,7 +4,7 @@ import { PostComment } from './index'
 
 const PostPageCommentList = ({ description, comments, user }) => {
   return (
-    <>
+    <Wrap>
       <PostCommentWrap>
         <div className="profile-image">
           <img src={`http://localhost:3065/${user.image.src}`} alt="유저프로필이미지" />
@@ -19,9 +19,13 @@ const PostPageCommentList = ({ description, comments, user }) => {
           <PostComment userName={v.user.userName} comment={v.content} key={v.id} />
         </PostCommentWrap>
       ))}
-    </>
+    </Wrap>
   )
 }
+
+const Wrap = styled.div`
+  position: absolute;
+`
 
 const PostCommentWrap = styled.div`
   padding-top: 1.2rem;

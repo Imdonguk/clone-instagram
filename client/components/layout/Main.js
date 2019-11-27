@@ -4,6 +4,10 @@ const Main = styled.div`
   width: 93.5rem;
   margin: 0 auto;
   flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export default Main

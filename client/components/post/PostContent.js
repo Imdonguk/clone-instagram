@@ -32,14 +32,15 @@ PostContent.propTypes = {
 const Wrap = styled.div`
   width: inherit;
   height: inherit;
+  box-sizing: border-box;
+  border: 0.1rem solid #e6e6e6;
 
-  & div,
-  img {
+  & div {
     height: inherit;
   }
   & img {
-    width: inherit;
     max-height: 61.4rem;
+    object-fit: cover;
   }
 
   & .slick-dots li {
@@ -57,6 +58,11 @@ const Wrap = styled.div`
   & .slick-next {
     right: 1rem;
     z-index: 1;
+  }
+
+  & .slick-track {
+    display: flex;
+    align-items: center;
   }
 `
 

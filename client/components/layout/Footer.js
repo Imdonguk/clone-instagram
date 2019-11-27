@@ -48,15 +48,11 @@ const Footer = ({ page }) => {
 
 const Content = styled.div`
   
-  display: flex;
   margin: 0 auto;
   box-sizing: border-box;
-  flex-direction: row;
-  justify-content: space-between;
   ${props =>
     props.page === 'main'
       ? css`
-          display: flex;
           width: 100%;
           padding: 0;
           text-transform: none;
@@ -69,6 +65,7 @@ const Content = styled.div`
           padding: 3.8rem 0;
           color: #999;
           text-transform: uppercase;
+          justify-content: space-between;
         `}
 
   .yaer{
@@ -94,7 +91,7 @@ const Content = styled.div`
       list-style: none;
 
       ${props =>
-        props.page === 'common'
+        props.page === 'main'
           ? css`
               display: block;
               line-height: 1.8rem;
