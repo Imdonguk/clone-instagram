@@ -1,5 +1,6 @@
 import { all, fork, put, call, takeLatest, takeEvery } from 'redux-saga/effects'
 import axios from 'axios'
+import Router from 'next/router'
 import {
   SIGN_OUT_REQUEST,
   SIGN_OUT_SUCCESS,
@@ -30,7 +31,7 @@ import {
   REMOVE_SAVED_POST_FAILURE,
 } from '../reducers/user'
 
-import { UPDATE_MY_POSTS_PROFILE_IMAGE } from '../reducers/post'
+import { UPDATE_MY_POSTS_PROFILE_IMAGE, RESET_POST_REDUCER } from '../reducers/post'
 
 import { CLOSE_POP_OVER } from '../reducers/popover'
 
@@ -149,6 +150,11 @@ function* signout() {
     yield put({
       type: SIGN_OUT_SUCCESS,
     })
+
+    yield put({
+      type: RESET_POST_REDUCER,
+    })
+
     yield put({
       type: CLOSE_POP_OVER,
     })
@@ -156,6 +162,14 @@ function* signout() {
     yield put({
       type: SIGN_OUT_FAILURE,
     })
+    yield put({
+      type: RESET_POST_REDUCER,
+    })
+    yield put({
+      type: CLOSE_POP_OVER,
+    })
+
+    yield Router.push('/signin')
   }
 }
 
