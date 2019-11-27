@@ -4,7 +4,17 @@ const db = require('../../models')
 
 router.get('/', async (req, res, next) => {
   try {
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.lt]: +req.query.lastId,
+          },
+        }
+      : {}
+
+    const limit = 3
     const posts = await db.post.findAll({
+      where,
       include: [
         {
           model: db.user,
@@ -25,7 +35,8 @@ router.get('/', async (req, res, next) => {
           attributes: ['id'],
         },
       ],
-      attributes: ['id', 'description'],
+      attributes: ['id', 'description', 'userId', 'createdAt'],
+      limit,
       order: [['createdAt', 'DESC']],
     })
 
@@ -46,7 +57,6 @@ router.get('/', async (req, res, next) => {
           ],
           attributes: ['id', 'content'],
           order: [['createdAt', 'DESC']],
-          limit: 10,
         })
 
         const images = await post.getImages({
@@ -58,8 +68,8 @@ router.get('/', async (req, res, next) => {
         return { ...post.toJSON(), previewComments: comments.slice(0, 2), comments, images, commentCount }
       }),
     )
-
-    res.json(result)
+    const hasMorePost = result.length !== 0 && result.length % limit === 0
+    res.json({ posts: result, hasMorePost })
   } catch (e) {
     console.log(e)
   }
