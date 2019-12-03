@@ -115,6 +115,46 @@ router.post('/', upload.none(), async (req, res, next) => {
   }
 })
 
+router.get('/:id/comments', async (req, res, next) => {
+  try {
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.lt]: +req.query.lastId,
+          },
+        }
+      : {}
+    const limit = 10
+    const post = await db.post.findOne({ where: { id: req.params.id } })
+    const comments = await post.getComments({
+      where,
+      attributes: ['id', 'content'],
+      include: [
+        {
+          model: db.user,
+          attributes: ['id', 'userName', 'name'],
+          include: [
+            {
+              model: db.image,
+              attributes: ['src'],
+            },
+          ],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+      limit,
+    })
+
+    comments.reverse()
+
+    const hasMoreComment = comments.length === limit
+
+    res.json({ comments, hasMoreComment })
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.post('/images', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename))
 })
