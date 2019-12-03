@@ -96,7 +96,7 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_USER_POSTS_REQUEST: {
-        draft.userPosts = []
+        draft.userPosts = action.lastId ? draft.userPosts : []
         break
       }
       case LOAD_USER_POSTS_SUCCESS: {
@@ -108,7 +108,7 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_HASHTAG_POSTS_REQUEST: {
-        draft.hashtagPosts = []
+        draft.hashtagPosts = action.lastId ? draft.hashtagPosts : []
         break
       }
       case LOAD_HASHTAG_POSTS_SUCCESS: {
@@ -184,8 +184,13 @@ export default (state = initialState, action) => {
       }
       case ADD_COMMENT_SUCCESS: {
         const postIndex = draft.posts.findIndex(v => v.id === action.postId)
-        draft.posts[postIndex].previewComments.push(action.data)
-        draft.posts[postIndex].comments.push(action.data)
+        if (draft.posts.length) {
+          draft.posts[postIndex].previewComments.push(action.data)
+          draft.posts[postIndex].comments.push(action.data)
+          draft.post.id !== undefined && draft.post.comments.push(action.data)
+        } else {
+          draft.post.comments.push(action.data)
+        }
         break
       }
       case ADD_COMMENT_FAILURE: {

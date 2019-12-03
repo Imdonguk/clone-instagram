@@ -1,11 +1,35 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Helmet from 'react-helmet'
+import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from '../components/layout'
 import HashtagTemplate from '../components/hashtag/HashtagTemplae'
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../reducers/post'
-import { CancleFollow } from '../components/popover'
 
 const Hashtag = ({ tag }) => {
+  const dispatch = useDispatch()
+  const countRef = useRef([])
+  const { hashtagPosts, hasMorePost } = useSelector(state => state.post)
+  const handleScrollHashtagPage = () => {
+    if (window.scrollY + document.documentElement.clientHeight < document.documentElement.scrollHeight - 100) return
+    if (!hasMorePost) return
+
+    const lastId = hashtagPosts[hashtagPosts.length - 1] && hashtagPosts[hashtagPosts.length - 1].id
+    if (countRef.current.includes(lastId)) return
+
+    dispatch({
+      type: LOAD_HASHTAG_POSTS_REQUEST,
+      data: tag,
+      lastId,
+    })
+    countRef.current.push(lastId)
+  }
+
+  useEffect(() => {
+    hasMorePost && window.addEventListener('scroll', handleScrollHashtagPage)
+    return () => {
+      window.removeEventListener('scroll', handleScrollHashtagPage)
+    }
+  }, [hashtagPosts.length, hasMorePost])
   return (
     <AppLayout>
       <Helmet
