@@ -3,6 +3,7 @@ import coreImg from '../images/sprite_core.png'
 import glyphsImg from '../images/sprite_glyphs.png'
 import glyphsImg2x from '../images/sprite_glyphs_2x.png'
 import mediaImage from '../images/media.png'
+import icons from '../images/icons.png'
 
 export const BasicIcon = styled.span`
   background-image: url(${glyphsImg});
@@ -97,4 +98,13 @@ export const SlideIcon = styled.span`
   background-image: url(${mediaImage});
   background-size: 6.5rem 6.5rem;
   background-position: 0 0;
+`
+
+export const ViewMoreIcon = styled.span`
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url(${icons});
+  background-size: 41.1rem 35.3rem;
+  background-position: -28.1rem -22.3rem;
+  cursor: pointer;
 `
