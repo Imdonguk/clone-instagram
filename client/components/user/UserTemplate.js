@@ -20,6 +20,7 @@ const UserTemplate = () => {
 }
 
 const Wrap = styled.div`
+  width: 100%;
   padding-top: 6rem;
 `
 

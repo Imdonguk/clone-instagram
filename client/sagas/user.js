@@ -150,14 +150,13 @@ function* signout() {
     yield put({
       type: SIGN_OUT_SUCCESS,
     })
-
     yield put({
       type: RESET_POST_REDUCER,
     })
-
     yield put({
       type: CLOSE_POP_OVER,
     })
+    yield Router.push('/signin')
   } catch (e) {
     yield put({
       type: SIGN_OUT_FAILURE,
@@ -168,8 +167,6 @@ function* signout() {
     yield put({
       type: CLOSE_POP_OVER,
     })
-
-    yield Router.push('/signin')
   }
 }
 

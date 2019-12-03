@@ -48,7 +48,7 @@ const Wrapper = styled.div`
     padding-top: 6rem;
   }
   .right-column {
-    position: relative;
+    position: fixed;
     width: 29.3rem;
   }
 `

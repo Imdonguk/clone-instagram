@@ -1,5 +1,4 @@
 import React from 'react'
-import Rotuer from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { SIGN_OUT_REQUEST } from '../../reducers/user'
@@ -9,7 +8,6 @@ const EditAccount = () => {
   const isEditAccount = useSelector(state => state.popover.isEditAccount)
   const handleClickLogoutBtn = () => {
     dispatch({ type: SIGN_OUT_REQUEST })
-    Rotuer.push('/signin')
   }
   if (!isEditAccount) return null
   return (

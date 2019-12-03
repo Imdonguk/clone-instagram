@@ -15,7 +15,7 @@ const PostTemplate = () => {
           <PostHeader user={post.user} />
         </PostHeaderWrap>
         <PostCommentListWrap>
-          <PostPageCommentList user={post.user} comments={post.comments} description={post.description} />
+          <PostPageCommentList />
         </PostCommentListWrap>
         <PostIcons postId={post.id} likers={post.likers} />
         <PostLikeCount likers={post.likers} />
@@ -29,7 +29,7 @@ const Wrap = styled.div`
   background-color: #fff;
   width: 93.5rem;
   margin-top: 4rem;
-  padding-bottom: 6rem;
+  margin-bottom: 6rem;
   display: flex;
   max-height: 61.4rem;
 `

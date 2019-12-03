@@ -26,13 +26,5 @@ export const Wrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 2.8rem;
-
-  & > div {
-    height: 29.3rem;
-
-    & > img {
-      width: 100%;
-    }
-  }
 `
 export default UserPosts
