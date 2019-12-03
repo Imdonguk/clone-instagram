@@ -52,6 +52,10 @@ export const LOAD_HASHTAG_POSTS_REQUEST = 'LOAD_HASHTAG_POSTS_REQUEST'
 export const LOAD_HASHTAG_POSTS_SUCCESS = 'LOAD_HASHTAG_POSTS_SUCCESS'
 export const LOAD_HASHTAG_POSTS_FAILURE = 'LOAD_HASHTAG_POSTS_FAILURE'
 
+export const LOAD_COMMENTS_REQUEST = 'LOAD_COMMENTS_REQUEST'
+export const LOAD_COMMENTS_SUCCESS = 'LOAD_COMMENTS_SUCCESS'
+export const LOAD_COMMENTS_FAILURE = 'LOAD_COMMENTS_FAILURE'
+
 export const UPDATE_MY_POSTS_PROFILE_IMAGE = 'UPDATE_MY_POSTS_PROFILE_IMAGE'
 
 export const RESET_POST_REDUCER = 'RESET_POST_REDUCER'
@@ -113,6 +117,18 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_HASHTAG_POSTS_FAILURE: {
+        break
+      }
+      case LOAD_COMMENTS_REQUEST: {
+        draft.post.comments = action.lastId ? draft.post.comments : []
+        break
+      }
+      case LOAD_COMMENTS_SUCCESS: {
+        draft.post.comments = action.data.concat(draft.post.comments)
+        draft.post.hasMoreComment = action.hasMoreComment
+        break
+      }
+      case LOAD_COMMENTS_FAILURE: {
         break
       }
       case UPLOAD_IMAGES_REQUEST: {

@@ -31,6 +31,9 @@ import {
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
+  LOAD_COMMENTS_REQUEST,
+  LOAD_COMMENTS_SUCCESS,
+  LOAD_COMMENTS_FAILURE,
 } from '../reducers/post'
 
 function addPostApi(data) {
@@ -150,6 +153,29 @@ function* loadHashtagPosts(action) {
 
 function* watchLoadHashtagPosts() {
   yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts)
+function loadCommentsApi({ postId, lastId = 0 }) {
+  return axios.get(`/post/${postId}/comments?lastId=${lastId}`)
+}
+
+function* loadComments(action) {
+  try {
+    const result = yield call(loadCommentsApi, { postId: action.data, lastId: action.lastId })
+    const { comments, hasMoreComment } = result.data
+    yield put({
+      type: LOAD_COMMENTS_SUCCESS,
+      data: comments,
+      hasMoreComment,
+    })
+    if (action.promise) yield action.promise.resolve()
+  } catch (e) {
+    yield put({
+      type: LOAD_COMMENTS_FAILURE,
+    })
+  }
+}
+
+function* watchLoadComments() {
+  yield takeLatest(LOAD_COMMENTS_REQUEST, loadComments)
 }
 
 function uploadImagesApi(data) {
@@ -282,6 +308,7 @@ function* postSaga() {
     fork(watchLoadUserPosts),
     fork(watchLoadHashtagPosts),
     fork(watchLoadPost),
+    fork(watchLoadComments),
   ])
 }
 
