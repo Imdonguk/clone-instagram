@@ -57,15 +57,16 @@ router.get('/', async (req, res, next) => {
           ],
           attributes: ['id', 'content'],
           order: [['createdAt', 'DESC']],
+          limit: 2,
         })
 
         const images = await post.getImages({
           attributes: ['id', 'src'],
           order: [['id', 'DESC']],
         })
-        const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
         comments.reverse()
-        return { ...post.toJSON(), previewComments: comments.slice(0, 2), comments, images, commentCount }
+        const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
+        return { ...post.toJSON(), previewComments: comments, images, commentCount }
       }),
     )
     const hasMorePost = result.length !== 0 && result.length % limit === 0

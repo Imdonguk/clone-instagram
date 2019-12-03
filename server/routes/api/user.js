@@ -79,7 +79,7 @@ router.get('/:userName/posts', async (req, res, next) => {
         }
       : {}
 
-    const limit = 2
+    const limit = 9
     const posts = await user.getPost({
       where,
       include: [
@@ -104,30 +104,12 @@ router.get('/:userName/posts', async (req, res, next) => {
 
     const result = await Promise.all(
       posts.map(async post => {
-        const comments = await post.getComments({
-          include: [
-            {
-              model: db.user,
-              attributes: ['userName'],
-              include: [
-                {
-                  model: db.image,
-                  attributes: ['src'],
-                },
-              ],
-            },
-          ],
-          attributes: ['id', 'content'],
-          order: [['createdAt', 'DESC']],
-        })
-
         const images = await post.getImages({
           attributes: ['id', 'src'],
           order: [['id', 'DESC']],
         })
         const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
-        comments.reverse()
-        return { ...post.toJSON(), user, previewComments: comments.slice(0, 2), comments, images, commentCount }
+        return { ...post.toJSON(), user, images, commentCount }
       }),
     )
 

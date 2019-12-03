@@ -3,10 +3,6 @@ const db = require('../../models')
 
 const router = express.Router()
 
-router.get('/', (req, res, next) => {
-  res.json(true)
-})
-
 router.get('/:tag', async (req, res, next) => {
   try {
     const where = +req.query.lastId
@@ -16,7 +12,7 @@ router.get('/:tag', async (req, res, next) => {
           },
         }
       : {}
-    const limit = 2
+    const limit = 9
     const posts = await db.post.findAll({
       where,
       include: [
@@ -54,30 +50,12 @@ router.get('/:tag', async (req, res, next) => {
 
     const result = await Promise.all(
       posts.map(async post => {
-        const comments = await post.getComments({
-          include: [
-            {
-              model: db.user,
-              attributes: ['userName'],
-              include: [
-                {
-                  model: db.image,
-                  attributes: ['src'],
-                },
-              ],
-            },
-          ],
-          attributes: ['id', 'content'],
-          order: [['createdAt', 'DESC']],
-        })
-
         const images = await post.getImages({
           attributes: ['id', 'src'],
           order: [['id', 'DESC']],
         })
         const commentCount = await post.getComments().then(r => Promise.resolve(r.length))
-        comments.reverse()
-        return { ...post.toJSON(), previewComments: comments.slice(0, 2), comments, images, commentCount }
+        return { ...post.toJSON(), images, commentCount }
       }),
     )
     const hasMorePost = result.length !== 0 && result.length % limit === 0

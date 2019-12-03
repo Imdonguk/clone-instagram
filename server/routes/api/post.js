@@ -4,60 +4,6 @@ const db = require('../../models')
 const fs = require('fs')
 const upload = require('../../multer')
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const post = await db.post.findOne({
-      where: { id: req.params.id },
-      include: [
-        {
-          model: db.user,
-          attributes: ['id', 'name', 'userName'],
-          include: [
-            {
-              model: db.image,
-              attributes: ['src'],
-            },
-          ],
-        },
-        {
-          model: db.user,
-          as: 'likers',
-          through: {
-            attributes: [],
-          },
-          attributes: ['id'],
-        },
-        {
-          model: db.comment,
-          attributes: ['id', 'content'],
-          include: [
-            {
-              model: db.user,
-              attributes: ['id', 'userName', 'name'],
-              include: [
-                {
-                  model: db.image,
-                  attributes: ['src'],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      attributes: ['id', 'description'],
-      order: [['createdAt', 'DESC']],
-    })
-    const images = await post.getImages({
-      attributes: ['id', 'src'],
-      order: [['id', 'DESC']],
-    })
-    if (!post) res.status(401).send('no post')
-    res.json({ ...post.toJSON(), images })
-  } catch (e) {
-    next(e)
-  }
-})
-
 router.post('/', upload.none(), async (req, res, next) => {
   try {
     const { description, image } = req.body
@@ -106,11 +52,49 @@ router.post('/', upload.none(), async (req, res, next) => {
       ],
       attributes: ['id', 'description'],
     })
-    const initComments = { previewComments: [], commentCount: 0 }
+    const initComments = { previewComments: [], comments: [], commentCount: 0 }
     const initLikers = { likers: [] }
     res.json(Object.assign({}, post.toJSON(), initComments, initLikers))
   } catch (e) {
     console.log(e)
+    next(e)
+  }
+})
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const post = await db.post.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: db.user,
+          attributes: ['id', 'name', 'userName'],
+          include: [
+            {
+              model: db.image,
+              attributes: ['src'],
+            },
+          ],
+        },
+        {
+          model: db.user,
+          as: 'likers',
+          through: {
+            attributes: [],
+          },
+          attributes: ['id'],
+        },
+      ],
+      attributes: ['id', 'description'],
+      order: [['createdAt', 'DESC']],
+    })
+    const images = await post.getImages({
+      attributes: ['id', 'src'],
+      order: [['id', 'DESC']],
+    })
+    if (!post) res.status(401).send('no post')
+    res.json({ ...post.toJSON(), images })
+  } catch (e) {
     next(e)
   }
 })
@@ -212,8 +196,26 @@ router.post('/:id/comment', async (req, res, next) => {
     })
     const user = await comment.getUser({
       attributes: ['userName'],
+      include: [
+        {
+          model: db.image,
+          attributes: ['src'],
+        },
+      ],
     })
     res.json({ id: comment.id, content: comment.content, user })
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.delete('/:id/comment/:cid', async (req, res, next) => {
+  try {
+    const post = await db.post.findOne({ where: { id: req.params.id } })
+    if (post) return res.status(404).send('no post')
+
+    await db.comment.destroy({ where: { id: req.params.cid } })
+    res.json(req.params.cid)
   } catch (e) {
     next(e)
   }
