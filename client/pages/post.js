@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../components/layout'
 import { PostTemplate } from '../components/post'
-import { LOAD_POST_REQUEST, LOAD_POST_SUCCESS } from '../reducers/post'
+import { LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_COMMENTS_REQUEST } from '../reducers/post'
 
 const Post = () => {
   return (
@@ -20,16 +20,20 @@ Post.getInitialProps = async context => {
     false
 
   if (post) {
-    context.store.dispatch({
-      type: LOAD_POST_SUCCESS,
-      data: post,
-    })
-    return
+    context.store.dispatch({ type: LOAD_POST_SUCCESS, data: post })
+  } else {
+    await new Promise((resolve, reject) =>
+      context.store.dispatch({
+        type: LOAD_POST_REQUEST,
+        data: context.query.id,
+        promise: { resolve, reject },
+      }),
+    )
   }
 
   await new Promise((resolve, reject) =>
     context.store.dispatch({
-      type: LOAD_POST_REQUEST,
+      type: LOAD_COMMENTS_REQUEST,
       data: context.query.id,
       promise: { resolve, reject },
     }),
