@@ -60,6 +60,8 @@ export const UPDATE_MY_POSTS_PROFILE_IMAGE = 'UPDATE_MY_POSTS_PROFILE_IMAGE'
 
 export const RESET_POST_REDUCER = 'RESET_POST_REDUCER'
 
+export const RESET_HAS_MORE_POST = 'RESET_HAS_MORE_POST'
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
@@ -208,6 +210,10 @@ export default (state = initialState, action) => {
         draft.posts = []
         draft.userPosts = []
         draft.hashtagPosts = []
+        break
+      }
+      case RESET_HAS_MORE_POST: {
+        draft.hasMorePost = true
         break
       }
       default: {
