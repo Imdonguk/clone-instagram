@@ -13,6 +13,7 @@ const Post = () => {
 
 Post.getInitialProps = async context => {
   const postState = context.store.getState()
+  if (postState.post.post.id && postState.post.post.id === +context.query.id) return null
   const post =
     postState.post.posts.find(v => v.id === +context.query.id) ||
     postState.post.hashtagPosts.find(v => v.id === +context.query.id) ||

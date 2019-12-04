@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from '../components/layout'
 import { EditProfileImage, EditAccount, CancleFollow } from '../components/popover'
 import UserTemplate from '../components/user/UserTemplate'
-import { LOAD_OTHER_USER_REQUEST } from '../reducers/user'
+import { LOAD_OTHER_USER_REQUEST, LOAD_OTHER_USER_SUCCESS } from '../reducers/user'
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post'
 
 const User = ({ userName }) => {
@@ -61,10 +61,19 @@ const User = ({ userName }) => {
 }
 
 User.getInitialProps = async context => {
-  context.store.dispatch({
-    type: LOAD_OTHER_USER_REQUEST,
-    data: context.query.userName,
-  })
+  const { me } = context.store.getState().user
+
+  if (me.userName === context.query.userName) {
+    context.store.dispatch({
+      type: LOAD_OTHER_USER_SUCCESS,
+      data: me,
+    })
+  } else {
+    context.store.dispatch({
+      type: LOAD_OTHER_USER_REQUEST,
+      data: context.query.userName,
+    })
+  }
 
   context.store.dispatch({
     type: LOAD_USER_POSTS_REQUEST,
