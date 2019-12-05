@@ -20,9 +20,11 @@ const PostPageCommentList = () => {
   }
   return (
     <Wrap>
-      <IconWrap>
-        <ViewMoreIcon onClick={handleClickViewMore} />
-      </IconWrap>
+      {hasMoreComment && (
+        <IconWrap>
+          <ViewMoreIcon onClick={handleClickViewMore} />
+        </IconWrap>
+      )}
       <PostCommentWrap>
         <div className="profile-image">
           <img src={`http://localhost:3065/${user.image.src}`} alt="유저프로필이미지" />
