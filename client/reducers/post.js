@@ -188,7 +188,6 @@ export default (state = initialState, action) => {
         const postIndex = draft.posts.findIndex(v => v.id === action.postId)
         if (draft.posts.length) {
           draft.posts[postIndex].previewComments.push(action.data)
-          draft.posts[postIndex].comments.push(action.data)
           draft.post.id !== undefined && draft.post.comments.push(action.data)
         } else {
           draft.post.comments.push(action.data)

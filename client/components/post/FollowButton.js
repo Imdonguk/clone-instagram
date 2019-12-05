@@ -3,7 +3,7 @@ import Router from 'next/router'
 import styled, { css } from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { FOLLOW_USER_REQUEST } from '../../reducers/user'
-import { OPEN_CANCLE_FOLLOW, CLOSE_POP_OVER } from '../../reducers/popover'
+import { OPEN_CANCLE_FOLLOW } from '../../reducers/popover'
 
 const FollowButton = ({ user, mode }) => {
   const me = useSelector(state => state.user.me)
@@ -13,14 +13,11 @@ const FollowButton = ({ user, mode }) => {
   const isLogged = useMemo(() => me.userName, [me.userName])
   const dispatch = useDispatch()
   const handleClickToFollow = () => {
-    if (isLogged) {
-      return dispatch({
-        type: FOLLOW_USER_REQUEST,
-        data: user.id,
-      })
-    }
-    dispatch({ type: CLOSE_POP_OVER })
-    Router.push('/signin')
+    if (!isLogged) return Router.push('/signin')
+    dispatch({
+      type: FOLLOW_USER_REQUEST,
+      data: user.id,
+    })
   }
 
   const handleClickToUnFollow = () => {
