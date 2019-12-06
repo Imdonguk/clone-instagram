@@ -36,6 +36,8 @@ import {
   LOAD_COMMENTS_FAILURE,
 } from '../reducers/post'
 
+import { LOAD_LIKERS_REQUEST, LOAD_LIKERS_SUCCESS, LOAD_LIKERS_FAILURE } from '../reducers/user'
+
 function addPostApi(data) {
   return axios.post('/post', data, { withCredentials: true })
 }
@@ -296,6 +298,31 @@ function* watchAddComment() {
   yield takeEvery(ADD_COMMENT_REQUEST, addComment)
 }
 
+function loadFollowingsApi({ postId, lastId = 0 }) {
+  return axios.get(`/post/${postId}/likers?lastId=${lastId}`, { withCredentials: true })
+}
+
+function* loadFollowings(action) {
+  try {
+    const result = yield call(loadFollowingsApi, { postId: action.data, lastId: action.lastId })
+    const { userList, hasMoreUser } = result.data
+    yield put({
+      type: LOAD_LIKERS_SUCCESS,
+      data: userList,
+      hasMoreUser,
+    })
+  } catch (e) {
+    yield put({
+      type: LOAD_LIKERS_FAILURE,
+      data: e,
+    })
+  }
+}
+
+function* watchloadFollowings() {
+  yield takeLatest(LOAD_LIKERS_REQUEST, loadFollowings)
+}
+
 function* postSaga() {
   yield all([
     fork(watchRemoveImage),
@@ -309,6 +336,7 @@ function* postSaga() {
     fork(watchLoadHashtagPosts),
     fork(watchLoadPost),
     fork(watchLoadComments),
+    fork(watchloadFollowings),
   ])
 }
 

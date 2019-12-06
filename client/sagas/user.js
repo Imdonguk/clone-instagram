@@ -29,6 +29,12 @@ import {
   REMOVE_SAVED_POST_REQUEST,
   REMOVE_SAVED_POST_SUCCESS,
   REMOVE_SAVED_POST_FAILURE,
+  LOAD_FOLLOWERS_REQUEST,
+  LOAD_FOLLOWERS_SUCCESS,
+  LOAD_FOLLOWERS_FAILURE,
+  LOAD_FOLLOWINGS_REQUEST,
+  LOAD_FOLLOWINGS_SUCCESS,
+  LOAD_FOLLOWINGS_FAILURE,
 } from '../reducers/user'
 
 import { UPDATE_MY_POSTS_PROFILE_IMAGE, RESET_POST_REDUCER } from '../reducers/post'
@@ -269,6 +275,56 @@ function* watchRemoveSavedPost() {
   yield takeEvery(REMOVE_SAVED_POST_REQUEST, removeSavedPost)
 }
 
+function loadFollowersApi({ userName, lastId = 0 }) {
+  return axios.get(`/user/${userName}/followers?lastId=${lastId}`, { withCredentials: true })
+}
+
+function* loadFollowers(action) {
+  try {
+    const result = yield call(loadFollowersApi, { userName: action.data, lastId: action.lastId })
+    const { userList, hasMoreUser } = result.data
+    yield put({
+      type: LOAD_FOLLOWERS_SUCCESS,
+      data: userList,
+      hasMoreUser,
+    })
+  } catch (e) {
+    yield put({
+      type: LOAD_FOLLOWERS_FAILURE,
+      data: e,
+    })
+  }
+}
+
+function* watchloadFollowers() {
+  yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers)
+}
+
+function loadFollowingsApi({ userName, lastId = 0 }) {
+  return axios.get(`/user/${userName}/followings?lastId=${lastId}`, { withCredentials: true })
+}
+
+function* loadFollowings(action) {
+  try {
+    const result = yield call(loadFollowingsApi, { userName: action.data, lastId: action.lastId })
+    const { userList, hasMoreUser } = result.data
+    yield put({
+      type: LOAD_FOLLOWINGS_SUCCESS,
+      data: userList,
+      hasMoreUser,
+    })
+  } catch (e) {
+    yield put({
+      type: LOAD_FOLLOWINGS_FAILURE,
+      data: e,
+    })
+  }
+}
+
+function* watchloadFollowings() {
+  yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings)
+}
+
 function* userSaga() {
   yield all([
     fork(watchLoadUser),
@@ -280,6 +336,8 @@ function* userSaga() {
     fork(watchUnFollowUser),
     fork(watchSaveOtherPost),
     fork(watchRemoveSavedPost),
+    fork(watchloadFollowers),
+    fork(watchloadFollowings),
   ])
 }
 
