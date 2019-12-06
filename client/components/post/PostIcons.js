@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, memo } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import Router from 'next/router'
@@ -7,7 +7,7 @@ import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../../reducers/post'
 import { SAVE_OTHER_POST_REQUEST, REMOVE_SAVED_POST_REQUEST } from '../../reducers/user'
 import { LikeIcon, CommentIcon, SaveIcon, ShareIcon } from '../Icons'
 
-const PostIcons = ({ postId, likers }) => {
+const PostIcons = memo(({ postId, likers }) => {
   const dispatch = useDispatch()
   const { id: userId, saved } = useSelector(state => state.user.me)
   const isLogged = useMemo(() => userId, [userId])
@@ -29,7 +29,7 @@ const PostIcons = ({ postId, likers }) => {
     }
   }, [isLiked])
 
-  const handleClickSaveBtn = () => {
+  const handleClickSaveBtn = useCallback(() => {
     if (!isLogged) return Router.push('/signin')
     if (isSaved) {
       dispatch({
@@ -42,7 +42,7 @@ const PostIcons = ({ postId, likers }) => {
         data: postId,
       })
     }
-  }
+  }, [isLogged, isSaved, postId])
   return (
     <Wrap>
       <IconWrap first>
@@ -63,7 +63,7 @@ const PostIcons = ({ postId, likers }) => {
       </IconWrap>
     </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   margin-top: 0.4rem;

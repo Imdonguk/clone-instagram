@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 import { Post } from './index'
 
-const PostList = () => {
+const PostList = memo(() => {
   const posts = useSelector(state => state.post.posts)
   return (
     <>
@@ -11,6 +11,6 @@ const PostList = () => {
       ))}
     </>
   )
-}
+})
 
 export default PostList

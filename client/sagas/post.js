@@ -243,6 +243,7 @@ function* likePost(action) {
       data: { postId: action.data, userId: result.data.userId },
     })
   } catch (e) {
+    console.error(e)
     yield put({
       type: LIKE_POST_FAILURE,
     })

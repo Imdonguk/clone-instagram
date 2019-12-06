@@ -1,23 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 
-const Story = () => {
+const Story = memo(() => {
   const { image, userName } = useSelector(state => state.user.me)
   const storyList = (list = [1, 2, 3, 4, 5]) => {
-    return list.map(() => (
-      <div className="story-item">
-        <button type="button">
-          <div className="user-image">
-            <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
-          </div>
-          <div className="user-info">
-            <div className="user-name">{userName}</div>
-            <div className="time">6시간전</div>
-          </div>
-        </button>
-      </div>
-    ))
+    return list.map(v => <StoryComponent image={image} userName={userName} key={v} />)
   }
   return (
     <Wrap>
@@ -28,7 +16,23 @@ const Story = () => {
       <div className="story-container">{storyList()}</div>
     </Wrap>
   )
-}
+})
+
+const StoryComponent = memo(({ userName, image }) => {
+  return (
+    <div className="story-item">
+      <button type="button">
+        <div className="user-image">
+          <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
+        </div>
+        <div className="user-info">
+          <div className="user-name">{userName}</div>
+          <div className="time">6시간전</div>
+        </div>
+      </button>
+    </div>
+  )
+})
 
 const Wrap = styled.div`
   & > .story-header {

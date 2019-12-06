@@ -1,17 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Router from 'next/router'
 import axios from 'axios'
 import Helmet from 'react-helmet'
 import { AccountWrap, Content, LetterIcon, HiperLink, AppDown, ErrorMsg } from '../components/account'
-import { SIGN_IN } from '../reducers/user'
 
 const Signin = () => {
   const userNameRef = useRef('')
   const passwordRef = useRef('')
   const [errorMsg, setErrorMsg] = useState('')
   const { me } = useSelector(state => state.user)
-  const dispatch = useDispatch()
 
   useEffect(() => {
     me.userName && Router.push('/')
@@ -28,7 +26,6 @@ const Signin = () => {
         withCredentials: true,
       })
       .then(r => Promise.resolve(r.data))
-      .then(() => dispatch({ type: SIGN_IN }))
       .then(() => Router.push('/'))
       .catch(error => setErrorMsg(error.response.data))
   }

@@ -58,7 +58,6 @@ export default (state = initialState, action) => {
       }
     }
     case CLOSE_POP_OVER: {
-      document.body.style.overflow = 'auto'
       return initialState
     }
     default: {

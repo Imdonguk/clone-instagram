@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
@@ -6,24 +6,27 @@ import { useSelector } from 'react-redux'
 const Story = () => {
   const { userName, name, image } = useSelector(state => state.user.me)
 
-  return (
-    <Wrap>
-      <div className="profile-image">
-        <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
-          <a>
-            <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
-          </a>
-        </Link>
-      </div>
-      <div className="profile-text">
-        <div className="user-name">
+  return useMemo(
+    () => (
+      <Wrap>
+        <div className="profile-image">
           <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
-            <a>{userName}</a>
+            <a>
+              <img src={`http://localhost:3065/${image.src}`} alt="프로필사진" />
+            </a>
           </Link>
         </div>
-        <div className="nick-name">{name}</div>
-      </div>
-    </Wrap>
+        <div className="profile-text">
+          <div className="user-name">
+            <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
+              <a>{userName}</a>
+            </Link>
+          </div>
+          <div className="nick-name">{name}</div>
+        </div>
+      </Wrap>
+    ),
+    [userName, name, image],
   )
 }
 

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { PostIcon } from '../Icons'
 import UserHeader from './UserHeader'
 import UserPosts from './UserPosts'
 
-const UserTemplate = () => {
+const UserTemplate = memo(() => {
   return (
     <Wrap>
       <UserHeader />
@@ -17,7 +17,7 @@ const UserTemplate = () => {
       <UserPosts />
     </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   width: 100%;

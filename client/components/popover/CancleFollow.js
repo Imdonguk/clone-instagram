@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled, { css } from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
@@ -9,12 +9,12 @@ const CancleFollow = () => {
   const isCancleFollow = useSelector(state => state.popover.isCancleFollow)
   const data = useSelector(state => state.popover.data)
 
-  const handleClickUnFollowBtn = () => {
+  const handleClickUnFollowBtn = useCallback(() => {
     dispatch({
       type: UNFOLLOW_USER_REQUEST,
       data: data.id,
     })
-  }
+  }, [data])
 
   if (!isCancleFollow) return null
   if (!data) return null

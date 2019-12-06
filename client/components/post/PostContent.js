@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, memo } from 'react'
 import styled from 'styled-components'
 import Slider from 'react-slick'
 
-const PostContent = ({ images }) => {
+const PostContent = memo(({ images }) => {
   const settings = {
     dots: true,
     infinite: false,
@@ -10,19 +10,16 @@ const PostContent = ({ images }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   }
-  return useMemo(
-    () => (
-      <Wrap>
-        <Slider {...settings}>
-          {images.map(v => (
-            <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
-          ))}
-        </Slider>
-      </Wrap>
-    ),
-    [images],
+  return (
+    <Wrap>
+      <Slider {...settings}>
+        {images.map(v => (
+          <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
+        ))}
+      </Slider>
+    </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   width: inherit;

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 import { Wrap } from '../user/UserPosts'
 import UserPost from '../user/UserPost'
 
-const HashtagPosts = () => {
+const HashtagPosts = memo(() => {
   const hashtagPosts = useSelector(state => state.post.hashtagPosts)
   return (
     <Wrap>
@@ -20,6 +20,6 @@ const HashtagPosts = () => {
       })}
     </Wrap>
   )
-}
+})
 
 export default HashtagPosts

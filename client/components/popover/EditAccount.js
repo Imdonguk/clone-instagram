@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { SIGN_OUT_REQUEST } from '../../reducers/user'
@@ -6,9 +6,9 @@ import { SIGN_OUT_REQUEST } from '../../reducers/user'
 const EditAccount = () => {
   const dispatch = useDispatch()
   const isEditAccount = useSelector(state => state.popover.isEditAccount)
-  const handleClickLogoutBtn = () => {
+  const handleClickLogoutBtn = useCallback(() => {
     dispatch({ type: SIGN_OUT_REQUEST })
-  }
+  }, [])
   if (!isEditAccount) return null
   return (
     <PopoverWrap>

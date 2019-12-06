@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { OPEN_USER_LIST } from '../../reducers/popover'
 import { LOAD_LIKERS_REQUEST } from '../../reducers/user'
 
-const PostLikeCount = ({ likers, postId }) => {
+const PostLikeCount = memo(({ likers, postId }) => {
   const dispatch = useDispatch()
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     dispatch({
       type: OPEN_USER_LIST,
       data: postId,
@@ -17,9 +17,9 @@ const PostLikeCount = ({ likers, postId }) => {
       type: LOAD_LIKERS_REQUEST,
       data: postId,
     })
-  }
+  }, [postId])
   return <Wrap onClick={handleClick}>좋아요 {likers.length}개</Wrap>
-}
+})
 
 const Wrap = styled.div`
   font-size: 1.4rem;

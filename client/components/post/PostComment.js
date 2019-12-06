@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 
-const PostComment = ({ userName, comment }) => {
+const PostComment = memo(({ userName, comment }) => {
   return (
     <Wrap>
       <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
@@ -26,7 +26,7 @@ const PostComment = ({ userName, comment }) => {
       })}
     </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   width: 100%;

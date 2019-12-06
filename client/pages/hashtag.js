@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import Helmet from 'react-helmet'
 import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from '../components/layout'
@@ -9,7 +9,7 @@ const Hashtag = ({ tag }) => {
   const dispatch = useDispatch()
   const countRef = useRef([])
   const { hashtagPosts, hasMorePost } = useSelector(state => state.post)
-  const handleScrollHashtagPage = () => {
+  const handleScrollHashtagPage = useCallback(() => {
     if (window.scrollY + document.documentElement.clientHeight < document.documentElement.scrollHeight - 100) return
     if (!hasMorePost) return
 
@@ -22,7 +22,7 @@ const Hashtag = ({ tag }) => {
       lastId,
     })
     countRef.current.push(lastId)
-  }
+  }, [hashtagPosts.length, hasMorePost])
 
   useEffect(() => {
     hasMorePost && window.addEventListener('scroll', handleScrollHashtagPage)

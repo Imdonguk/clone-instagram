@@ -1,23 +1,23 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { PostComment } from './index'
 import { ViewMoreIcon } from '../Icons'
 import { LOAD_COMMENTS_REQUEST } from '../../reducers/post'
 
-const PostPageCommentList = () => {
+const PostPageCommentList = memo(() => {
   const dispatch = useDispatch()
   const { id: postId, description, comments, user, hasMoreComment } = useSelector(state => state.post.post)
   const lastId = comments.length && comments[0].id
 
-  const handleClickViewMore = () => {
+  const handleClickViewMore = useCallback(() => {
     if (!hasMoreComment) return
     dispatch({
       type: LOAD_COMMENTS_REQUEST,
       data: postId,
       lastId,
     })
-  }
+  }, [postId, lastId])
   return (
     <Wrap>
       {hasMoreComment && (
@@ -41,7 +41,7 @@ const PostPageCommentList = () => {
       ))}
     </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   position: absolute;

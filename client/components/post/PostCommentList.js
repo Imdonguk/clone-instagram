@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { PostComment } from './index'
 
-const PostCommentList = ({ description, comments, user }) => {
+const PostCommentList = memo(({ description, comments, user }) => {
   return (
     <Wrap>
       <PostComment userName={user.userName} comment={description} />
@@ -11,7 +11,7 @@ const PostCommentList = ({ description, comments, user }) => {
       ))}
     </Wrap>
   )
-}
+})
 
 const Wrap = styled.div``
 

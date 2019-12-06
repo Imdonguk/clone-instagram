@@ -1,31 +1,31 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, memo, useCallback } from 'react'
 import Router from 'next/router'
 import styled, { css } from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { FOLLOW_USER_REQUEST } from '../../reducers/user'
 import { OPEN_CANCLE_FOLLOW } from '../../reducers/popover'
 
-const FollowButton = ({ user, mode }) => {
+const FollowButton = memo(({ user, mode }) => {
   const me = useSelector(state => state.user.me)
   const isFollow = useMemo(() => {
     return me.userName && !!me.followings.find(v => v.id === user.id)
   }, [me.userName && me.followings.length])
   const isLogged = useMemo(() => me.userName, [me.userName])
   const dispatch = useDispatch()
-  const handleClickToFollow = () => {
+  const handleClickToFollow = useCallback(() => {
     if (!isLogged) return Router.push('/signin')
     dispatch({
       type: FOLLOW_USER_REQUEST,
       data: user.id,
     })
-  }
+  }, [user.id])
 
-  const handleClickToUnFollow = () => {
+  const handleClickToUnFollow = useCallback(() => {
     dispatch({
       type: OPEN_CANCLE_FOLLOW,
       data: user,
     })
-  }
+  }, [user.id])
 
   if (user.id === me.id) return null
 
@@ -58,7 +58,7 @@ const FollowButton = ({ user, mode }) => {
       )}
     </>
   )
-}
+})
 
 const Wrap = styled.div`
   & .blank {

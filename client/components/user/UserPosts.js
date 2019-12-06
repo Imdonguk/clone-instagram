@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import UserPost from './UserPost'
 
-const UserPosts = () => {
+const UserPosts = memo(() => {
   const userPosts = useSelector(state => state.post.userPosts)
   return (
     <Wrap>
@@ -20,7 +20,7 @@ const UserPosts = () => {
       })}
     </Wrap>
   )
-}
+})
 
 export const Wrap = styled.div`
   display: grid;

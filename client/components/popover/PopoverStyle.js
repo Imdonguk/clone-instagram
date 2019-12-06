@@ -1,19 +1,14 @@
 import styled, { css } from 'styled-components'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { CLOSE_POP_OVER } from '../../reducers/popover'
 
 export const PopoverWrap = ({ children }) => {
   const dispatch = useDispatch()
-  const popover = useSelector(state => state.popover)
-  const canclePopover = e => {
+  const canclePopover = useCallback(e => {
     if (e && e.currentTarget !== e.target) return
     dispatch({ type: CLOSE_POP_OVER })
-  }
-
-  useEffect(() => {
-    if (Object.values(popover).some(v => v)) document.body.style.overflow = 'hidden'
-  }, [popover])
+  }, [])
 
   return <Wrap onClick={canclePopover}>{children}</Wrap>
 }
@@ -24,10 +19,10 @@ export const PopoverButton = ({ children, fontColor, location, close, onClick })
     dispatch({ type: CLOSE_POP_OVER })
   }
 
-  const handleClickButton = () => {
+  const handleClickButton = useCallback(() => {
     onClick && onClick()
     close && canclePopover()
-  }
+  }, [])
   return (
     <Button fontColor={fontColor} location={location} onClick={handleClickButton}>
       {children}

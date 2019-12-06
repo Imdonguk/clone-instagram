@@ -31,7 +31,7 @@ const PostForm = () => {
       })
       cancleForm(e)
     } catch (error) {
-      console.log(error.response.data)
+      console.error(error)
     }
   }
   const handleChangeImages = e => {

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useCallback } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
@@ -10,27 +10,30 @@ const EditProifileImage = () => {
   const imageInput = useRef()
   const dispatch = useDispatch()
 
-  const handleClickUploadImageBtn = () => {
+  const handleClickUploadImageBtn = useCallback(() => {
     imageInput.current.click()
-  }
-  const handleChangeProfileImage = e => {
-    const imageFormData = new FormData()
-    imageFormData.append('profileImage', e.target.files[0])
+  }, [imageInput.current])
+  const handleChangeProfileImage = useCallback(
+    e => {
+      const imageFormData = new FormData()
+      imageFormData.append('profileImage', e.target.files[0])
 
-    dispatch({
-      type: UPLOAD_PROFILE_IMAGE_REQUEST,
-      data: imageFormData,
-      userName,
-    })
-  }
+      dispatch({
+        type: UPLOAD_PROFILE_IMAGE_REQUEST,
+        data: imageFormData,
+        userName,
+      })
+    },
+    [userName],
+  )
 
-  const handleClickDeleteImageBtn = () => {
+  const handleClickDeleteImageBtn = useCallback(() => {
     dispatch({
       type: REMOVE_PROFILE_IMAGE_REQUEST,
       data: image.src,
       userName,
     })
-  }
+  }, [userName, image.src])
 
   if (!isEditProfileImage || !userName) return null
 

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useMemo, memo } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 
-const Story = () => {
+const Story = memo(() => {
   const { image, userName } = useSelector(state => state.user.me)
   const recommendList = (list = [1, 2, 3]) => {
     return list.map(() => (
@@ -27,7 +27,7 @@ const Story = () => {
       <div className="recommend-container">{recommendList()}</div>
     </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   .recommend-header {

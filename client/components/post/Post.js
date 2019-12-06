@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostFooter } from './index'
 import { SettingIcon } from '../Icons'
 import { OPEN_EDIT_POST } from '../../reducers/popover'
 
-const Post = ({ info }) => {
+const Post = memo(({ info }) => {
   const dispatch = useDispatch()
   const { user, images } = info
   const openPostSetting = () => {
@@ -13,24 +13,21 @@ const Post = ({ info }) => {
       type: OPEN_EDIT_POST,
     })
   }
-  return useMemo(
-    () => (
-      <Wrap>
-        <PostHeaderWrap>
-          <PostHeader user={user} />
-        </PostHeaderWrap>
-        <PostContent images={images} />
-        <PostFooterWrap>
-          <PostFooter info={info} />
-        </PostFooterWrap>
-        <Setting>
-          <SettingIcon onClick={openPostSetting} />
-        </Setting>
-      </Wrap>
-    ),
-    [info],
+  return (
+    <Wrap>
+      <PostHeaderWrap>
+        <PostHeader user={user} />
+      </PostHeaderWrap>
+      <PostContent images={images} />
+      <PostFooterWrap>
+        <PostFooter info={info} />
+      </PostFooterWrap>
+      <Setting>
+        <SettingIcon onClick={openPostSetting} />
+      </Setting>
+    </Wrap>
   )
-}
+})
 
 const Wrap = styled.div`
   position: relative;

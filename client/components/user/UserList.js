@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, memo } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import Link from 'next/link'
 import FollowButton from '../post/FollowButton'
 
-const UserList = ({ title, action, data }) => {
+const UserList = memo(({ title, action, data }) => {
   const { userList, hasMoreUser } = useSelector(state => state.user)
   const dispatch = useDispatch()
   const handleScrollUserList = useCallback(
@@ -36,37 +36,34 @@ const UserList = ({ title, action, data }) => {
       </div>
     </Wrap>
   )
-}
+})
 
-const User = ({ user }) => {
+const User = memo(({ user }) => {
   if (!user) return null
-  return useMemo(
-    () => (
-      <UserWrap>
+  return (
+    <UserWrap>
+      <Link href={{ pathname: '/user', query: { userName: user.userName } }} as={`/${user.userName}`}>
+        <a>
+          <div className="user-image">
+            <img src={`http://localhost:3065/${user.image.src}`} alt="유저프로필이미지" />
+          </div>
+        </a>
+      </Link>
+
+      <div className="user-name-wrap">
         <Link href={{ pathname: '/user', query: { userName: user.userName } }} as={`/${user.userName}`}>
           <a>
-            <div className="user-image">
-              <img src={`http://localhost:3065/${user.image.src}`} alt="유저프로필이미지" />
-            </div>
+            <div className="user-name">{user.userName}</div>
           </a>
         </Link>
-
-        <div className="user-name-wrap">
-          <Link href={{ pathname: '/user', query: { userName: user.userName } }} as={`/${user.userName}`}>
-            <a>
-              <div className="user-name">{user.userName}</div>
-            </a>
-          </Link>
-          <div className="name">{user.name}</div>
-        </div>
-        <div className="follow-button-wrap">
-          <FollowButton user={user} />
-        </div>
-      </UserWrap>
-    ),
-    [user.id],
+        <div className="name">{user.name}</div>
+      </div>
+      <div className="follow-button-wrap">
+        <FollowButton user={user} />
+      </div>
+    </UserWrap>
   )
-}
+})
 
 const Wrap = styled.div`
   width: 40rem;

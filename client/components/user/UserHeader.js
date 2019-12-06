@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, memo, useCallback } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon } from '../Icons'
@@ -6,19 +6,19 @@ import { OPEN_EDIT_PROFILE_IMAGE, OPEN_EDIT_ACCOUNT, OPEN_USER_LIST } from '../.
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../../reducers/user'
 import FollowButton from '../post/FollowButton'
 
-const UserHeader = () => {
+const UserHeader = memo(() => {
   const me = useSelector(state => state.user.me)
   const userInfo = useSelector(state => state.user.userInfo)
   const isOwner = useMemo(() => me.userName === userInfo.userName, [me.userName, userInfo.userName])
 
   const dispatch = useDispatch()
-  const handleClickProfileImg = () => {
+  const handleClickProfileImg = useCallback(() => {
     dispatch({ type: OPEN_EDIT_PROFILE_IMAGE })
-  }
-  const handleClickEditAccountBtn = () => {
+  }, [])
+  const handleClickEditAccountBtn = useCallback(() => {
     dispatch({ type: OPEN_EDIT_ACCOUNT })
-  }
-  const handleClickFollowers = () => {
+  }, [])
+  const handleClickFollowers = useCallback(() => {
     dispatch({
       type: OPEN_USER_LIST,
       title: '팔로워',
@@ -28,8 +28,8 @@ const UserHeader = () => {
       type: LOAD_FOLLOWERS_REQUEST,
       data: userInfo.userName,
     })
-  }
-  const handleClickFollowings = () => {
+  }, [userInfo.userName])
+  const handleClickFollowings = useCallback(() => {
     dispatch({
       type: OPEN_USER_LIST,
       title: '팔로잉',
@@ -39,7 +39,7 @@ const UserHeader = () => {
       type: LOAD_FOLLOWINGS_REQUEST,
       data: userInfo.userName,
     })
-  }
+  }, [userInfo.userName])
   return (
     <Wrap>
       <div className="profile-image">
@@ -83,8 +83,7 @@ const UserHeader = () => {
       </div>
     </Wrap>
   )
-}
-
+})
 const Wrap = styled.div`
   margin-bottom: 4.4rem;
   display: flex;
