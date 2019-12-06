@@ -1,48 +1,51 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled, { css } from 'styled-components'
 
 const Footer = ({ page }) => {
-  return (
-    <Content page={page}>
-      <nav>
-        <ul>
-          <li>
-            <span className="link">instagram 정보</span>
-          </li>
-          <li>
-            <span className="link">지원</span>
-          </li>
-          <li>
-            <span className="link">홍보 센터</span>
-          </li>
-          <li>
-            <span className="link">API</span>
-          </li>
-          <li>
-            <span className="link">채용 정보</span>
-          </li>
-          <li>
-            <span className="link">개인정보처리방침</span>
-          </li>
-          <li>
-            <span className="link">약관</span>
-          </li>
-          <li>
-            <span className="link">디렉터리</span>
-          </li>
-          <li>
-            <span className="link">프로필</span>
-          </li>
-          <li>
-            <span className="link">해시태그</span>
-          </li>
-          <li>
-            <span className="link">언어</span>
-          </li>
-        </ul>
-      </nav>
-      <span className="yaer">© 2019 Instagram</span>
-    </Content>
+  return useMemo(
+    () => (
+      <Content page={page}>
+        <nav>
+          <ul>
+            <li>
+              <span className="link">instagram 정보</span>
+            </li>
+            <li>
+              <span className="link">지원</span>
+            </li>
+            <li>
+              <span className="link">홍보 센터</span>
+            </li>
+            <li>
+              <span className="link">API</span>
+            </li>
+            <li>
+              <span className="link">채용 정보</span>
+            </li>
+            <li>
+              <span className="link">개인정보처리방침</span>
+            </li>
+            <li>
+              <span className="link">약관</span>
+            </li>
+            <li>
+              <span className="link">디렉터리</span>
+            </li>
+            <li>
+              <span className="link">프로필</span>
+            </li>
+            <li>
+              <span className="link">해시태그</span>
+            </li>
+            <li>
+              <span className="link">언어</span>
+            </li>
+          </ul>
+        </nav>
+        <span className="yaer">© 2019 Instagram</span>
+      </Content>
+    ),
+    [],
   )
 }
 

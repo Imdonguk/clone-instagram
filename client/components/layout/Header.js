@@ -14,63 +14,66 @@ const Header = ({ page }) => {
     dispatch({ type: OPEN_POST_FORM })
   }
 
-  return (
-    <Wrapper>
-      <NaviBar>
-        <br />
-        <Content>
-          <Link href="/">
-            <LogoWrap>
-              <LogoIcon />
-              <Boundary />
-              <LetterIcon />
-            </LogoWrap>
-          </Link>
+  return useMemo(
+    () => (
+      <Wrapper>
+        <NaviBar>
+          <br />
+          <Content>
+            <Link href="/">
+              <LogoWrap>
+                <LogoIcon />
+                <Boundary />
+                <LetterIcon />
+              </LogoWrap>
+            </Link>
 
-          <NavInput>
-            <input className="search" />
-            <div className="search-icon">
-              <SearchIcon />
-            </div>
-          </NavInput>
-          {isLogged ? (
-            <Accounts>
-              {page === 'main' && (
-                <IconWrap first>
-                  <UploadIcon onClick={openPostForm} />
-                </IconWrap>
-              )}
-              <IconWrap>
-                <ExploreIcon />
-              </IconWrap>
-              <IconWrap>
-                <LikeIcon />
-              </IconWrap>
-              <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
-                <a>
-                  <IconWrap>
-                    <ProfileIcon />
+            <NavInput>
+              <input className="search" />
+              <div className="search-icon">
+                <SearchIcon />
+              </div>
+            </NavInput>
+            {isLogged ? (
+              <Accounts>
+                {page === 'main' && (
+                  <IconWrap first>
+                    <UploadIcon onClick={openPostForm} />
                   </IconWrap>
-                </a>
-              </Link>
-            </Accounts>
-          ) : (
-            <Accounts>
-              <Link href="/signin">
-                <a>
-                  <SigninButton>로그인</SigninButton>
-                </a>
-              </Link>
-              <Link href="/signup">
-                <a>
-                  <SignupButton>가입하기</SignupButton>
-                </a>
-              </Link>
-            </Accounts>
-          )}
-        </Content>
-      </NaviBar>
-    </Wrapper>
+                )}
+                <IconWrap>
+                  <ExploreIcon />
+                </IconWrap>
+                <IconWrap>
+                  <LikeIcon />
+                </IconWrap>
+                <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
+                  <a>
+                    <IconWrap>
+                      <ProfileIcon />
+                    </IconWrap>
+                  </a>
+                </Link>
+              </Accounts>
+            ) : (
+              <Accounts>
+                <Link href="/signin">
+                  <a>
+                    <SigninButton>로그인</SigninButton>
+                  </a>
+                </Link>
+                <Link href="/signup">
+                  <a>
+                    <SignupButton>가입하기</SignupButton>
+                  </a>
+                </Link>
+              </Accounts>
+            )}
+          </Content>
+        </NaviBar>
+      </Wrapper>
+    ),
+    [],
   )
 }
 
