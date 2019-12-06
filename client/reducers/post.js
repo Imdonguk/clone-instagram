@@ -162,8 +162,14 @@ export default (state = initialState, action) => {
       }
       case LIKE_POST_SUCCESS: {
         const { userId, postId } = action.data
-        const postIndex = draft.posts.findIndex(v => v.id === postId)
-        draft.posts[postIndex].likers.unshift({ id: userId })
+        if (draft.posts.length) {
+          const postIndex = draft.posts.findIndex(v => v.id === postId)
+          draft.posts[postIndex].likers.unshift({ id: userId })
+          draft.post.id && draft.post.likers.unshift({ id: userId })
+        } else {
+          draft.post.likers.unshift({ id: userId })
+        }
+
         break
       }
       case LIKE_POST_FAILURE: {
@@ -174,8 +180,15 @@ export default (state = initialState, action) => {
       }
       case UNLIKE_POST_SUCCESS: {
         const { userId, postId } = action.data
-        const postIndex = draft.posts.findIndex(v => v.id === postId)
-        draft.posts[postIndex].likers = draft.posts[postIndex].likers.filter(v => v.id !== userId)
+        if (draft.posts.length) {
+          const postIndex = draft.posts.findIndex(v => v.id === postId)
+          draft.posts[postIndex].likers = draft.posts[postIndex].likers.filter(v => v.id !== userId)
+          if (draft.post.id) {
+            draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
+          }
+        } else {
+          draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
+        }
         break
       }
       case UNLIKE_POST_FAILURE: {
