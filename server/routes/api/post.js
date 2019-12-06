@@ -128,15 +128,51 @@ router.get('/:id/comments', async (req, res, next) => {
       order: [['createdAt', 'DESC']],
       limit,
     })
-
     comments.reverse()
-
     const hasMoreComment = comments.length === limit
 
     res.json({ comments, hasMoreComment })
   } catch (e) {
     next(e)
   }
+})
+
+router.get('/:id/likers', async (req, res, next) => {
+  try {
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.gt]: +req.query.lastId,
+          },
+        }
+      : {}
+
+    const limit = 10
+    const post = await db.post.findOne({
+      where: { id: +req.params.id },
+    })
+
+    const likers = await post.getLikers({
+      where,
+      limit,
+      attributes: ['id', 'name', 'userName'],
+      include: [
+        {
+          model: db.image,
+          attributes: ['src'],
+        },
+      ],
+    })
+
+    const result = likers.map(v => {
+      const liker = v.toJSON()
+      delete liker.like
+      return liker
+    })
+
+    const hasMoreUser = result.length === limit
+    res.json({ userList: result, hasMoreUser })
+  } catch (e) {}
 })
 
 router.post('/images', upload.array('image'), (req, res, next) => {

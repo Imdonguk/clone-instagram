@@ -120,6 +120,76 @@ router.get('/:userName/posts', async (req, res, next) => {
   }
 })
 
+router.get('/:userName/followers', async (req, res, next) => {
+  try {
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.gt]: +req.query.lastId,
+          },
+        }
+      : {}
+    const limit = 10
+    const user = await db.user.findOne({ where: { userName: req.params.userName } })
+    const followers = await user.getFollowers({
+      where,
+      limit,
+      include: [
+        {
+          model: db.image,
+          attributes: ['src'],
+        },
+      ],
+      attributes: ['id', 'name', 'userName'],
+    })
+    const result = followers.map(v => {
+      const follower = v.toJSON()
+      delete follower.follow
+      return follower
+    })
+
+    const hasMoreUser = result.length === limit
+    res.json({ userList: result, hasMoreUser })
+  } catch (e) {
+    next(e)
+  }
+})
+
+router.get('/:userName/followings', async (req, res, next) => {
+  try {
+    const where = +req.query.lastId
+      ? {
+          id: {
+            [db.Sequelize.Op.gt]: +req.query.lastId,
+          },
+        }
+      : {}
+
+    const limit = 10
+    const user = await db.user.findOne({ where: { userName: req.params.userName } })
+    const followings = await user.getFollowings({
+      where,
+      limit,
+      include: [
+        {
+          model: db.image,
+          attributes: ['src'],
+        },
+      ],
+      attributes: ['id', 'name', 'userName'],
+    })
+    const result = followings.map(v => {
+      const following = v.toJSON()
+      delete following.follow
+      return following
+    })
+    const hasMoreUser = result.length === limit
+    res.json({ userList: result, hasMoreUser })
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.post('/signin', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err)
