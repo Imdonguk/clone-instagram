@@ -85,7 +85,7 @@ WoogieBoogie.getInitialProps = async context => {
   if (cookie) axios.defaults.headers.Cookie = cookie
   const { me } = store.getState().user
   try {
-    store.dispatch({ type: CLOSE_POP_OVER })
+    if (!isServer) store.dispatch({ type: CLOSE_POP_OVER })
     me.userName ||
       (await new Promise((resolve, reject) =>
         store.dispatch({ type: LOAD_USER_REQUEST, promise: { resolve, reject } }),
