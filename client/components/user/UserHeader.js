@@ -2,7 +2,8 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon } from '../Icons'
-import { OPEN_EDIT_PROFILE_IMAGE, OPEN_EDIT_ACCOUNT } from '../../reducers/popover'
+import { OPEN_EDIT_PROFILE_IMAGE, OPEN_EDIT_ACCOUNT, OPEN_USER_LIST } from '../../reducers/popover'
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../../reducers/user'
 import FollowButton from '../post/FollowButton'
 
 const UserHeader = () => {
@@ -16,6 +17,28 @@ const UserHeader = () => {
   }
   const handleClickEditAccountBtn = () => {
     dispatch({ type: OPEN_EDIT_ACCOUNT })
+  }
+  const handleClickFollowers = () => {
+    dispatch({
+      type: OPEN_USER_LIST,
+      title: '팔로워',
+      data: userInfo.userName,
+    })
+    dispatch({
+      type: LOAD_FOLLOWERS_REQUEST,
+      data: userInfo.userName,
+    })
+  }
+  const handleClickFollowings = () => {
+    dispatch({
+      type: OPEN_USER_LIST,
+      title: '팔로잉',
+      data: userInfo.userName,
+    })
+    dispatch({
+      type: LOAD_FOLLOWINGS_REQUEST,
+      data: userInfo.userName,
+    })
   }
   return (
     <Wrap>
@@ -49,11 +72,11 @@ const UserHeader = () => {
           <div>
             게시물 <span>{userInfo.postCount}</span>
           </div>
-          <div>
-            팔로워 <span>{userInfo.followers.length}</span>
+          <div className="followers" onClick={handleClickFollowers}>
+            팔로워 <span>{isOwner ? me.followers.length : userInfo.followers.length}</span>
           </div>
-          <div>
-            팔로우 <span>{userInfo.followings.length}</span>
+          <div className="followings" onClick={handleClickFollowings}>
+            팔로우 <span>{isOwner ? me.followings.length : userInfo.followings.length}</span>
           </div>
         </div>
         <div className="profile-bottom">{userInfo.name}</div>
@@ -129,6 +152,7 @@ const Wrap = styled.div`
       }
 
       & .follow-button-wrap {
+        width: 9.5rem;
         height: 2.8rem;
         margin-left: 2rem;
         font-size: 1.4rem;
@@ -144,6 +168,10 @@ const Wrap = styled.div`
         & > span {
           font-weight: 600;
         }
+      }
+      & .followers,
+      .followings {
+        cursor: pointer;
       }
     }
     .profile-bottom {

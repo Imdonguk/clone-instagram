@@ -7,7 +7,7 @@ const PostFooter = ({ info }) => {
   return (
     <Wrap>
       <PostIcons postId={postId} likers={likers} />
-      <PostLikeCount likers={likers} />
+      <PostLikeCount postId={postId} likers={likers} />
       <PostCommentList description={description} comments={previewComments} user={user} />
       <PostInputForm postId={postId} />
     </Wrap>

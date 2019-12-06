@@ -18,7 +18,7 @@ const PostTemplate = () => {
           <PostPageCommentList />
         </PostCommentListWrap>
         <PostIcons postId={post.id} likers={post.likers} />
-        <PostLikeCount likers={post.likers} />
+        <PostLikeCount likers={post.likers} postId={post.id} />
         <PostInputForm postId={post.id} />
       </PostRightLayout>
     </Wrap>
