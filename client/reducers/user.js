@@ -3,6 +3,8 @@ import produce from 'immer'
 const initialState = {
   me: {},
   userInfo: {},
+  userList: [],
+  isLoddingUserList: false,
   isLoddingOwner: false,
   isUploadingProfileImage: false,
 }
@@ -44,6 +46,18 @@ export const SAVE_OTHER_POST_FAILURE = 'SAVE_OTHER_POST_FAILURE'
 export const REMOVE_SAVED_POST_REQUEST = 'REMOVE_SAVED_POST_REQUEST'
 export const REMOVE_SAVED_POST_SUCCESS = 'REMOVE_SAVED_POST_SUCCESS'
 export const REMOVE_SAVED_POST_FAILURE = 'REMOVE_SAVED_POST_FAILURE'
+
+export const LOAD_FOLLOWERS_REQUEST = 'LOAD_FOLLOWERS_REQUEST'
+export const LOAD_FOLLOWERS_SUCCESS = 'LOAD_FOLLOWERS_SUCCESS'
+export const LOAD_FOLLOWERS_FAILURE = 'LOAD_FOLLOWERS_FAILURE'
+
+export const LOAD_FOLLOWINGS_REQUEST = 'LOAD_FOLLOWINGS_REQUEST'
+export const LOAD_FOLLOWINGS_SUCCESS = 'LOAD_FOLLOWINGS_SUCCESS'
+export const LOAD_FOLLOWINGS_FAILURE = 'LOAD_FOLLOWINGS_FAILURE'
+
+export const LOAD_LIKERS_REQUEST = 'LOAD_LIKERS_REQUEST'
+export const LOAD_LIKERS_SUCCESS = 'LOAD_LIKERS_SUCCESS'
+export const LOAD_LIKERS_FAILURE = 'LOAD_LIKERS_FAILURE'
 
 export default (state = initialState, action) => {
   return produce(state, draft => {
@@ -104,6 +118,7 @@ export default (state = initialState, action) => {
       }
       case FOLLOW_USER_SUCCESS: {
         draft.me.followings.push(action.data)
+        draft.userInfo.userName && draft.userInfo.id === action.data.id && draft.userInfo.followers.push(action.data)
         break
       }
       case FOLLOW_USER_FAILURE: {
@@ -114,6 +129,9 @@ export default (state = initialState, action) => {
       }
       case UNFOLLOW_USER_SUCCESS: {
         draft.me.followings = draft.me.followings.filter(v => v.id !== action.data.id)
+        if (draft.userInfo.userName && draft.userInfo.id === action.data.id) {
+          draft.useInfo.followings = draft.userInfo.followings.filter(v => v.id !== action.data.id)
+        }
         break
       }
       case UNFOLLOW_USER_FAILURE: {
@@ -137,6 +155,24 @@ export default (state = initialState, action) => {
         break
       }
       case REMOVE_SAVED_POST_FAILURE: {
+        break
+      }
+      case LOAD_FOLLOWERS_REQUEST:
+      case LOAD_FOLLOWINGS_REQUEST:
+      case LOAD_LIKERS_REQUEST: {
+        draft.userList = action.lastId ? draft.userList : []
+        break
+      }
+      case LOAD_FOLLOWERS_SUCCESS:
+      case LOAD_FOLLOWINGS_SUCCESS:
+      case LOAD_LIKERS_SUCCESS: {
+        draft.userList = draft.userList.concat(action.data)
+        draft.hasMoreUser = action.hasMoreUser
+        break
+      }
+      case LOAD_FOLLOWERS_FAILURE:
+      case LOAD_FOLLOWINGS_FAILURE:
+      case LOAD_LIKERS_FAILURE: {
         break
       }
       default: {
