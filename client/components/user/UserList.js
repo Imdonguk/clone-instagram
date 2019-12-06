@@ -7,12 +7,27 @@ import FollowButton from '../post/FollowButton'
 const UserList = ({ title, action, data }) => {
   const { userList, hasMoreUser } = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const handleScrollUserList = useCallback(
+    ({ target }) => {
+      const { clientHeight, scrollTop, scrollHeight } = target
+
+      if (scrollHeight !== clientHeight + scrollTop) return
+      if (!hasMoreUser) return
+      const lastId = userList.length && userList[userList.length - 1].id
+      dispatch({
+        type: action,
+        data,
+        lastId,
+      })
+    },
+    [userList.length],
+  )
   return (
     <Wrap>
       <div className="title-wrap">
         <div className="title">{title}</div>
       </div>
-      <div className="user-list-wrap">
+      <div className="user-list-wrap" onScroll={handleScrollUserList}>
         <div className="user-list">
           {userList.map(v => (
             <User user={v} key={v.id} />
