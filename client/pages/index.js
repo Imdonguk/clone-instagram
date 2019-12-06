@@ -4,7 +4,7 @@ import Router from 'next/router'
 import styled from 'styled-components'
 import Header from '../components/layout/Header'
 import Container from '../components/main/Container'
-import { PostForm, EditPost, CancleFollow } from '../components/popover'
+import { PostForm, EditPost, CancleFollow, UserListPopover } from '../components/popover'
 import { LOAD_POSTS_REQUEST, RESET_HAS_MORE_POST } from '../reducers/post'
 
 const Index = () => {
@@ -47,6 +47,7 @@ const Index = () => {
       <PostForm />
       <EditPost />
       <CancleFollow />
+      <UserListPopover />
     </>
   )
 }
@@ -56,6 +57,10 @@ Index.getInitialProps = async context => {
   const { posts } = context.store.getState().post
 
   if (!me.userName) return
+
+  context.store.dispatch({
+    type: RESET_HAS_MORE_POST,
+  })
 
   posts.length ||
     context.store.dispatch({
