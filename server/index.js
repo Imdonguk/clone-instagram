@@ -48,6 +48,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 passportConfig()
 
+app.get('/', (req, res) => {
+  res.send('api server 정상 동작')
+})
+
 app.use('/api/user', require('./routes/api/user'))
 app.use('/api/post', require('./routes/api/post'))
 app.use('/api/posts', require('./routes/api/posts'))
