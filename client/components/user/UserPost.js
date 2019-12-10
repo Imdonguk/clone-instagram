@@ -1,4 +1,4 @@
-import React, { useState, useMemo, memo, useCallback } from 'react'
+import React, { useState, useMemo, memo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { WhiteLikeIcon, WhiteCommentIcon, SlideIcon } from '../Icons'
@@ -7,8 +7,8 @@ const UserPost = memo(({ images, likeCount, commentCount, postId }) => {
   const [isPostActivity, setisPostActivity] = useState(false)
 
   const isSlideIcon = useMemo(() => images.length > 1, [images])
-  const handleMouseOverPost = () => useCallback(setisPostActivity(true), [isPostActivity])
-  const handleMouseLeavePost = () => useCallback(setisPostActivity(false), [isPostActivity])
+  const handleMouseOverPost = () => setisPostActivity(true)
+  const handleMouseLeavePost = () => setisPostActivity(false)
 
   return (
     <Link href={{ pathname: '/post', query: { id: postId } }} as={`/post/${postId}`}>
