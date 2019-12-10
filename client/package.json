@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "build": "next build",
-    "start": "next start"
+    "build": "ANALYZE=true next build",
+    "start": "NODE_ENV=production PORT=80 pm2 start server.js",
+    "prestart": "next build"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.1.4",
@@ -27,6 +28,7 @@
     "next-optimized-images": "^2.5.3",
     "next-redux-saga": "^4.0.2",
     "next-redux-wrapper": "^3.0.0-alpha.3",
+    "pm2": "^4.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -46,7 +48,7 @@
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.2",
     "eslint-plugin-react": "^7.14.2",
-    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "nodemon": "^1.19.1",
     "webpack": "^4.35.2"
   }
