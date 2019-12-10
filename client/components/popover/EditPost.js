@@ -9,7 +9,11 @@ const EditPost = () => {
   return (
     <PopoverWrap>
       <ButtonWrap>
-        <PopoverButton type="button" location="top" fontColor="blue">
+        <PopoverButton type="button" location="top">
+          게시물로 이동
+        </PopoverButton>
+        <PopoverButton type="button">저장하기</PopoverButton>
+        <PopoverButton type="button" fontColor="blue">
           수정하기
         </PopoverButton>
         <PopoverButton type="button" fontColor="red">
