@@ -96,7 +96,7 @@ WoogieBoogie.getInitialProps = async context => {
         store.dispatch({ type: LOAD_USER_REQUEST, promise: { resolve, reject } }),
       ))
   } catch (e) {
-    console.log(e.response.data)
+    // console.log(e.response.data)
   }
   if (Component.getInitialProps) pageProps = (await Component.getInitialProps(ctx)) || {}
   return { pageProps }
