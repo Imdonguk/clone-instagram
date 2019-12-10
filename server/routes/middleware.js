@@ -1,4 +1,4 @@
-const config = require('../config')
+const config = require('../config/config')
 
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next()

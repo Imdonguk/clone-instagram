@@ -5,7 +5,7 @@ const fs = require('fs')
 const router = express.Router()
 const db = require('../../models')
 const { isLoggedIn } = require('../middleware')
-const config = require('../../config')
+const config = require('../../config/config')
 const upload = require('../../multer')
 
 router.get('/', isLoggedIn, (req, res, next) => {

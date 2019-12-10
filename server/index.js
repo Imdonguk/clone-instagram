@@ -8,7 +8,7 @@ const db = require('./models')
 const dotenv = require('dotenv')
 const passport = require('passport')
 const passportConfig = require('./passport')
-const config = require('./config')
+const config = require('./config/config')
 const app = express()
 
 dotenv.config()
