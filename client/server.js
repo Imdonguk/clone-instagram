@@ -6,11 +6,13 @@ const expressSession = require('express-session')
 const dotenv = require('dotenv')
 const path = require('path')
 
+dotenv.config()
 const dev = process.env.NODE_ENV !== 'production'
+const prod = process.env.NODE_ENV === 'production'
 
+const port = prod ? process.env.PORT : '3060'
 const app = next({ dev })
 const handle = app.getRequestHandler()
-dotenv.config()
 
 app.prepare().then(() => {
   const server = express()
@@ -28,7 +30,7 @@ app.prepare().then(() => {
       secret: process.env.COOKIE_SECRET,
       cookie: {
         httpOnly: true,
-        secure: false,
+        secure: prod,
       },
     }),
   )
@@ -57,7 +59,7 @@ app.prepare().then(() => {
     handle(req, res)
   })
 
-  server.listen('3060', () => {
-    console.log('start front server')
+  server.listen(port, () => {
+    console.log(`start server ${port}`)
   })
 })

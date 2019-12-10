@@ -14,6 +14,11 @@ const app = express()
 dotenv.config()
 db.sequelize.sync()
 
+const prod = process.env.NODE_ENV === 'production'
+const dev = process.env.NODE_ENV !== 'production'
+
+const port = prod ? process.env.PORT : 3065
+
 app.use(morgan('dev'))
 app.use('/', express.static('uploads'))
 app.use(express.urlencoded({ extended: false }))
@@ -48,6 +53,6 @@ app.use('/api/post', require('./routes/api/post'))
 app.use('/api/posts', require('./routes/api/posts'))
 app.use('/api/hashtag', require('./routes/api/hashtag'))
 
-app.listen(3065, () => {
-  console.log('start server')
+app.listen(port, () => {
+  console.log(`start server ${port}`)
 })
