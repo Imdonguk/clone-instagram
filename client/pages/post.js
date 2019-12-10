@@ -2,12 +2,16 @@ import React from 'react'
 import Layout from '../components/layout'
 import { PostTemplate } from '../components/post'
 import { LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_COMMENTS_REQUEST } from '../reducers/post'
+import { CancleFollow } from '../components/popover'
 
 const Post = () => {
   return (
-    <Layout>
-      <PostTemplate />
-    </Layout>
+    <>
+      <Layout>
+        <PostTemplate />
+      </Layout>
+      <CancleFollow />
+    </>
   )
 }
 
