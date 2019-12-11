@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { REMOVE_IMAGE_REQUEST } from '../../reducers/post'
+import { apiUrl } from '../../config/config'
 
 const PreviewImg = () => {
   const { imagePaths } = useSelector(state => state.post)
@@ -17,7 +18,7 @@ const PreviewImg = () => {
       {imagePaths &&
         imagePaths.map(v => (
           <div>
-            <img src={`http://localhost:3065/${v}`} alt="preview" />
+            <img src={`${apiUrl}/${v}`} alt="preview" />
             <button type="button" onClick={handleDeletePreviewImg(v)}>
               제거
             </button>

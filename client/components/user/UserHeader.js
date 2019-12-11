@@ -5,6 +5,7 @@ import { EditIcon } from '../Icons'
 import { OPEN_EDIT_PROFILE_IMAGE, OPEN_EDIT_ACCOUNT, OPEN_USER_LIST } from '../../reducers/popover'
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../../reducers/user'
 import FollowButton from '../post/FollowButton'
+import { apiUrl } from '../../config/config'
 
 const UserHeader = memo(() => {
   const me = useSelector(state => state.user.me)
@@ -44,7 +45,7 @@ const UserHeader = memo(() => {
     <Wrap>
       <div className="profile-image">
         <div className="button-wrap">
-          <img src={`http://localhost:3065/${userInfo.image.src}`} alt="프로필이미지" />
+          <img src={`${apiUrl}/${userInfo.image.src}`} alt="프로필이미지" />
           {isOwner && <button className="owner" type="button" title="프로필편집" onClick={handleClickProfileImg} />}
         </div>
       </div>

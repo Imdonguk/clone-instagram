@@ -2,6 +2,7 @@ import React, { useState, useMemo, memo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { WhiteLikeIcon, WhiteCommentIcon, SlideIcon } from '../Icons'
+import { apiUrl } from '../../config/config'
 
 const UserPost = memo(({ images, likeCount, commentCount, postId }) => {
   const [isPostActivity, setisPostActivity] = useState(false)
@@ -14,7 +15,7 @@ const UserPost = memo(({ images, likeCount, commentCount, postId }) => {
     <Link href={{ pathname: '/post', query: { id: postId } }} as={`/post/${postId}`}>
       <a>
         <Wrap onMouseOver={handleMouseOverPost} onMouseLeave={handleMouseLeavePost} onFocus={handleMouseOverPost}>
-          <img src={`http://localhost:3065/${images[0].src}`} alt="게시물이미지" />
+          <img src={`${apiUrl}/${images[0].src}`} alt="게시물이미지" />
           {isSlideIcon && (
             <div className="slide-icon-wrap">
               <SlideIcon />

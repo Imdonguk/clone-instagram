@@ -1,6 +1,7 @@
 import React, { useMemo, memo } from 'react'
 import styled from 'styled-components'
 import Slider from 'react-slick'
+import { apiUrl } from '../../config/config'
 
 const PostContent = memo(({ images }) => {
   const settings = {
@@ -14,7 +15,7 @@ const PostContent = memo(({ images }) => {
     <Wrap>
       <Slider {...settings}>
         {images.map(v => (
-          <img src={`http://localhost:3065/${v.src}`} alt="게시물이미지" key={v.id} />
+          <img src={`${apiUrl}/${v.src}`} alt="게시물이미지" key={v.id} />
         ))}
       </Slider>
     </Wrap>
