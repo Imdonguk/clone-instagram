@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
-import { apiUrl } from '../../config/config'
 
 const Story = () => {
   const { userName, name, image } = useSelector(state => state.user.me)
@@ -13,7 +12,7 @@ const Story = () => {
         <div className="profile-image">
           <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
             <a>
-              <img src={`${apiUrl}/${image.src}`} alt="프로필사진" />
+              <img src={image.src} alt="프로필사진" />
             </a>
           </Link>
         </div>

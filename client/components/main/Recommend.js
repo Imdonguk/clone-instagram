@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import { apiUrl } from '../../config/config'
 
 const Story = memo(() => {
   const { image, userName } = useSelector(state => state.user.me)
@@ -9,7 +8,7 @@ const Story = memo(() => {
     return list.map(() => (
       <div className="recommend-item">
         <div className="user-image">
-          <img src={`${apiUrl}/${image.src}`} alt="프로필사진" />
+          <img src={image.src} alt="프로필사진" />
         </div>
         <div className="user-info">
           <div className="user-name">{userName}</div>

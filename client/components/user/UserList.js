@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo, memo } from 'react'
+import React, { useCallback, memo } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import Link from 'next/link'
 import FollowButton from '../post/FollowButton'
-import { apiUrl } from '../../config/config'
 
 const UserList = memo(({ title, action, data }) => {
   const { userList, hasMoreUser } = useSelector(state => state.user)
@@ -46,7 +45,7 @@ const User = memo(({ user }) => {
       <Link href={{ pathname: '/user', query: { userName: user.userName } }} as={`/${user.userName}`}>
         <a>
           <div className="user-image">
-            <img src={`${apiUrl}/${user.image.src}`} alt="유저프로필이미지" />
+            <img src={user.image.src} alt="유저프로필이미지" />
           </div>
         </a>
       </Link>

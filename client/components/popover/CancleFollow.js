@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { UNFOLLOW_USER_REQUEST } from '../../reducers/user'
-import { apiUrl } from '../../config/config'
 
 const CancleFollow = () => {
   const dispatch = useDispatch()
@@ -24,7 +23,7 @@ const CancleFollow = () => {
       <ButtonWrap>
         <PopoverRow location="top">
           <div className="user-image">
-            <img src={`${apiUrl}/${data.image.src}`} alt="유저프로필이미지" />
+            <img src={data.image.src} alt="유저프로필이미지" />
           </div>
         </PopoverRow>
         <PopoverRow>

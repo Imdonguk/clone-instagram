@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import FollowBtn from './FollowButton'
-import { apiUrl } from '../../config/config'
 
 const PostHeader = memo(({ user }) => {
   const { userName, image } = user
@@ -11,7 +10,7 @@ const PostHeader = memo(({ user }) => {
       <div className="user-image">
         <Link href={{ pathname: '/user', query: { userName } }} as={`/${userName}`}>
           <a>
-            <img src={`${apiUrl}/${image.src}`} alt="프로필이미지" />
+            <img src={image.src} alt="프로필이미지" />
           </a>
         </Link>
       </div>
