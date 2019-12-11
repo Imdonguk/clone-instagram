@@ -176,7 +176,7 @@ router.get('/:id/likers', async (req, res, next) => {
 })
 
 router.post('/images', upload.array('image'), (req, res, next) => {
-  res.json(req.files.map(v => v.filename))
+  res.json(req.files.map(v => v.location))
 })
 
 router.delete('/image/:filename', (req, res, next) => {
