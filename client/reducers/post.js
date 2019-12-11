@@ -162,8 +162,8 @@ export default (state = initialState, action) => {
       }
       case LIKE_POST_SUCCESS: {
         const { userId, postId } = action.data
-        if (draft.posts.length) {
-          const postIndex = draft.posts.findIndex(v => v.id === postId)
+        const postIndex = draft.posts.findIndex(v => v.id === postId)
+        if (postIndex !== -1) {
           draft.posts[postIndex].likers.unshift({ id: userId })
           draft.post.id && draft.post.likers.unshift({ id: userId })
         } else {
@@ -180,12 +180,10 @@ export default (state = initialState, action) => {
       }
       case UNLIKE_POST_SUCCESS: {
         const { userId, postId } = action.data
-        if (draft.posts.length) {
-          const postIndex = draft.posts.findIndex(v => v.id === postId)
+        const postIndex = draft.posts.findIndex(v => v.id === postId)
+        if (postIndex !== -1) {
           draft.posts[postIndex].likers = draft.posts[postIndex].likers.filter(v => v.id !== userId)
-          if (draft.post.id) {
-            draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
-          }
+          if (draft.post.id) draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
         } else {
           draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
         }
@@ -199,7 +197,7 @@ export default (state = initialState, action) => {
       }
       case ADD_COMMENT_SUCCESS: {
         const postIndex = draft.posts.findIndex(v => v.id === action.postId)
-        if (draft.posts.length) {
+        if (postIndex !== -1) {
           draft.posts[postIndex].previewComments.push(action.data)
           draft.post.id !== undefined && draft.post.comments.push(action.data)
         } else {
