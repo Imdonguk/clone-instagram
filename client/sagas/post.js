@@ -210,7 +210,7 @@ function removeImageApi(data) {
       withCredentials: true,
       data: { images: data },
     })
-  return axios.delete(`post/image/${data}`, { withCredentials: true })
+  return axios.delete(`post/images`, { withCredentials: true, data: { images: data } })
 }
 
 function* removeImage(action) {

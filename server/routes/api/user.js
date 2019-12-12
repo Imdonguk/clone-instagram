@@ -227,7 +227,7 @@ router.post('/signup', async (req, res, next) => {
       userName,
       password: hashPassword,
     })
-    await newUser.createImage({ src: 'static_profile.jpg' })
+    await newUser.createImage({ src: '/static_profile.jpg' })
     res.json({ msg: 'ok' })
   } catch (e) {
     res.status(403).send(e.message)
@@ -238,29 +238,30 @@ router.post('/image', upload.single('profileImage'), async (req, res, next) => {
   try {
     await db.image.update(
       {
-        src: req.file.filename,
+        src: req.file.location,
       },
       {
         where: { userId: req.user.id },
       },
     )
-    res.json(req.file.filename)
+    res.json(req.file.location)
   } catch (e) {}
 })
 
-router.delete('/image/:filename', async (req, res, next) => {
+router.delete('/image', async (req, res, next) => {
   try {
-    const filename = req.params.filename
+    // const { imagePath } = req.body
+    // s3.deleteObject({})
     await db.image.update(
       {
-        src: 'static_profile.jpg',
+        src: '/static_profile.jpg',
       },
       {
         where: { userId: req.user.id },
       },
     )
-    fs.unlinkSync(`uploads/${filename}`)
-    res.json('static_profile.jpg')
+    // fs.unlinkSync(`uploads/${filename}`)
+    res.send('/static_profile.jpg')
   } catch (e) {
     console.log(e)
   }

@@ -71,7 +71,7 @@ function* watchUploadProfileImage() {
 }
 
 function removeProfileImageApi(data) {
-  return axios.delete(`/user/image/${data}`, { withCredentials: true })
+  return axios.delete(`/user/image`, { withCredentials: true, data: { imagePath: data } })
 }
 
 function* removeProfileImage(action) {

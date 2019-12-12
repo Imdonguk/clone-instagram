@@ -1,8 +1,18 @@
 const express = require('express')
-const router = express.Router()
-const db = require('../../models')
 const fs = require('fs')
+const AWS = require('aws-sdk')
+const db = require('../../models')
 const upload = require('../../multer')
+
+const router = express.Router()
+
+// AWS.config.update({
+//   region: 'ap-northeast-2',
+//   accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+// })
+
+// const s3 = new AWS.S3({ region: 'ap-northeast-2' })
 
 router.post('/', upload.none(), async (req, res, next) => {
   try {
@@ -179,21 +189,20 @@ router.post('/images', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.location))
 })
 
-router.delete('/image/:filename', (req, res, next) => {
-  const filename = req.params.filename
-  fs.unlink(`uploads/${filename}`, err => {
-    if (err) next(err)
-    res.send(filename)
-  })
-})
-
-router.delete('/images', (req, res, next) => {
+router.delete('/images', async (req, res, next) => {
   try {
     const { images } = req.body
-    images.forEach(v => {
-      fs.unlinkSync(`uploads/${v}`)
-    })
-    res.send([])
+    // s3.deleteObject(
+    //   {
+    //     Bucket: 'woogiegram',
+    //     Key: images,
+    //   },
+    //   (err, data) => {
+    //     if (err) console.log(err, err.stack)
+    //     console.log(data)
+    //   },
+    // )
+    Array.isArray(images) ? res.send([]) : res.send(images)
   } catch (e) {
     next(e)
   }
