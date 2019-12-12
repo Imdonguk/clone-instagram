@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { UNFOLLOW_USER_REQUEST } from '../../reducers/user'
+import { CLOSE_POP_OVER } from '../../reducers/popover'
 
 const CancleFollow = () => {
   const dispatch = useDispatch()
@@ -14,6 +15,7 @@ const CancleFollow = () => {
       type: UNFOLLOW_USER_REQUEST,
       data: data.id,
     })
+    dispatch({ type: CLOSE_POP_OVER })
   }, [data])
 
   if (!isCancleFollow) return null
