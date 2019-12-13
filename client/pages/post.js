@@ -11,7 +11,7 @@ const Post = () => {
   return (
     <>
       <Helmet
-        title={`${post.id && post.post.userName}님의 글`}
+        title={`${post.id && post.user.userName}님의 글`}
         description={post.id && post.description}
         meta={[
           {
