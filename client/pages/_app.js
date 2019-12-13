@@ -49,6 +49,10 @@ const WoogieBoogie = ({ Component, store, pageProps }) => {
               property: 'og:type',
               content: 'website',
             },
+            {
+              property: 'og:image',
+              content: 'https://www.woogiegram.com/favicon.ico',
+            },
           ]}
           link={[
             {
