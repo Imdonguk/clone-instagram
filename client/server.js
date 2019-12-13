@@ -5,6 +5,11 @@ const cookieParser = require('cookie-parser')
 const expressSession = require('express-session')
 const dotenv = require('dotenv')
 const path = require('path')
+const greenlock = require('greenlock-express')
+const greenlockStore = require('greenlock-store-fs')
+const redirectHttps = require('redirect-https')
+const https = require('https')
+const http = require('http')
 
 dotenv.config()
 const dev = process.env.NODE_ENV !== 'production'
@@ -58,8 +63,30 @@ app.prepare().then(() => {
   server.get('*', (req, res) => {
     handle(req, res)
   })
-
-  server.listen(port, () => {
-    console.log(`start server ${port}`)
-  })
+  if (prod) {
+    const lex = greenlock.create({
+      version: 'draft-11',
+      configDir: '/etc/letsencrypt', // 또는 ~/letsencrypt/etc
+      server: 'https://acme-v02.api.letsencrypt.org/directory',
+      email: 'com6511@gmail.com',
+      store: greenlockStore,
+      approveDomains: (opts, certs, cb) => {
+        if (certs) {
+          opts.domains = ['woogiegram.com', 'www.woogiegram.com']
+        } else {
+          opts.email = 'com6511@gmail.com'
+          opts.agreeTos = true
+        }
+        cb(null, { options: opts, certs })
+      },
+      renewWithin: 81 * 24 * 60 * 60 * 1000,
+      renewBy: 80 * 24 * 60 * 60 * 1000,
+    })
+    https.createServer(lex.httpsOptions, lex.middleware(server)).listen(443)
+    http.createServer(lex.middleware(redirectHttps())).listen(80)
+  } else {
+    server.listen(port, () => {
+      console.log(`start server ${port}`)
+    })
+  }
 })
