@@ -30,7 +30,7 @@ if (prod) {
   app.use(morgan('conbined'))
   app.use(
     cors({
-      origin: 'http://woogiegram.com',
+      origin: 'https://woogiegram.com',
       credentials: true,
     }),
   )
@@ -56,7 +56,7 @@ app.use(
     store: new FileStore(),
     cookie: {
       httpOnly: true, //javascript로 쿠키나 세션 동작을 할 수 없게 하는 동작
-      secure: false, // https를 쓸 때 true
+      secure: !!prod, // https를 쓸 때 true
       domain: prod && '.woogiegram.com',
     },
     name: config.cookiename,
