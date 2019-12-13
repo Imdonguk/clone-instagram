@@ -94,7 +94,7 @@ if (prod) {
     renewWithin: 81 * 24 * 60 * 60 * 1000,
     renewBy: 80 * 24 * 60 * 60 * 1000,
   })
-  https.createServer(lex.httpsOptions, lex.middleware(server)).listen(443)
+  https.createServer(lex.httpsOptions, lex.middleware(app)).listen(443)
   http.createServer(lex.middleware(redirectHttps())).listen(80)
 } else {
   app.listen(port, () => {
