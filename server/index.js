@@ -9,6 +9,11 @@ const dotenv = require('dotenv')
 const passport = require('passport')
 const hpp = require('hpp')
 const helmet = require('helmet')
+const greenlock = require('greenlock-express')
+const greenlockStore = require('greenlock-store-fs')
+const redirectHttps = require('redirect-https')
+const https = require('https')
+const http = require('http')
 const passportConfig = require('./passport')
 const config = require('./config/config')
 const app = express()
@@ -70,7 +75,29 @@ app.use('/api/user', require('./routes/api/user'))
 app.use('/api/post', require('./routes/api/post'))
 app.use('/api/posts', require('./routes/api/posts'))
 app.use('/api/hashtag', require('./routes/api/hashtag'))
-
-app.listen(port, () => {
-  console.log(`start server ${port}`)
-})
+if (prod) {
+  const lex = greenlock.create({
+    version: 'draft-11',
+    configDir: '/etc/letsencrypt', // 또는 ~/letsencrypt/etc
+    server: 'https://acme-v02.api.letsencrypt.org/directory',
+    email: 'com6511@gmail.com',
+    store: greenlockStore,
+    approveDomains: (opts, certs, cb) => {
+      if (certs) {
+        opts.domains = ['api.woogiegram.com']
+      } else {
+        opts.email = 'com6511@gmail.com'
+        opts.agreeTos = true
+      }
+      cb(null, { options: opts, certs })
+    },
+    renewWithin: 81 * 24 * 60 * 60 * 1000,
+    renewBy: 80 * 24 * 60 * 60 * 1000,
+  })
+  https.createServer(lex.httpsOptions, lex.middleware(server)).listen(443)
+  http.createServer(lex.middleware(redirectHttps())).listen(80)
+} else {
+  app.listen(port, () => {
+    console.log(`start server ${port}`)
+  })
+}

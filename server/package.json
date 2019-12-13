@@ -16,6 +16,8 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "greenlock-express": "2.x",
+    "greenlock-store-fs": "^3.2.2",
     "helmet": "^3.20.0",
     "hpp": "^0.2.2",
     "morgan": "^1.9.1",
@@ -25,6 +27,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pm2": "^4.2.0",
+    "redirect-https": "^1.3.0",
     "sequelize": "^5.10.2",
     "sequelize-cli": "^5.5.0",
     "session-file-store": "^1.3.1"
