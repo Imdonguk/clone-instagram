@@ -12,19 +12,19 @@ const Post = () => {
     <>
       <Helmet
         title={`${post.id && post.post.userName}님의 글`}
-        description={post.description}
+        description={post.id && post.description}
         meta={[
           {
             name: 'description',
-            content: post.description,
+            content: post.id && post.description,
           },
           {
             property: 'og:title',
-            content: `${post.user.userName}님의 게시글`,
+            content: `${post.id && post.user.userName}님의 게시글`,
           },
           {
             property: 'og:description',
-            content: post.description,
+            content: post.id && post.description,
           },
           {
             property: 'og:image',
