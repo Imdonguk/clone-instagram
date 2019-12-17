@@ -3,7 +3,6 @@ const morgan = require('morgan')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const expressSession = require('express-session')
-const FileStore = require('session-file-store')(expressSession)
 const db = require('./models')
 const dotenv = require('dotenv')
 const passport = require('passport')
@@ -53,7 +52,6 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: config.cookieSecret,
-    store: new FileStore(),
     cookie: {
       httpOnly: true, //javascript로 쿠키나 세션 동작을 할 수 없게 하는 동작
       secure: !!prod, // https를 쓸 때 true
