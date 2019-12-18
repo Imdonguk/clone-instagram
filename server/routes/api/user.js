@@ -206,7 +206,7 @@ router.post('/signout', (req, res, next) => {
   req.logout()
   req.session.destroy(() => {
     res
-      .clearCookie(config.cookiename)
+      .cookie(config.cookiename, '')
       .status(200)
       .send('GOOD!')
   })
