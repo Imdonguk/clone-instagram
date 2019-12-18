@@ -203,12 +203,10 @@ router.post('/signin', (req, res, next) => {
 })
 
 router.post('/signout', (req, res, next) => {
-  req.logout()
   req.session.destroy(() => {
-    res
-      .cookie(config.cookiename, '')
-      .status(200)
-      .send('GOOD!')
+    req.logout()
+    res.clearCookie(config.cookiename)
+    res.status(200).send('good!')
   })
 })
 
