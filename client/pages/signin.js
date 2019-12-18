@@ -17,18 +17,17 @@ const Signin = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    // const data = {
-    //   userName: userNameRef.current.value,
-    //   password: passwordRef.current.value,
-    // }
-    // axios
-    //   .post('/user/signin', data, {
-    //     withCredentials: true,
-    //   })
-    //   .then(r => Promise.resolve(r.data))
-    //   .then(() => Router.push('/'))
-    //   .catch(error => setErrorMsg(error.response.data))
-    axios.get('/', { withCredentials: true }).then(r => console.log(r))
+    const data = {
+      userName: userNameRef.current.value,
+      password: passwordRef.current.value,
+    }
+    axios
+      .post('/user/signin', data, {
+        withCredentials: true,
+      })
+      .then(r => Promise.resolve(r.data))
+      .then(() => Router.push('/'))
+      .catch(error => setErrorMsg(error.response.data))
   }
 
   if (me.userName) return null

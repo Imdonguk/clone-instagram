@@ -3,7 +3,7 @@ const config = require('../config/config')
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next()
 
-  res.clearCookie(config.cookiename, { path: process.env.NODE_ENV === 'production' ? '.woogiegram.com' : '/' })
+  res.clearCookie(config.cookiename)
   res.status(401).send('로그인이 필요합니다.')
   return
 }

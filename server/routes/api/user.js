@@ -206,10 +206,8 @@ router.post('/signout', (req, res, next) => {
   req.logout()
   req.session.destroy(() => {
     res
+      .clearCookie(config.cookiename)
       .status(200)
-      .clearCookie(config.cookiename, {
-        path: process.env.NODE_ENV === 'production' ? '.woogiegram.com' : '/',
-      })
       .send('GOOD!')
   })
 })
