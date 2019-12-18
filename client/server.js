@@ -1,8 +1,6 @@
 const express = require('express')
 const next = require('next')
 const morgan = require('morgan')
-const cookieParser = require('cookie-parser')
-const expressSession = require('express-session')
 const dotenv = require('dotenv')
 const path = require('path')
 const greenlock = require('greenlock-express')
@@ -27,18 +25,6 @@ app.prepare().then(() => {
 
   server.use(express.urlencoded({ extended: true }))
   server.use('/', express.static(path.join(__dirname, 'public')))
-  server.use(cookieParser(process.env.COOKIE_SECRET))
-  server.use(
-    expressSession({
-      resave: false,
-      saveUninitialized: false,
-      secret: process.env.COOKIE_SECRET,
-      cookie: {
-        httpOnly: true,
-        secure: !!prod,
-      },
-    }),
-  )
 
   server.get('/signin', (req, res) => {
     return app.render(req, res, '/signin')
