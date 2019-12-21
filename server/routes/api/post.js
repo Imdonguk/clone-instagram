@@ -119,6 +119,57 @@ router.delete('/:id', async (req, res, next) => {
     res.status(401).send(e.message)
   }
 })
+
+router.patch('/:id', upload.none(), async (req, res, next) => {
+  try {
+    const { description } = req.body
+    const postId = +req.params.id
+    let newTags = description.match(/#[^#\s,;]+/gm)
+
+    const prevPost = await db.post.findOne({ where: { id: postId } })
+
+    let prevTags = prevPost.toJSON().description.match(/#[^#\s,;]+/gm)
+
+    if (newTags && prevTags) {
+      prevTags = prevTags.filter(tag => !newTags.find(newTag => tag === newTag))
+      newTags = newTags.filter(newTag => !prevTags.find(tag => tag === newTag))
+    }
+
+    if (prevTags) {
+      prevTags.forEach(async tag => {
+        const result = await db.hashtag.findOne({ where: { name: tag.slice(1).toLowerCase() } })
+        result.removePost(postId)
+      })
+    }
+
+    await db.post
+      .update(
+        {
+          description: req.body.description,
+        },
+        { where: { id: postId } },
+      )
+      .then(r => console.log(r))
+
+    const newPost = await db.post.findOne({ where: { id: postId } })
+
+    if (newTags) {
+      const result = await Promise.all(
+        newTags.map(tag =>
+          db.hashtag.findOrCreate({
+            where: { name: tag.slice(1).toLowerCase() },
+          }),
+        ),
+      )
+      await newPost.addHashtags(result.map(r => r[0]))
+    }
+
+    res.json({ id: postId, description })
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.get('/:id/comments', async (req, res, next) => {
   try {
     const where = +req.query.lastId
