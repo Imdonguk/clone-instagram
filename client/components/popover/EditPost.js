@@ -41,6 +41,14 @@ const EditPost = () => {
       type: CLOSE_POP_OVER,
     })
   }
+
+  const handleClickUpdatePostForm = () => {
+    dispatch({
+      type: OPEN_UPDATE_POST_FORM,
+      data: editPostData,
+    })
+  }
+
   if (!isEditPost) return null
   return (
     <PopoverWrap>
