@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 
 const EditPost = () => {
-  const isEditPost = useSelector(state => state.popover.isEditPost)
+  const { isEditPost, editPostData } = useSelector(state => state.popover)
 
   if (!isEditPost) return null
   return (

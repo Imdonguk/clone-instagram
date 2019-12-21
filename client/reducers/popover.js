@@ -5,6 +5,7 @@ const initialState = {
   isEditAccount: false,
   isCancleFollow: false,
   isUserList: false,
+  isUpdatePostForm: false,
 }
 
 export const OPEN_POST_FORM = 'OPEN_POST_FORM'
@@ -13,6 +14,7 @@ export const OPEN_EDIT_PROFILE_IMAGE = 'OPEN_EDIT_PROFILE_IMAGE'
 export const OPEN_EDIT_ACCOUNT = 'OPEN_EDIT_ACCOUNT'
 export const OPEN_CANCLE_FOLLOW = 'OPEN_CANCLE_FOLLOW'
 export const OPEN_USER_LIST = 'OPEN_USER_LIST'
+export const OPEN_UPDATE_POST_FORM = 'OPEN_UPDATE_POST_FORM'
 
 export const CLOSE_POP_OVER = 'CLOSE_POP_OVER'
 
@@ -28,6 +30,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isEditPost: true,
+        editPostData: action.data,
       }
     }
     case OPEN_EDIT_PROFILE_IMAGE: {
@@ -46,7 +49,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isCancleFollow: true,
-        data: action.data,
+        cancleFollowData: action.data,
       }
     }
     case OPEN_USER_LIST: {
@@ -54,7 +57,9 @@ export default (state = initialState, action) => {
         ...state,
         isUserList: true,
         title: action.title,
-        data: action.data,
+        userListData: action.data,
+      }
+    }
       }
     }
     case CLOSE_POP_OVER: {

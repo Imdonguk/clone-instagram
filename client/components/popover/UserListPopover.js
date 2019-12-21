@@ -5,21 +5,21 @@ import UserList from '../user/UserList'
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_LIKERS_REQUEST } from '../../reducers/user'
 
 const UserListPopover = () => {
-  const { isUserList, title, data } = useSelector(state => state.popover)
+  const { isUserList, title, userListData } = useSelector(state => state.popover)
   const result = {
     팔로워: {
       title,
-      data,
+      userListData,
       action: LOAD_FOLLOWERS_REQUEST,
     },
     팔로잉: {
       title,
-      data,
+      userListData,
       action: LOAD_FOLLOWINGS_REQUEST,
     },
     좋아요: {
       title,
-      data,
+      userListData,
       action: LOAD_LIKERS_REQUEST,
     },
   }

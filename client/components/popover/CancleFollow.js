@@ -7,29 +7,28 @@ import { CLOSE_POP_OVER } from '../../reducers/popover'
 
 const CancleFollow = () => {
   const dispatch = useDispatch()
-  const isCancleFollow = useSelector(state => state.popover.isCancleFollow)
-  const data = useSelector(state => state.popover.data)
+  const { isCancleFollow, cancleFollowData } = useSelector(state => state.popover)
 
   const handleClickUnFollowBtn = useCallback(() => {
     dispatch({
       type: UNFOLLOW_USER_REQUEST,
-      data: data.id,
+      data: cancleFollowData.id,
     })
     dispatch({ type: CLOSE_POP_OVER })
-  }, [data])
+  }, [cancleFollowData])
 
   if (!isCancleFollow) return null
-  if (!data) return null
+  if (!cancleFollowData) return null
   return (
     <PopoverWrap>
       <ButtonWrap>
         <PopoverRow location="top">
           <div className="user-image">
-            <img src={data.image.src} alt="유저프로필이미지" />
+            <img src={cancleFollowData.image.src} alt="유저프로필이미지" />
           </div>
         </PopoverRow>
         <PopoverRow>
-          <span>@{data.userName}님의 팔로우를 취소하시겠습니까?</span>
+          <span>@{cancleFollowData.userName}님의 팔로우를 취소하시겠습니까?</span>
         </PopoverRow>
         <PopoverButton fontColor="red" onClick={handleClickUnFollowBtn}>
           팔로우 취소
