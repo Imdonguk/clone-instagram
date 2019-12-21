@@ -8,6 +8,8 @@ const { isLoggedIn } = require('../middleware')
 const config = require('../../config/config')
 const upload = require('../../multer')
 
+const prod = process.env.NODE_ENV === 'production'
+
 router.get('/', isLoggedIn, (req, res, next) => {
   res.json(req.user)
 })
@@ -205,7 +207,7 @@ router.post('/signin', (req, res, next) => {
 router.post('/signout', (req, res, next) => {
   req.session.destroy(() => {
     req.logout()
-    res.clearCookie(config.cookiename)
+    res.clearCookie(config.cookiename, { path: '/', domain: prod && '.woogiegram.com' })
     res.status(200).send('good!')
   })
 })
