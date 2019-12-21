@@ -109,6 +109,16 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    if (!req.user) throw new Error('잘못된 접근입니다.')
+    const postId = +req.params.id
+    await db.post.destroy({ where: { id: +req.params.id } })
+    res.json({ id: postId })
+  } catch (e) {
+    res.status(401).send(e.message)
+  }
+})
 router.get('/:id/comments', async (req, res, next) => {
   try {
     const where = +req.query.lastId
