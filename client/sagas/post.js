@@ -4,6 +4,9 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAILURE,
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
@@ -60,6 +63,27 @@ function* watchAddPost() {
   yield takeEvery(ADD_POST_REQUEST, addPost)
 }
 
+function removePostApi(postId) {
+  return axios.delete(`/post/${postId}`, { withCredentials: true })
+}
+
+function* removePost(action) {
+  try {
+    const result = yield call(removePostApi, action.postId)
+    yield put({
+      type: REMOVE_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: REMOVE_POST_FAILURE,
+    })
+  }
+}
+
+function* watchRemovePost() {
+  yield takeEvery(REMOVE_POST_REQUEST, removePost)
+}
 function loadPostsApi(lastId = 0) {
   return axios.get(`/posts?lastId=${lastId}`, { withCredentials: true })
 }
@@ -328,6 +352,7 @@ function* postSaga() {
     fork(watchRemoveImage),
     fork(watchUploadImages),
     fork(watchAddPost),
+    fork(watchRemovePost),
     fork(watchLikePost),
     fork(watchUnlikePost),
     fork(watchAddComment),

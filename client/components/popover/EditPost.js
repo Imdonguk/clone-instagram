@@ -31,6 +31,16 @@ const EditPost = () => {
     }
     dispatch({ type: CLOSE_POP_OVER })
   }, [isLogged, isSaved, editPostData && editPostData.id])
+
+  const handleClickRemovePost = () => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      postId: editPostData.id,
+    })
+    dispatch({
+      type: CLOSE_POP_OVER,
+    })
+  }
   if (!isEditPost) return null
   return (
     <PopoverWrap>
