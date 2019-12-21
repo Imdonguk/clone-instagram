@@ -11,6 +11,7 @@ const Post = memo(({ info }) => {
   const openPostSetting = () => {
     dispatch({
       type: OPEN_EDIT_POST,
+      data: info,
     })
   }
   return (

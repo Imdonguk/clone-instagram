@@ -4,7 +4,7 @@ import Router from 'next/router'
 import styled from 'styled-components'
 import Header from '../components/layout/Header'
 import Container from '../components/main/Container'
-import { PostForm, EditPost, CancleFollow, UserListPopover } from '../components/popover'
+import { PostForm, EditPost, CancleFollow, UserListPopover, UpdatePostForm } from '../components/popover'
 import { LOAD_POSTS_REQUEST, RESET_HAS_MORE_POST } from '../reducers/post'
 
 const Index = () => {
@@ -46,8 +46,9 @@ const Index = () => {
       </Wrapper>
       <PostForm />
       <EditPost />
-      <CancleFollow />
       <UserListPopover />
+      <CancleFollow />
+      <UpdatePostForm />
     </>
   )
 }
