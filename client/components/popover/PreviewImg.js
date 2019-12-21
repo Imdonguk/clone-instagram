@@ -5,7 +5,7 @@ import { REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 
 const PreviewImg = memo(() => {
   const { imagePaths } = useSelector(state => state.post)
-  return <Wrap>{imagePaths && imagePaths.map(v => <PreviewImageComponent src={v} key={v} />)}</Wrap>
+  return <Wrap>{imagePaths && imagePaths.slice(1).map(v => <PreviewImageComponent src={v} key={v} />)}</Wrap>
 })
 
 const PreviewImageComponent = memo(({ src }) => {

@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import imageUploadIcon from '../../images/gallery-icon.png'
+import uploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
 import { PopoverWrap } from './PopoverStyle'
 import { CLOSE_POP_OVER } from '../../reducers/popover'
@@ -13,6 +13,8 @@ const PostForm = () => {
   const isPostForm = useSelector(state => state.popover.isPostForm)
   const descriptionRef = useRef('')
 
+  const imageUploadImage = useMemo(() => (imagePaths.length ? imagePaths[0] : uploadIcon), [imagePaths])
+
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
     dispatch({ type: CLOSE_POP_OVER })
@@ -22,6 +24,8 @@ const PostForm = () => {
       e.preventDefault()
       const description = descriptionRef.current.value
       const formData = new FormData()
+
+      if (!imagePaths.length || !description.trim()) return cancleForm(e)
 
       imagePaths.forEach(v => formData.append('image', v))
       formData.append('description', description)
@@ -63,11 +67,11 @@ const PostForm = () => {
         </ContentWrap>
         <ContentWrap container>
           <ImageUpload>
-            <img src={imageUploadIcon} alt="이미지업로드아이콘" />
+            <img src={imageUploadImage} alt="이미지업로드아이콘" />
             <p>이미지업로드</p>
             <input type="file" multiple onChange={handleChangeImages} />
           </ImageUpload>
-          <InputDescription placeholder="설명입력...." ref={descriptionRef} />
+          <InputDescription placeholder="이미지, 글 필수" ref={descriptionRef} />
         </ContentWrap>
         <ContentWrap bottom>
           <Button type="button" onClick={handleClickCancleBtn}>
@@ -81,7 +85,7 @@ const PostForm = () => {
   )
 }
 
-const Form = styled.form`
+export const Form = styled.form`
   width: 50rem;
   height: 30rem;
   border-radius: 2rem;
@@ -93,7 +97,7 @@ const Form = styled.form`
   justify-content: center;
 `
 
-const ContentWrap = styled.div`
+export const ContentWrap = styled.div`
   width: 100%;
   height: ${props => (props.container ? '60%' : '20%')};
   border-bottom: ${props => (props.bottom ? 0 : '0.1rem solid #eee')};
@@ -107,9 +111,15 @@ const ContentWrap = styled.div`
   border-top-right-radius: ${props => (props.header ? '3rem' : 0)};
   border-bottom-left-radius: ${props => (props.bottom ? '3rem' : 0)};
   border-bottom-right-radius: ${props => (props.bottom ? '3rem' : 0)};
+
+  & h2 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: #999;
+  }
 `
 
-const InputDescription = styled.textarea`
+export const InputDescription = styled.textarea`
   flex: 2;
   height: 100%;
   border: 0;
@@ -119,15 +129,14 @@ const InputDescription = styled.textarea`
   resize: none;
 `
 
-const Button = styled.button`
-  width: 5rem;
+export const Button = styled.button`
   height: 3rem;
   background-color: #999;
   cursor: pointer;
   color: #fff;
 `
 
-const ImageUpload = styled.div`
+export const ImageUpload = styled.div`
   position: relative;
   flex: 1;
   height: 100%;
