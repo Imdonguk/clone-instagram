@@ -7,6 +7,9 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
   REMOVE_POST_FAILURE,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAILURE,
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
@@ -84,6 +87,29 @@ function* removePost(action) {
 function* watchRemovePost() {
   yield takeEvery(REMOVE_POST_REQUEST, removePost)
 }
+
+function updatePostApi({ data, postId }) {
+  return axios.patch(`/post/${postId}`, data, { withCredentials: true })
+}
+
+function* updatePost(action) {
+  try {
+    const result = yield call(updatePostApi, { postId: action.postId, data: action.data })
+    yield put({
+      type: UPDATE_POST_SUCCESS,
+      data: result.data,
+    })
+  } catch (e) {
+    yield put({
+      type: UPDATE_POST_FAILURE,
+    })
+  }
+}
+
+function* watchUpdatePost() {
+  yield takeEvery(UPDATE_POST_REQUEST, updatePost)
+}
+
 function loadPostsApi(lastId = 0) {
   return axios.get(`/posts?lastId=${lastId}`, { withCredentials: true })
 }
@@ -353,6 +379,7 @@ function* postSaga() {
     fork(watchUploadImages),
     fork(watchAddPost),
     fork(watchRemovePost),
+    fork(watchUpdatePost),
     fork(watchLikePost),
     fork(watchUnlikePost),
     fork(watchAddComment),
