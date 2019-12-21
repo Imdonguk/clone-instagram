@@ -130,7 +130,7 @@ export default (state = initialState, action) => {
       case UNFOLLOW_USER_SUCCESS: {
         draft.me.followings = draft.me.followings.filter(v => v.id !== action.data.id)
         if (draft.userInfo.userName && draft.userInfo.id === action.data.id) {
-          draft.useInfo.followings = draft.userInfo.followings.filter(v => v.id !== action.data.id)
+          draft.userInfo.followings = draft.userInfo.followings.filter(v => v.id !== action.data.id)
         }
         break
       }
