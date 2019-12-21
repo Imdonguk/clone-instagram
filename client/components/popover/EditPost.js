@@ -16,6 +16,21 @@ const EditPost = () => {
   const isLogged = useMemo(() => !!id, [id])
   const isSaved = saved.length && saved.find(v => editPostData && v.id === editPostData.id)
 
+  const handleClickSaveBtn = useCallback(() => {
+    if (!isLogged) return Router.push('/signin')
+    if (isSaved) {
+      dispatch({
+        type: REMOVE_SAVED_POST_REQUEST,
+        data: editPostData.id,
+      })
+    } else {
+      dispatch({
+        type: SAVE_OTHER_POST_REQUEST,
+        data: editPostData.id,
+      })
+    }
+    dispatch({ type: CLOSE_POP_OVER })
+  }, [isLogged, isSaved, editPostData && editPostData.id])
   if (!isEditPost) return null
   return (
     <PopoverWrap>
