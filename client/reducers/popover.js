@@ -60,6 +60,11 @@ export default (state = initialState, action) => {
         userListData: action.data,
       }
     }
+    case OPEN_UPDATE_POST_FORM: {
+      return {
+        ...state,
+        isUpdatePostForm: true,
+        updatePostData: action.data,
       }
     }
     case CLOSE_POP_OVER: {
