@@ -1,4 +1,4 @@
-const AWS = require('aws')
+const AWS = require('aws-sdk')
 const Sharp = require('sharp')
 const S3 = new AWS.S3({
   region: 'ap-northeast-2',
