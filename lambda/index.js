@@ -18,6 +18,8 @@ exports.handler = async (event, context, callback) => {
     }).promise()
     console.log('original', s3Object.Body.length)
     const resizedImage = await Sharp(s3Object.Body)
+      .withMetadata()
+      .rotate()
       .resize(640, 640, {
         fit: 'inside',
       })
