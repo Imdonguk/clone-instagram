@@ -6,30 +6,26 @@ const S3 = new AWS.S3({
 
 exports.handler = async (event, context, callback) => {
   const Bucket = event.Records[0].s3.bucket.name
-  const Key = event.Records[0].s3.object.key
+  const Key = decodeURIComponent(event.Records[0].s3.object.key)
   const filename = Key.split('/')[Key.split('/').length - 1]
   try {
     const s3Object = await S3.getObject({
       Bucket,
       Key,
     }).promise()
-    console.log('original', s3Object.Body.length)
     const resizedImage = await Sharp(s3Object.Body)
       .rotate()
       .resize(640, 640, {
         fit: 'inside',
       })
       .toBuffer()
-    console.log('resize', resizedImage.length)
     await S3.putObject({
       Body: resizedImage,
       Bucket,
       Key: `thumb/${filename}`,
     }).promise()
-    console.log('put')
     return callback(null, `thumb/${filename}`)
   } catch (error) {
-    console.error(error)
     return callback(error)
   }
 }
