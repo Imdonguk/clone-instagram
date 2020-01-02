@@ -36,6 +36,7 @@ const EditPost = () => {
     dispatch({
       type: REMOVE_POST_REQUEST,
       postId: editPostData.id,
+      data: editPostData.images,
     })
     dispatch({
       type: CLOSE_POP_OVER,

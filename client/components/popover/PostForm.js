@@ -145,6 +145,7 @@ export const ImageUpload = styled.div`
 
   & > img {
     width: 80%;
+    height : 80%
     cursor: pointer;
   }
 

@@ -44,7 +44,7 @@ const EditProifileImage = () => {
         <PopoverButton fontColor="blue" onClick={handleClickUploadImageBtn}>
           사진 업로드
         </PopoverButton>
-        {image.src === 'static_profile.jpg' || (
+        {image.src === '/static_profile.jpg' || (
           <PopoverButton fontColor="red" onClick={handleClickDeleteImageBtn}>
             현재 사진 삭제
           </PopoverButton>
