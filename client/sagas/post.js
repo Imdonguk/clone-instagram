@@ -66,13 +66,13 @@ function* watchAddPost() {
   yield takeEvery(ADD_POST_REQUEST, addPost)
 }
 
-function removePostApi(postId) {
-  return axios.delete(`/post/${postId}`, { withCredentials: true })
+function removePostApi({ postId, images }) {
+  return axios.delete(`/post/${postId}`, { withCredentials: true, data: { images } })
 }
 
 function* removePost(action) {
   try {
-    const result = yield call(removePostApi, action.postId)
+    const result = yield call(removePostApi, { postId: action.postId, images: action.data })
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: result.data,
@@ -255,12 +255,7 @@ function* watchUploadImages() {
 }
 
 function removeImageApi(data) {
-  if (Array.isArray(data))
-    return axios.delete('post/images', {
-      withCredentials: true,
-      data: { images: data },
-    })
-  return axios.delete(`post/images`, { withCredentials: true, data: { images: data } })
+  return axios.delete(`post/images`, { withCredentials: true, data: { images: [].concat(data) } })
 }
 
 function* removeImage(action) {
