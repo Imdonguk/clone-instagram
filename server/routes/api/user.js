@@ -1,13 +1,15 @@
 const express = require('express')
 const passport = require('passport')
 const bcrypt = require('bcrypt')
-const fs = require('fs')
-const router = express.Router()
+const AWS = require('aws-sdk')
+const sharp = require('sharp')
 const db = require('../../models')
 const { isLoggedIn } = require('../middleware')
 const config = require('../../config/config')
 const upload = require('../../multer')
 
+const router = express.Router()
+const s3 = new AWS.S3({ region: 'ap-northeast-2' })
 const prod = process.env.NODE_ENV === 'production'
 
 router.get('/', isLoggedIn, (req, res, next) => {
@@ -234,15 +236,35 @@ router.post('/signup', async (req, res, next) => {
 
 router.post('/image', upload.single('profileImage'), async (req, res, next) => {
   try {
+    const s3Object = await s3
+      .getObject({
+        Bucket: req.file.bucket,
+        Key: decodeURIComponent(req.file.key),
+      })
+      .promise()
+    const resizeProfileImage = await sharp(s3Object.Body)
+      .rotate()
+      .resize(320, 320, {
+        fit: 'inside',
+      })
+      .toBuffer()
+    await s3
+      .putObject({
+        Body: resizeProfileImage,
+        Bucket: req.file.bucket,
+        Key: req.file.key.replace('original', 'profile'),
+      })
+      .promise()
+
     await db.image.update(
       {
-        src: req.file.location,
+        src: req.file.location.replace('original', 'profile'),
       },
       {
         where: { userId: req.user.id },
       },
     )
-    res.json(req.file.location)
+    res.json(req.file.location.replace('original', 'profile'))
   } catch (e) {}
 })
 
