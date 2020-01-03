@@ -131,6 +131,31 @@ router.post('/images', upload.array('image'), async (req, res, next) => {
   )
   res.json(result)
 })
+
+router.delete('/images', async (req, res, next) => {
+  try {
+    const { images } = req.body
+
+    const imageKeys = images.reduce((prev, curr) => {
+      const filename = decodeURIComponent(curr.split('/').slice(-1)[0])
+      return prev.concat([{ Key: `thumb/${filename}` }, { Key: `original/${filename}` }])
+    }, [])
+
+    await s3
+      .deleteObjects({
+        Bucket: 'woogiegram',
+        Delete: {
+          Objects: imageKeys,
+        },
+      })
+      .promise()
+
+    images.length > 1 ? res.send([]) : res.send(images[0])
+  } catch (e) {
+    next(e)
+  }
+})
+
 router.delete('/:id', async (req, res, next) => {
   try {
     if (!req.user) throw new Error('잘못된 접근입니다.')
@@ -266,26 +291,6 @@ router.get('/:id/likers', async (req, res, next) => {
     const hasMoreUser = result.length === limit
     res.json({ userList: result, hasMoreUser })
   } catch (e) {}
-})
-
-
-router.delete('/images', async (req, res, next) => {
-  try {
-    const { images } = req.body
-    // s3.deleteObject(
-    //   {
-    //     Bucket: 'woogiegram',
-    //     Key: images,
-    //   },
-    //   (err, data) => {
-    //     if (err) console.log(err, err.stack)
-    //     console.log(data)
-    //   },
-    // )
-    Array.isArray(images) ? res.send([]) : res.send(images)
-  } catch (e) {
-    next(e)
-  }
 })
 
 router.post('/:id/like', async (req, res, next) => {
