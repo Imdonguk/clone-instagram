@@ -159,6 +159,17 @@ router.delete('/images', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     if (!req.user) throw new Error('잘못된 접근입니다.')
+    const { images } = req.body
+    const imageKeys = images.reduce((prev, curr) => {
+      const filename = decodeURIComponent(curr.src.split('/').slice(-1)[0])
+      return prev.concat([{ Key: `thumb/${filename}` }, { Key: `original/${filename}` }])
+    }, [])
+    await s3
+      .deleteObjects({
+        Bucket: 'woogiegram',
+        Delete: { Objects: imageKeys },
+      })
+      .promise()
     const postId = +req.params.id
     await db.post.destroy({ where: { id: +req.params.id } })
     res.json({ id: postId })
