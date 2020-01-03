@@ -270,8 +270,18 @@ router.post('/image', upload.single('profileImage'), async (req, res, next) => {
 
 router.delete('/image', async (req, res, next) => {
   try {
-    // const { imagePath } = req.body
-    // s3.deleteObject({})
+    const { imagePath } = req.body
+    const filename = decodeURIComponent(imagePath.split('/').slice(-1)[0])
+
+    await s3
+      .deleteObjects({
+        Bucket: 'woogiegram',
+        Delete: {
+          Objects: [{ Key: `original/${filename}` }, { Key: `profile/${filename}` }],
+        },
+      })
+      .promise()
+
     await db.image.update(
       {
         src: '/static_profile.jpg',
@@ -280,7 +290,6 @@ router.delete('/image', async (req, res, next) => {
         where: { userId: req.user.id },
       },
     )
-    // fs.unlinkSync(`uploads/${filename}`)
     res.send('/static_profile.jpg')
   } catch (e) {
     console.log(e)
