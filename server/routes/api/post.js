@@ -1,18 +1,11 @@
 const express = require('express')
-const fs = require('fs')
 const AWS = require('aws-sdk')
+const sharp = require('sharp')
 const db = require('../../models')
 const upload = require('../../multer')
 
 const router = express.Router()
-
-// AWS.config.update({
-//   region: 'ap-northeast-2',
-//   accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
-// })
-
-// const s3 = new AWS.S3({ region: 'ap-northeast-2' })
+const s3 = new AWS.S3({ region: 'ap-northeast-2' })
 
 router.post('/', upload.none(), async (req, res, next) => {
   try {
@@ -109,6 +102,35 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.post('/images', upload.array('image'), async (req, res, next) => {
+  const result = await Promise.all(
+    req.files.map(async v => {
+      const s3Object = await s3
+        .getObject({
+          Bucket: v.bucket,
+          Key: v.key,
+        })
+        .promise()
+
+      const thumbImage = await sharp(s3Object.Body)
+        .rotate()
+        .resize(800, 800, {
+          fit: 'inside',
+        })
+        .toBuffer()
+
+      await s3
+        .putObject({
+          Body: thumbImage,
+          Bucket: v.bucket,
+          Key: v.key.replace('original', 'thumb'),
+        })
+        .promise()
+      return v.location.replace('original', 'thumb')
+    }),
+  )
+  res.json(result)
+})
 router.delete('/:id', async (req, res, next) => {
   try {
     if (!req.user) throw new Error('잘못된 접근입니다.')
@@ -246,9 +268,6 @@ router.get('/:id/likers', async (req, res, next) => {
   } catch (e) {}
 })
 
-router.post('/images', upload.array('image'), (req, res, next) => {
-  res.json(req.files.map(v => v.location))
-})
 
 router.delete('/images', async (req, res, next) => {
   try {
