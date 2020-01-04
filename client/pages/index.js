@@ -15,7 +15,7 @@ const Index = () => {
 
   useEffect(() => {
     userName || Router.push('/signin')
-  }, [userName])
+  }, [])
 
   const handleScrollMainPage = useCallback(() => {
     if (window.scrollY + document.documentElement.clientHeight < document.documentElement.scrollHeight - 100) return
