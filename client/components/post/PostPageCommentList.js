@@ -7,7 +7,7 @@ import { LOAD_COMMENTS_REQUEST } from '../../reducers/post'
 
 const PostPageCommentList = memo(() => {
   const dispatch = useDispatch()
-  const { id: postId, description, comments, user, hasMoreComment } = useSelector(state => state.post.post)
+  const { id: postId, description, comments = [], user, hasMoreComment } = useSelector(state => state.post.post)
   const lastId = comments.length && comments[0].id
 
   const handleClickViewMore = useCallback(() => {
