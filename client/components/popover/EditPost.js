@@ -14,7 +14,7 @@ const EditPost = () => {
   const isOwner = id && editPostData !== undefined && id === editPostData.user.id
 
   const isLogged = useMemo(() => !!id, [id])
-  const isSaved = saved.length && saved.find(v => editPostData && v.id === editPostData.id)
+  const isSaved = isLogged && saved.length && saved.find(v => editPostData && v.id === editPostData.id)
 
   const handleClickSaveBtn = useCallback(() => {
     if (!isLogged) return Router.push('/signin')
