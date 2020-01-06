@@ -6,6 +6,7 @@ const initialState = {
   isCancleFollow: false,
   isUserList: false,
   isUpdatePostForm: false,
+  isPostPopover: false,
 }
 
 export const OPEN_POST_FORM = 'OPEN_POST_FORM'
@@ -15,6 +16,7 @@ export const OPEN_EDIT_ACCOUNT = 'OPEN_EDIT_ACCOUNT'
 export const OPEN_CANCLE_FOLLOW = 'OPEN_CANCLE_FOLLOW'
 export const OPEN_USER_LIST = 'OPEN_USER_LIST'
 export const OPEN_UPDATE_POST_FORM = 'OPEN_UPDATE_POST_FORM'
+export const OPEN_POST_POP_OVER = 'OPEN_POST_POP_OVER'
 
 export const CLOSE_POP_OVER = 'CLOSE_POP_OVER'
 
@@ -65,6 +67,12 @@ export default (state = initialState, action) => {
         ...state,
         isUpdatePostForm: true,
         updatePostData: action.data,
+      }
+    }
+    case OPEN_POST_POP_OVER: {
+      return {
+        ...state,
+        isPostPopover: true,
       }
     }
     case CLOSE_POP_OVER: {
