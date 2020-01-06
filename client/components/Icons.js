@@ -108,3 +108,17 @@ export const ViewMoreIcon = styled.span`
   background-position: -28.1rem -22.3rem;
   cursor: pointer;
 `
+
+export const NextButton = styled.span`
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background-image: url(${coreImg});
+  background-size: 41rem 39.6rem;
+  background-position: -33.6rem -25.2rem;
+  cursor: pointer;
+`
+
+export const PrevButton = styled(NextButton)`
+  background-position: -33.6rem -17.1rem;
+`
