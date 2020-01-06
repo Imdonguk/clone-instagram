@@ -1,10 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostPageCommentList, PostIcons, PostLikeCount, PostInputForm } from './index'
+import { PostSettingWrap } from './Post'
+import { SettingIcon } from '../Icons'
+import { OPEN_EDIT_POST } from '../../reducers/popover'
 
 const PostTemplate = () => {
   const { post } = useSelector(state => state.post)
+
+  const dispatch = useDispatch()
+  const openPostSetting = () => {
+    dispatch({
+      type: OPEN_EDIT_POST,
+      data: post,
+    })
+  }
   return (
     <Wrap>
       <PostContentWrap>
@@ -20,6 +31,9 @@ const PostTemplate = () => {
         <PostIcons postId={post.id} likers={post.likers} />
         <PostLikeCount likers={post.likers} postId={post.id} />
         <PostInputForm postId={post.id} />
+        <PostSettingWrap>
+          <SettingIcon onClick={openPostSetting} />
+        </PostSettingWrap>
       </PostRightLayout>
     </Wrap>
   )
@@ -44,6 +58,7 @@ const PostContentWrap = styled.div`
 `
 
 const PostRightLayout = styled.div`
+  position: relative;
   min-height: 45rem;
   flex-grow: 1;
 

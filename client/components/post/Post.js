@@ -23,9 +23,9 @@ const Post = memo(({ info }) => {
       <PostFooterWrap>
         <PostFooter info={info} />
       </PostFooterWrap>
-      <Setting>
+      <PostSettingWrap>
         <SettingIcon onClick={openPostSetting} />
-      </Setting>
+      </PostSettingWrap>
     </Wrap>
   )
 })
@@ -38,7 +38,7 @@ const Wrap = styled.div`
   background-color: #fff;
 `
 
-const Setting = styled.div`
+export const PostSettingWrap = styled.div`
   position: absolute;
   display: flex;
   align-items: center;

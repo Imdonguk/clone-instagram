@@ -39,7 +39,7 @@ const Wrap = styled.div`
   top: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 `
