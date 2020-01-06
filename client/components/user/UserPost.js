@@ -1,40 +1,62 @@
 import React, { useState, useMemo, memo } from 'react'
 import styled from 'styled-components'
-import Link from 'next/link'
+import { useDispatch } from 'react-redux'
 import { WhiteLikeIcon, WhiteCommentIcon, SlideIcon } from '../Icons'
+import { OPEN_POST_POP_OVER } from '../../reducers/popover'
+import { LOAD_POST_REQUEST, LOAD_COMMENTS_REQUEST } from '../../reducers/post'
 
 const UserPost = memo(({ images, likeCount, commentCount, postId }) => {
   const [isPostActivity, setisPostActivity] = useState(false)
-
+  const dispatch = useDispatch()
   const isSlideIcon = useMemo(() => images.length > 1, [images])
   const handleMouseOverPost = () => setisPostActivity(true)
   const handleMouseLeavePost = () => setisPostActivity(false)
 
+  const handleClickPost = async () => {
+    dispatch({ type: OPEN_POST_POP_OVER })
+    await new Promise((resolve, reject) =>
+      dispatch({
+        type: LOAD_POST_REQUEST,
+        postId,
+        promise: { resolve, reject },
+      }),
+    )
+
+    await new Promise((resolve, reject) =>
+      dispatch({
+        type: LOAD_COMMENTS_REQUEST,
+        postId,
+        promise: { resolve, reject },
+      }),
+    )
+  }
+
   return (
-    <Link href={{ pathname: '/post', query: { id: postId } }} as={`/post/${postId}`}>
-      <a>
-        <Wrap onMouseOver={handleMouseOverPost} onMouseLeave={handleMouseLeavePost} onFocus={handleMouseOverPost}>
-          <img src={images[0].src} alt="게시물이미지" />
-          {isSlideIcon && (
-            <div className="slide-icon-wrap">
-              <SlideIcon />
-            </div>
-          )}
-          {isPostActivity && (
-            <div className="post-activity">
-              <div className="activity-wrap">
-                <WhiteLikeIcon />
-                <span className="activity-count">{likeCount}</span>
-              </div>
-              <div className="activity-wrap comment-count-wrap">
-                <WhiteCommentIcon />
-                <span className="activity-count">{commentCount}</span>
-              </div>
-            </div>
-          )}
-        </Wrap>
-      </a>
-    </Link>
+    <Wrap
+      onMouseOver={handleMouseOverPost}
+      onMouseLeave={handleMouseLeavePost}
+      onFocus={handleMouseOverPost}
+      onClick={handleClickPost}
+    >
+      <img src={images[0].src} alt="게시물이미지" />
+      {isSlideIcon && (
+        <div className="slide-icon-wrap">
+          <SlideIcon />
+        </div>
+      )}
+      {isPostActivity && (
+        <div className="post-activity">
+          <div className="activity-wrap">
+            <WhiteLikeIcon />
+            <span className="activity-count">{likeCount}</span>
+          </div>
+          <div className="activity-wrap comment-count-wrap">
+            <WhiteCommentIcon />
+            <span className="activity-count">{commentCount}</span>
+          </div>
+        </div>
+      )}
+    </Wrap>
   )
 })
 
