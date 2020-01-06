@@ -7,6 +7,8 @@ import PostTemplate from '../post/PostTemplate'
 import { NextButton, PrevButton } from '../Icons'
 import {
   LOAD_POST_REQUEST,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_COMMENTS_REQUEST,
 } from '../../reducers/post'
 
@@ -24,6 +26,18 @@ const UserPostPopover = () => {
   const currentPostIndex = posts.findIndex(v => v.id === postId)
   const isPrevPost = useMemo(() => posts[currentPostIndex - 1], [postId])
   const isNextPost = useMemo(() => posts[currentPostIndex + 1] || hasMorePost, [postId])
+
+  useEffect(() => {
+    const isLastId = posts[posts.length - 1] && posts[posts.length - 1].id === postId
+    if (isLastId && hasMorePost) {
+      const type = router.pathname === '/user' ? LOAD_USER_POSTS_REQUEST : LOAD_HASHTAG_POSTS_REQUEST
+      dispatch({
+        type,
+        data: router.query,
+        lastId: postId,
+      })
+    }
+  }, [postId])
 
   const handleClickNextButton = async () => {
     if (isNextPost) {
