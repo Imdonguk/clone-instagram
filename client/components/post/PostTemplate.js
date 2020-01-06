@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import ReactLoading from 'react-loading'
 import { useSelector, useDispatch } from 'react-redux'
 import { PostHeader, PostContent, PostPageCommentList, PostIcons, PostLikeCount, PostInputForm } from './index'
 import { PostSettingWrap } from './Post'
@@ -16,6 +17,12 @@ const PostTemplate = () => {
       data: post,
     })
   }
+  if (!post.id)
+    return (
+      <Wrap className="loading">
+        <ReactLoading type="spin" />
+      </Wrap>
+    )
   return (
     <Wrap>
       <PostContentWrap>
@@ -46,6 +53,15 @@ const Wrap = styled.div`
   margin-bottom: 6rem;
   display: flex;
   max-height: 61.4rem;
+
+  &.loading {
+    width: 93.5rem;
+    display: flex;
+    max-height: 61.4rem;
+    background-color: initial;
+    justify-content: center;
+    align-items: center;
+  }
 `
 
 const PostContentWrap = styled.div`
