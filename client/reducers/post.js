@@ -117,6 +117,7 @@ export default (state = initialState, action) => {
         break
       }
       case LOAD_POST_REQUEST: {
+        draft.post = {}
         break
       }
       case LOAD_POST_SUCCESS: {
@@ -197,6 +198,11 @@ export default (state = initialState, action) => {
           draft.post.id && draft.post.likers.unshift({ id: userId })
         } else {
           draft.post.likers.unshift({ id: userId })
+          const userPostIndex = draft.userPosts.findIndex(v => v.id === postId)
+          const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === postId)
+
+          userPostIndex === -1 || draft.userPosts[userPostIndex].likers.unshift({ id: userId })
+          hashtagPostIndex === -1 || draft.hashtagPosts[hashtagPostIndex].likers.unshift({ id: userId })
         }
 
         break
@@ -215,6 +221,16 @@ export default (state = initialState, action) => {
           if (draft.post.id) draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
         } else {
           draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
+
+          const userPostIndex = draft.userPosts.findIndex(v => v.id === postId)
+          const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === postId)
+
+          if (userPostIndex !== -1)
+            draft.userPosts[userPostIndex].likers = draft.userPosts[userPostIndex].likers.filter(v => v.id !== userId)
+          if (hashtagPostIndex !== -1)
+            draft.hashtagPosts[hashtagPostIndex].likers = draft.hashtagPosts[hashtagPostIndex].likers.filter(
+              v => v.id !== userId,
+            )
         }
         break
       }
@@ -231,6 +247,11 @@ export default (state = initialState, action) => {
           draft.post.id !== undefined && draft.post.comments.push(action.data)
         } else {
           draft.post.comments.push(action.data)
+          const userPostIndex = draft.userPosts.findIndex(v => v.id === action.postId)
+          const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === action.postId)
+
+          userPostIndex === -1 || draft.userPosts[userPostIndex].commentCount++
+          hashtagPostIndex === -1 || draft.hashtagPosts[hashtagPostIndex].commentCount++
         }
         break
       }
