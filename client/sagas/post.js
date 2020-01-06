@@ -140,12 +140,12 @@ function loadPostApi(postId) {
 
 function* loadPost(action) {
   try {
-    const result = yield call(loadPostApi, action.data)
+    const result = yield call(loadPostApi, action.postId)
     yield put({
       type: LOAD_POST_SUCCESS,
       data: result.data,
     })
-    yield action.promise.resolve()
+    yield action.promise && action.promise.resolve()
   } catch (e) {
     yield put({
       type: LOAD_POST_FAILURE,
@@ -163,7 +163,7 @@ function loadUserPostsApi({ userName, lastId }) {
 
 function* loadUserPosts(action) {
   try {
-    const result = yield call(loadUserPostsApi, { userName: action.data, lastId: action.lastId })
+    const result = yield call(loadUserPostsApi, { ...action.data, lastId: action.lastId })
     const { posts, hasMorePost } = result.data
     yield put({
       type: LOAD_USER_POSTS_SUCCESS,
@@ -187,7 +187,7 @@ function loadHashtagPostsApi({ tag, lastId = 0 }) {
 
 function* loadHashtagPosts(action) {
   try {
-    const result = yield call(loadHashtagPostsApi, { tag: action.data, lastId: action.lastId })
+    const result = yield call(loadHashtagPostsApi, { ...action.data, lastId: action.lastId })
     const { posts, hasMorePost } = result.data
     yield put({
       type: LOAD_HASHTAG_POSTS_SUCCESS,
@@ -211,7 +211,7 @@ function loadCommentsApi({ postId, lastId = 0 }) {
 
 function* loadComments(action) {
   try {
-    const result = yield call(loadCommentsApi, { postId: action.data, lastId: action.lastId })
+    const result = yield call(loadCommentsApi, { postId: action.postId, lastId: action.lastId })
     const { comments, hasMoreComment } = result.data
     yield put({
       type: LOAD_COMMENTS_SUCCESS,

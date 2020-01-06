@@ -21,7 +21,7 @@ const User = ({ userName }) => {
     if (countRef.current.includes(lastId)) return
     dispatch({
       type: LOAD_USER_POSTS_REQUEST,
-      data: userName,
+      data: { userName },
       lastId,
     })
     countRef.current.push(lastId)
@@ -78,7 +78,7 @@ User.getInitialProps = async context => {
 
   context.store.dispatch({
     type: LOAD_USER_POSTS_REQUEST,
-    data: context.query.userName,
+    data: { userName: context.query.userName },
   })
   return { userName: context.query.userName }
 }

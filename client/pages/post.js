@@ -52,7 +52,7 @@ Post.getInitialProps = async context => {
   await new Promise((resolve, reject) =>
     context.store.dispatch({
       type: LOAD_POST_REQUEST,
-      data: context.query.id,
+      postId: context.query.id,
       promise: { resolve, reject },
     }),
   )

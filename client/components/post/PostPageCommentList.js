@@ -14,7 +14,7 @@ const PostPageCommentList = memo(() => {
     if (!hasMoreComment) return
     dispatch({
       type: LOAD_COMMENTS_REQUEST,
-      data: postId,
+      postId,
       lastId,
     })
   }, [postId, lastId])
