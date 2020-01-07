@@ -2,7 +2,15 @@ import React, { useEffect, useRef } from 'react'
 import Helmet from 'react-helmet'
 import { useSelector, useDispatch } from 'react-redux'
 import AppLayout from '../components/layout'
-import { EditProfileImage, EditAccount, CancleFollow, UserListPopover } from '../components/popover'
+import {
+  EditProfileImage,
+  EditAccount,
+  CancleFollow,
+  UserListPopover,
+  PostPopover,
+  EditPost,
+  UpdatePostForm,
+} from '../components/popover'
 import UserTemplate from '../components/user/UserTemplate'
 import { LOAD_OTHER_USER_REQUEST, LOAD_OTHER_USER_SUCCESS } from '../reducers/user'
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post'
@@ -55,8 +63,11 @@ const User = ({ userName }) => {
       </AppLayout>
       {me.userName && <EditProfileImage />}
       <EditAccount />
+      <PostPopover />
       <UserListPopover />
+      <EditPost />
       <CancleFollow />
+      <UpdatePostForm />
     </>
   )
 }
