@@ -97,6 +97,9 @@ export default (state = initialState, action) => {
       }
       case REMOVE_POST_SUCCESS: {
         draft.posts = draft.posts.filter(v => v.id !== action.data.id)
+        draft.userPosts = draft.userPosts.filter(v => v.id !== action.data.id)
+        draft.hashtagPosts = draft.hashtagPosts.filter(v => v.id !== action.data.id)
+        draft.post = {}
         break
       }
       case REMOVE_POST_FAILURE: {
@@ -107,7 +110,8 @@ export default (state = initialState, action) => {
       }
       case UPDATE_POST_SUCCESS: {
         const postIndex = draft.posts.findIndex(v => v.id === action.data.id)
-        draft.posts[postIndex].description = action.data.description
+        if (postIndex !== -1) draft.posts[postIndex].description = action.data.description
+        if (draft.post.id) draft.post.description = action.data.description
         break
       }
       case UPDATE_POST_FAILURE: {
@@ -192,18 +196,14 @@ export default (state = initialState, action) => {
       }
       case LIKE_POST_SUCCESS: {
         const { userId, postId } = action.data
-        const postIndex = draft.posts.findIndex(v => v.id === postId)
-        if (postIndex !== -1) {
-          draft.posts[postIndex].likers.unshift({ id: userId })
-          draft.post.id && draft.post.likers.unshift({ id: userId })
-        } else {
-          draft.post.likers.unshift({ id: userId })
-          const userPostIndex = draft.userPosts.findIndex(v => v.id === postId)
-          const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === postId)
+        const mainPostIndex = draft.posts.findIndex(v => v.id === postId)
+        const userPostIndex = draft.userPosts.findIndex(v => v.id === postId)
+        const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === postId)
 
-          userPostIndex === -1 || draft.userPosts[userPostIndex].likers.unshift({ id: userId })
-          hashtagPostIndex === -1 || draft.hashtagPosts[hashtagPostIndex].likers.unshift({ id: userId })
-        }
+        if (mainPostIndex !== -1) draft.posts[mainPostIndex].likers.push({ id: userId })
+        if (userPostIndex !== -1) draft.userPosts[userPostIndex].likers.push({ id: userId })
+        if (hashtagPostIndex !== -1) draft.hashtagPosts[hashtagPostIndex].likers.push({ id: userId })
+        if (draft.post.id) draft.post.likers.push({ id: userId })
 
         break
       }
@@ -215,23 +215,25 @@ export default (state = initialState, action) => {
       }
       case UNLIKE_POST_SUCCESS: {
         const { userId, postId } = action.data
-        const postIndex = draft.posts.findIndex(v => v.id === postId)
-        if (postIndex !== -1) {
-          draft.posts[postIndex].likers = draft.posts[postIndex].likers.filter(v => v.id !== userId)
-          if (draft.post.id) draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
-        } else {
-          draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
+        const mainPostIndex = draft.posts.findIndex(v => v.id === postId)
+        const userPostIndex = draft.userPosts.findIndex(v => v.id === postId)
+        const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === postId)
 
-          const userPostIndex = draft.userPosts.findIndex(v => v.id === postId)
-          const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === postId)
-
-          if (userPostIndex !== -1)
-            draft.userPosts[userPostIndex].likers = draft.userPosts[userPostIndex].likers.filter(v => v.id !== userId)
-          if (hashtagPostIndex !== -1)
-            draft.hashtagPosts[hashtagPostIndex].likers = draft.hashtagPosts[hashtagPostIndex].likers.filter(
-              v => v.id !== userId,
-            )
+        if (mainPostIndex !== -1) {
+          draft.posts[mainPostIndex].likers = draft.posts[mainPostIndex].likers.filter(v => v.id !== userId)
         }
+        if (userPostIndex !== -1) {
+          draft.userPosts[userPostIndex].likers = draft.userPosts[userPostIndex].likers.filter(v => v.id !== userId)
+        }
+        if (hashtagPostIndex !== -1) {
+          draft.hashtagPosts[hashtagPostIndex].likers = draft.hashtagPosts[hashtagPostIndex].likers.filter(
+            v => v.id !== userId,
+          )
+        }
+        if (draft.post.id) {
+          draft.post.likers = draft.post.likers.filter(v => v.id !== userId)
+        }
+
         break
       }
       case UNLIKE_POST_FAILURE: {
@@ -241,18 +243,16 @@ export default (state = initialState, action) => {
         break
       }
       case ADD_COMMENT_SUCCESS: {
-        const postIndex = draft.posts.findIndex(v => v.id === action.postId)
-        if (postIndex !== -1) {
-          draft.posts[postIndex].previewComments.push(action.data)
-          draft.post.id !== undefined && draft.post.comments.push(action.data)
-        } else {
-          draft.post.comments.push(action.data)
-          const userPostIndex = draft.userPosts.findIndex(v => v.id === action.postId)
-          const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === action.postId)
+        const mainPostIndex = draft.posts.findIndex(v => v.id === action.postId)
+        const userPostIndex = draft.userPosts.findIndex(v => v.id === action.postId)
+        const hashtagPostIndex = draft.hashtagPosts.findIndex(v => v.id === action.postId)
 
-          userPostIndex === -1 || draft.userPosts[userPostIndex].commentCount++
-          hashtagPostIndex === -1 || draft.hashtagPosts[hashtagPostIndex].commentCount++
-        }
+        if (mainPostIndex !== -1) draft.posts[mainPostIndex].previewComments.push(action.data)
+        if (draft.post.id) draft.post.comments.push(action.data)
+
+        if (userPostIndex !== -1) draft.userPosts[userPostIndex].commentCount++
+        if (hashtagPostIndex !== -1) draft.hashtagPosts[hashtagPostIndex].commentCount++
+
         break
       }
       case ADD_COMMENT_FAILURE: {
