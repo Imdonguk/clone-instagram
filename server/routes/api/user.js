@@ -265,7 +265,9 @@ router.post('/image', upload.single('profileImage'), async (req, res, next) => {
       },
     )
     res.json(req.file.location.replace('original', 'profile'))
-  } catch (e) {}
+  } catch (e) {
+    res.json(req.file.location)
+  }
 })
 
 router.delete('/image', async (req, res, next) => {

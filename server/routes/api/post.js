@@ -105,28 +105,32 @@ router.get('/:id', async (req, res, next) => {
 router.post('/images', upload.array('image'), async (req, res, next) => {
   const result = await Promise.all(
     req.files.map(async v => {
-      const s3Object = await s3
-        .getObject({
-          Bucket: v.bucket,
-          Key: v.key,
-        })
-        .promise()
+      try {
+        const s3Object = await s3
+          .getObject({
+            Bucket: v.bucket,
+            Key: v.key,
+          })
+          .promise()
 
-      const thumbImage = await sharp(s3Object.Body)
-        .rotate()
-        .resize(800, 800, {
-          fit: 'inside',
-        })
-        .toBuffer()
+        const thumbImage = await sharp(s3Object.Body)
+          .rotate()
+          .resize(800, 800, {
+            fit: 'inside',
+          })
+          .toBuffer()
 
-      await s3
-        .putObject({
-          Body: thumbImage,
-          Bucket: v.bucket,
-          Key: v.key.replace('original', 'thumb'),
-        })
-        .promise()
-      return v.location.replace('original', 'thumb')
+        await s3
+          .putObject({
+            Body: thumbImage,
+            Bucket: v.bucket,
+            Key: v.key.replace('original', 'thumb'),
+          })
+          .promise()
+        return v.location.replace('original', 'thumb')
+      } catch (e) {
+        return v.location
+      }
     }),
   )
   res.json(result)
