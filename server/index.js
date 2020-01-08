@@ -65,19 +65,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 passportConfig()
 
-// app.get('/api', passport.authenticate('google', { scope: ['profile'] }))
-app.get('/api', (req, res) => {
-  req.headers['access-control-allow-origin'] = true
-
-  console.log(req.headers['access-control-allow-origin'])
-
-  res.redirect('https://naver.com')
-})
-
-app.get('/auth/google/callback', (req, res, next) => {
-  passport.authenticate('google')(req, res, next)
-})
-
 app.use('/api/user', require('./routes/api/user'))
 app.use('/api/post', require('./routes/api/post'))
 app.use('/api/posts', require('./routes/api/posts'))
