@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import Layout from '../components/layout'
 import { PostTemplate } from '../components/post'
 import { LOAD_POST_REQUEST, LOAD_COMMENTS_REQUEST } from '../reducers/post'
-import { CancleFollow, UserListPopover } from '../components/popover'
+import { CancleFollow, UserListPopover, EditPost, UpdatePostForm } from '../components/popover'
 
 const Post = () => {
   const { post } = useSelector(state => state.post)
@@ -39,8 +39,10 @@ const Post = () => {
       <Layout>
         <PostTemplate />
       </Layout>
+      <EditPost />
       <CancleFollow />
       <UserListPopover />
+      <UpdatePostForm />
     </>
   )
 }
@@ -60,7 +62,7 @@ Post.getInitialProps = async context => {
   await new Promise((resolve, reject) =>
     context.store.dispatch({
       type: LOAD_COMMENTS_REQUEST,
-      data: context.query.id,
+      postId: context.query.id,
       promise: { resolve, reject },
     }),
   )
