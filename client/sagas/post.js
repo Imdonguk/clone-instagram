@@ -147,6 +147,7 @@ function* loadPost(action) {
     })
     yield action.promise && action.promise.resolve()
   } catch (e) {
+    yield action.promise && action.promise.reject(e)
     yield put({
       type: LOAD_POST_FAILURE,
     })

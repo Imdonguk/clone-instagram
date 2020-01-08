@@ -10,7 +10,6 @@ import {
   LOAD_USER_FAILURE,
   LOAD_OTHER_USER_REQUEST,
   LOAD_OTHER_USER_SUCCESS,
-  LOAD_OTHER_USER_FAILURE,
   UPLOAD_PROFILE_IMAGE_REQUEST,
   UPLOAD_PROFILE_IMAGE_SUCCESS,
   UPLOAD_PROFILE_IMAGE_FAILURE,
@@ -128,18 +127,12 @@ function loadOtherUserApi(userName) {
 }
 
 function* loadOtherUser(action) {
-  try {
-    const userName = action.data
-    const result = yield call(loadOtherUserApi, userName)
-    yield put({
-      type: LOAD_OTHER_USER_SUCCESS,
-      data: result.data,
-    })
-  } catch (e) {
-    yield put({
-      type: LOAD_OTHER_USER_FAILURE,
-    })
-  }
+  const userName = action.data
+  const result = yield call(loadOtherUserApi, userName)
+  yield put({
+    type: LOAD_OTHER_USER_SUCCESS,
+    data: result.data,
+  })
 }
 
 function* watchLoadOtherUser() {
