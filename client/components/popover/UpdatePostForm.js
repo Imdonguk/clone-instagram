@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap } from './PopoverStyle'
 import { Form, ContentWrap, InputDescription, Button } from './PostForm'
 import { UPDATE_POST_REQUEST } from '../../reducers/post'
-import { CLOSE_POP_OVER } from '../../reducers/popover'
+import { CLOSE_UPDATE_POST_FORM } from '../../reducers/popover'
 
 const UpdatePostForm = () => {
   const { isUpdatePostForm, updatePostData } = useSelector(state => state.popover)
@@ -14,7 +14,7 @@ const UpdatePostForm = () => {
 
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
-    dispatch({ type: CLOSE_POP_OVER })
+    dispatch({ type: CLOSE_UPDATE_POST_FORM })
   }
   const handleSubmit = e => {
     e.preventDefault()

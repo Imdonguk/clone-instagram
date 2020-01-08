@@ -1,27 +1,29 @@
 import styled, { css } from 'styled-components'
 import React, { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CLOSE_POP_OVER } from '../../reducers/popover'
+import { REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 
 export const PopoverWrap = ({ children }) => {
+  const imagePaths = useSelector(state => state.post.imagePaths)
   const dispatch = useDispatch()
   const canclePopover = useCallback(e => {
     if (e && e.currentTarget !== e.target) return
+    if (imagePaths.length > 0) {
+      dispatch({
+        type: REMOVE_IMAGE_REQUEST,
+        data: imagePaths,
+      })
+    }
     dispatch({ type: CLOSE_POP_OVER })
   }, [])
 
   return <Wrap onClick={canclePopover}>{children}</Wrap>
 }
 
-export const PopoverButton = ({ children, fontColor, location, close, onClick }) => {
-  const dispatch = useDispatch()
-  const canclePopover = () => {
-    dispatch({ type: CLOSE_POP_OVER })
-  }
-
+export const PopoverButton = ({ children, fontColor, location, onClick }) => {
   const handleClickButton = useCallback(() => {
     onClick && onClick()
-    close && canclePopover()
   }, [])
   return (
     <Button fontColor={fontColor} location={location} onClick={handleClickButton}>

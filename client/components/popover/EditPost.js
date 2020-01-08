@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
-import { CLOSE_POP_OVER, OPEN_UPDATE_POST_FORM } from '../../reducers/popover'
+import { CLOSE_EDIT_POST, OPEN_UPDATE_POST_FORM } from '../../reducers/popover'
 import { REMOVE_POST_REQUEST } from '../../reducers/post'
 import { SAVE_OTHER_POST_REQUEST, REMOVE_SAVED_POST_REQUEST } from '../../reducers/user'
 
@@ -29,7 +29,7 @@ const EditPost = () => {
         data: editPostData.id,
       })
     }
-    dispatch({ type: CLOSE_POP_OVER })
+    dispatch({ type: CLOSE_EDIT_POST })
   }, [isLogged, isSaved, editPostData && editPostData.id])
 
   const handleClickRemovePost = () => {
@@ -39,7 +39,7 @@ const EditPost = () => {
       data: editPostData.images,
     })
     dispatch({
-      type: CLOSE_POP_OVER,
+      type: CLOSE_EDIT_POST,
     })
   }
 
@@ -50,6 +50,9 @@ const EditPost = () => {
     })
   }
 
+  const handleClickCancleBtn = useCallback(() => {
+    dispatch({ type: CLOSE_EDIT_POST })
+  }, [])
   if (!isEditPost) return null
   return (
     <PopoverWrap>
@@ -74,7 +77,7 @@ const EditPost = () => {
             제거하기
           </PopoverButton>
         )}
-        <PopoverButton type="button" location="bottom" close>
+        <PopoverButton type="button" location="bottom" onClick={handleClickCancleBtn}>
           닫기
         </PopoverButton>
       </ButtonWrap>

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { UNFOLLOW_USER_REQUEST } from '../../reducers/user'
-import { CLOSE_POP_OVER } from '../../reducers/popover'
+import { CLOSE_CANCLE_FOLLOW } from '../../reducers/popover'
 
 const CancleFollow = () => {
   const dispatch = useDispatch()
@@ -14,8 +14,14 @@ const CancleFollow = () => {
       type: UNFOLLOW_USER_REQUEST,
       data: cancleFollowData.id,
     })
-    dispatch({ type: CLOSE_POP_OVER })
+    dispatch({ type: CLOSE_CANCLE_FOLLOW })
   }, [cancleFollowData])
+
+  const handleClickCancleBtn = useCallback(() => {
+    dispatch({
+      type: CLOSE_CANCLE_FOLLOW,
+    })
+  })
 
   if (!isCancleFollow) return null
   if (!cancleFollowData) return null
@@ -33,7 +39,7 @@ const CancleFollow = () => {
         <PopoverButton fontColor="red" onClick={handleClickUnFollowBtn}>
           팔로우 취소
         </PopoverButton>
-        <PopoverButton location="bottom" close>
+        <PopoverButton location="bottom" onClick={handleClickCancleBtn}>
           취소
         </PopoverButton>
       </ButtonWrap>

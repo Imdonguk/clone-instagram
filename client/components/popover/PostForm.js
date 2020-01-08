@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import uploadIcon from '../../images/gallery-icon.png'
 import PreviewImg from './PreviewImg'
 import { PopoverWrap } from './PopoverStyle'
-import { CLOSE_POP_OVER } from '../../reducers/popover'
+import { CLOSE_POST_FORM } from '../../reducers/popover'
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE_REQUEST } from '../../reducers/post'
 
 const PostForm = () => {
@@ -17,7 +17,7 @@ const PostForm = () => {
 
   const cancleForm = e => {
     if (e && e.currentTarget !== e.target) return
-    dispatch({ type: CLOSE_POP_OVER })
+    dispatch({ type: CLOSE_POST_FORM })
   }
   const handleSubmit = async e => {
     try {
@@ -55,7 +55,7 @@ const PostForm = () => {
         data: imagePaths,
       })
     }
-    cancleForm()
+    dispatch({ type: CLOSE_POST_FORM })
   }
 
   if (!isPostForm) return null

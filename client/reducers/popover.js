@@ -18,6 +18,15 @@ export const OPEN_USER_LIST = 'OPEN_USER_LIST'
 export const OPEN_UPDATE_POST_FORM = 'OPEN_UPDATE_POST_FORM'
 export const OPEN_POST_POP_OVER = 'OPEN_POST_POP_OVER'
 
+export const CLOSE_POST_FORM = 'CLOSE_POST_FORM'
+export const CLOSE_EDIT_POST = 'CLOSE_EDIT_POST'
+export const CLOSE_EDIT_PROFILE_IMAGE = 'CLOSE_EDIT_PROFILE_IMAGE'
+export const CLOSE_EDIT_ACCOUNT = 'CLOSE_EDIT_ACCOUNT'
+export const CLOSE_CANCLE_FOLLOW = 'CLOSE_CANCLE_FOLLOW'
+export const CLOSE_USER_LIST = 'CLOSE_USER_LIST'
+export const CLOSE_UPDATE_POST_FORM = 'CLOSE_UPDATE_POST_FORM'
+export const CLOSE_POST_POP_OVER = 'CLOSE_POST_POP_OVER'
+
 export const CLOSE_POP_OVER = 'CLOSE_POP_OVER'
 
 export default (state = initialState, action) => {
@@ -28,11 +37,24 @@ export default (state = initialState, action) => {
         isPostForm: true,
       }
     }
+    case CLOSE_POST_FORM: {
+      return {
+        ...state,
+        isPostForm: false,
+      }
+    }
     case OPEN_EDIT_POST: {
       return {
         ...state,
         isEditPost: true,
         editPostData: action.data,
+      }
+    }
+    case CLOSE_EDIT_POST: {
+      return {
+        ...state,
+        isEditPost: false,
+        editPostData: undefined,
       }
     }
     case OPEN_EDIT_PROFILE_IMAGE: {
@@ -41,10 +63,22 @@ export default (state = initialState, action) => {
         isEditProfileImage: true,
       }
     }
+    case CLOSE_EDIT_PROFILE_IMAGE: {
+      return {
+        ...state,
+        isEditProfileImage: false,
+      }
+    }
     case OPEN_EDIT_ACCOUNT: {
       return {
         ...state,
         isEditAccount: true,
+      }
+    }
+    case CLOSE_EDIT_ACCOUNT: {
+      return {
+        ...state,
+        isEditAccount: false,
       }
     }
     case OPEN_CANCLE_FOLLOW: {
@@ -52,6 +86,13 @@ export default (state = initialState, action) => {
         ...state,
         isCancleFollow: true,
         cancleFollowData: action.data,
+      }
+    }
+    case CLOSE_CANCLE_FOLLOW: {
+      return {
+        ...state,
+        isCancleFollow: false,
+        cancleFollowData: undefined,
       }
     }
     case OPEN_USER_LIST: {
@@ -62,6 +103,14 @@ export default (state = initialState, action) => {
         userListData: action.data,
       }
     }
+    case CLOSE_USER_LIST: {
+      return {
+        ...state,
+        isUserList: false,
+        title: undefined,
+        userListData: undefined,
+      }
+    }
     case OPEN_UPDATE_POST_FORM: {
       return {
         ...state,
@@ -69,10 +118,23 @@ export default (state = initialState, action) => {
         updatePostData: action.data,
       }
     }
+    case CLOSE_UPDATE_POST_FORM: {
+      return {
+        ...state,
+        isUpdatePostForm: false,
+        updatePostData: undefined,
+      }
+    }
     case OPEN_POST_POP_OVER: {
       return {
         ...state,
         isPostPopover: true,
+      }
+    }
+    case CLOSE_POST_POP_OVER: {
+      return {
+        ...state,
+        isPostPopover: false,
       }
     }
     case CLOSE_POP_OVER: {

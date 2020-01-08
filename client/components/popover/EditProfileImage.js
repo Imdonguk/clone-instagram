@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { PopoverWrap, ButtonWrap, PopoverButton } from './PopoverStyle'
 import { UPLOAD_PROFILE_IMAGE_REQUEST, REMOVE_PROFILE_IMAGE_REQUEST } from '../../reducers/user'
+import { CLOSE_EDIT_PROFILE_IMAGE } from '../../reducers/popover'
 
 const EditProifileImage = () => {
   const isEditProfileImage = useSelector(state => state.popover.isEditProfileImage)
@@ -35,6 +36,8 @@ const EditProifileImage = () => {
     })
   }, [userName, image.src])
 
+  const handleClickCancleBtn = useCallback(() => dispatch({ type: CLOSE_EDIT_PROFILE_IMAGE }), [])
+
   if (!isEditProfileImage || !userName) return null
 
   return (
@@ -49,7 +52,7 @@ const EditProifileImage = () => {
             현재 사진 삭제
           </PopoverButton>
         )}
-        <PopoverButton location="bottom" close>
+        <PopoverButton location="bottom" onClick={handleClickCancleBtn}>
           닫기
         </PopoverButton>
       </ButtonWrap>
