@@ -91,7 +91,7 @@ WoogieBoogie.getInitialProps = async context => {
   const { isServer, store, req } = ctx
   let pageProps = {}
   const cookie = isServer ? req.headers.cookie : ''
-  axios.defaults.headers.Cookie = ''
+  if (isServer) axios.defaults.headers.Cookie = ''
   if (cookie) axios.defaults.headers.Cookie = cookie
   const { me } = store.getState().user
   try {
